@@ -1,0 +1,1176 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{81F5AB46-C1D6-4714-B9CC-0D1241503C36}|TPindv-Proyecto-Guerra\\TPRestaurante_Proyecto.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\tpindv-proyecto-guerra\\controller\\dishcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81F5AB46-C1D6-4714-B9CC-0D1241503C36}|TPindv-Proyecto-Guerra\\TPRestaurante_Proyecto.csproj|solutionrelative:tpindv-proyecto-guerra\\controller\\dishcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\services\\dishservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\services\\dishservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4346E143-0EA7-4CDB-BED3-BB9FFECC9ACD}|Infrastructure\\Infrastructure.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\infrastructure\\querys\\dishquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4346E143-0EA7-4CDB-BED3-BB9FFECC9ACD}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\querys\\dishquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\interfaces\\idish\\idishquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\interfaces\\idish\\idishquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\models\\response\\dishresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\models\\response\\dishresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D430D859-A946-4AD0-A8F9-B43709E056F8}|Domain\\Domain.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\domain\\entities\\dish.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D430D859-A946-4AD0-A8F9-B43709E056F8}|Domain\\Domain.csproj|solutionrelative:domain\\entities\\dish.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D430D859-A946-4AD0-A8F9-B43709E056F8}|Domain\\Domain.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\domain\\entities\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D430D859-A946-4AD0-A8F9-B43709E056F8}|Domain\\Domain.csproj|solutionrelative:domain\\entities\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\interfaces\\idish\\idishservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\interfaces\\idish\\idishservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\interfaces\\idish\\idishcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\interfaces\\idish\\idishcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81F5AB46-C1D6-4714-B9CC-0D1241503C36}|TPindv-Proyecto-Guerra\\TPRestaurante_Proyecto.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\tpindv-proyecto-guerra\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{81F5AB46-C1D6-4714-B9CC-0D1241503C36}|TPindv-Proyecto-Guerra\\TPRestaurante_Proyecto.csproj|solutionrelative:tpindv-proyecto-guerra\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81F5AB46-C1D6-4714-B9CC-0D1241503C36}|TPindv-Proyecto-Guerra\\TPRestaurante_Proyecto.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\tpindv-proyecto-guerra\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{81F5AB46-C1D6-4714-B9CC-0D1241503C36}|TPindv-Proyecto-Guerra\\TPRestaurante_Proyecto.csproj|solutionrelative:tpindv-proyecto-guerra\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4346E143-0EA7-4CDB-BED3-BB9FFECC9ACD}|Infrastructure\\Infrastructure.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\infrastructure\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4346E143-0EA7-4CDB-BED3-BB9FFECC9ACD}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81F5AB46-C1D6-4714-B9CC-0D1241503C36}|TPindv-Proyecto-Guerra\\TPRestaurante_Proyecto.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\tpindv-proyecto-guerra\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81F5AB46-C1D6-4714-B9CC-0D1241503C36}|TPindv-Proyecto-Guerra\\TPRestaurante_Proyecto.csproj|solutionrelative:tpindv-proyecto-guerra\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4346E143-0EA7-4CDB-BED3-BB9FFECC9ACD}|Infrastructure\\Infrastructure.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\infrastructure\\command\\dishcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4346E143-0EA7-4CDB-BED3-BB9FFECC9ACD}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\command\\dishcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\models\\request\\dishrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\models\\request\\dishrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\models\\request\\categoryrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\models\\request\\categoryrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\interfaces\\icategory\\icategorycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\interfaces\\icategory\\icategorycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81F5AB46-C1D6-4714-B9CC-0D1241503C36}|TPindv-Proyecto-Guerra\\TPRestaurante_Proyecto.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\tpindv-proyecto-guerra\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{81F5AB46-C1D6-4714-B9CC-0D1241503C36}|TPindv-Proyecto-Guerra\\TPRestaurante_Proyecto.csproj|solutionrelative:tpindv-proyecto-guerra\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Migrations\\20250828171524_NuevaMigracion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Infrastructure\\Migrations\\20250828171524_NuevaMigracion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\interfaces\\iorder\\iordercommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\interfaces\\iorder\\iordercommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D430D859-A946-4AD0-A8F9-B43709E056F8}|Domain\\Domain.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\domain\\entities\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D430D859-A946-4AD0-A8F9-B43709E056F8}|Domain\\Domain.csproj|solutionrelative:domain\\entities\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D430D859-A946-4AD0-A8F9-B43709E056F8}|Domain\\Domain.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\domain\\entities\\status.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D430D859-A946-4AD0-A8F9-B43709E056F8}|Domain\\Domain.csproj|solutionrelative:domain\\entities\\status.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D430D859-A946-4AD0-A8F9-B43709E056F8}|Domain\\Domain.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\domain\\entities\\orderitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D430D859-A946-4AD0-A8F9-B43709E056F8}|Domain\\Domain.csproj|solutionrelative:domain\\entities\\orderitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D430D859-A946-4AD0-A8F9-B43709E056F8}|Domain\\Domain.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\domain\\entities\\deliverytype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D430D859-A946-4AD0-A8F9-B43709E056F8}|Domain\\Domain.csproj|solutionrelative:domain\\entities\\deliverytype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81F5AB46-C1D6-4714-B9CC-0D1241503C36}|TPindv-Proyecto-Guerra\\TPRestaurante_Proyecto.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\tpindv-proyecto-guerra\\controller\\statuscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81F5AB46-C1D6-4714-B9CC-0D1241503C36}|TPindv-Proyecto-Guerra\\TPRestaurante_Proyecto.csproj|solutionrelative:tpindv-proyecto-guerra\\controller\\statuscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81F5AB46-C1D6-4714-B9CC-0D1241503C36}|TPindv-Proyecto-Guerra\\TPRestaurante_Proyecto.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\tpindv-proyecto-guerra\\controller\\orderitemcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81F5AB46-C1D6-4714-B9CC-0D1241503C36}|TPindv-Proyecto-Guerra\\TPRestaurante_Proyecto.csproj|solutionrelative:tpindv-proyecto-guerra\\controller\\orderitemcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81F5AB46-C1D6-4714-B9CC-0D1241503C36}|TPindv-Proyecto-Guerra\\TPRestaurante_Proyecto.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\tpindv-proyecto-guerra\\controller\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81F5AB46-C1D6-4714-B9CC-0D1241503C36}|TPindv-Proyecto-Guerra\\TPRestaurante_Proyecto.csproj|solutionrelative:tpindv-proyecto-guerra\\controller\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81F5AB46-C1D6-4714-B9CC-0D1241503C36}|TPindv-Proyecto-Guerra\\TPRestaurante_Proyecto.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\tpindv-proyecto-guerra\\controller\\deliverytypecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81F5AB46-C1D6-4714-B9CC-0D1241503C36}|TPindv-Proyecto-Guerra\\TPRestaurante_Proyecto.csproj|solutionrelative:tpindv-proyecto-guerra\\controller\\deliverytypecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81F5AB46-C1D6-4714-B9CC-0D1241503C36}|TPindv-Proyecto-Guerra\\TPRestaurante_Proyecto.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\tpindv-proyecto-guerra\\controller\\categorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81F5AB46-C1D6-4714-B9CC-0D1241503C36}|TPindv-Proyecto-Guerra\\TPRestaurante_Proyecto.csproj|solutionrelative:tpindv-proyecto-guerra\\controller\\categorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4346E143-0EA7-4CDB-BED3-BB9FFECC9ACD}|Infrastructure\\Infrastructure.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\infrastructure\\querys\\statusquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4346E143-0EA7-4CDB-BED3-BB9FFECC9ACD}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\querys\\statusquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4346E143-0EA7-4CDB-BED3-BB9FFECC9ACD}|Infrastructure\\Infrastructure.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\infrastructure\\querys\\orderquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4346E143-0EA7-4CDB-BED3-BB9FFECC9ACD}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\querys\\orderquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4346E143-0EA7-4CDB-BED3-BB9FFECC9ACD}|Infrastructure\\Infrastructure.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\infrastructure\\querys\\orderitemquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4346E143-0EA7-4CDB-BED3-BB9FFECC9ACD}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\querys\\orderitemquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4346E143-0EA7-4CDB-BED3-BB9FFECC9ACD}|Infrastructure\\Infrastructure.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\infrastructure\\querys\\deliverytypequery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4346E143-0EA7-4CDB-BED3-BB9FFECC9ACD}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\querys\\deliverytypequery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4346E143-0EA7-4CDB-BED3-BB9FFECC9ACD}|Infrastructure\\Infrastructure.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\infrastructure\\querys\\categoryquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4346E143-0EA7-4CDB-BED3-BB9FFECC9ACD}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\querys\\categoryquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4346E143-0EA7-4CDB-BED3-BB9FFECC9ACD}|Infrastructure\\Infrastructure.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\infrastructure\\command\\statuscommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4346E143-0EA7-4CDB-BED3-BB9FFECC9ACD}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\command\\statuscommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4346E143-0EA7-4CDB-BED3-BB9FFECC9ACD}|Infrastructure\\Infrastructure.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\infrastructure\\command\\orderitemcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4346E143-0EA7-4CDB-BED3-BB9FFECC9ACD}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\command\\orderitemcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4346E143-0EA7-4CDB-BED3-BB9FFECC9ACD}|Infrastructure\\Infrastructure.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\infrastructure\\command\\ordercommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4346E143-0EA7-4CDB-BED3-BB9FFECC9ACD}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\command\\ordercommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4346E143-0EA7-4CDB-BED3-BB9FFECC9ACD}|Infrastructure\\Infrastructure.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\infrastructure\\command\\deliverytypecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4346E143-0EA7-4CDB-BED3-BB9FFECC9ACD}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\command\\deliverytypecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4346E143-0EA7-4CDB-BED3-BB9FFECC9ACD}|Infrastructure\\Infrastructure.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\infrastructure\\command\\categorycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4346E143-0EA7-4CDB-BED3-BB9FFECC9ACD}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\command\\categorycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\services\\deliverytypeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\services\\deliverytypeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\services\\categoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\services\\categoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\models\\response\\statusresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\models\\response\\statusresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\models\\response\\orderresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\models\\response\\orderresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\models\\response\\orderitemresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\models\\response\\orderitemresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\models\\response\\deliverytyperesponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\models\\response\\deliverytyperesponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\models\\response\\categoryresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\models\\response\\categoryresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\models\\request\\statusrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\models\\request\\statusrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\models\\request\\orderrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\models\\request\\orderrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\models\\request\\orderitemrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\models\\request\\orderitemrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\models\\request\\deliverytyperequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\models\\request\\deliverytyperequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\interfaces\\istatus\\istatusservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\interfaces\\istatus\\istatusservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\interfaces\\istatus\\istatusquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\interfaces\\istatus\\istatusquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\interfaces\\istatus\\istatuscommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\interfaces\\istatus\\istatuscommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\interfaces\\iorderitem\\iorderitemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\interfaces\\iorderitem\\iorderitemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\interfaces\\iorderitem\\iorderitemquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\interfaces\\iorderitem\\iorderitemquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\interfaces\\iorderitem\\iorderitemcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\interfaces\\iorderitem\\iorderitemcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\interfaces\\iorder\\iorderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\interfaces\\iorder\\iorderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\interfaces\\iorder\\iorderquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\interfaces\\iorder\\iorderquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\interfaces\\ideliverytype\\ideliverytypequery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\interfaces\\ideliverytype\\ideliverytypequery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\interfaces\\ideliverytype\\ideliverytypecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\interfaces\\ideliverytype\\ideliverytypecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\interfaces\\ideliverytype\\ideliveryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\interfaces\\ideliverytype\\ideliveryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\interfaces\\icategory\\icategoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\interfaces\\icategory\\icategoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\interfaces\\icategory\\icategoryquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\interfaces\\icategory\\icategoryquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\services\\statusservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\services\\statusservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\services\\orderitemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\services\\orderitemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81F5AB46-C1D6-4714-B9CC-0D1241503C36}|TPindv-Proyecto-Guerra\\TPRestaurante_Proyecto.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\tpindv-proyecto-guerra\\tprestaurante_proyecto.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{81F5AB46-C1D6-4714-B9CC-0D1241503C36}|TPindv-Proyecto-Guerra\\TPRestaurante_Proyecto.csproj|solutionrelative:tpindv-proyecto-guerra\\tprestaurante_proyecto.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|c:\\users\\usuario\\desktop\\tp1-guerra_miranda\\tp1-guerra_miranda\\application\\application.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{47E18E3F-4A68-4505-9D63-E147F0677C49}|Application\\Application.csproj|solutionrelative:application\\application.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Dish.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Domain\\Entities\\Dish.cs",
+              "RelativeDocumentMoniker": "Domain\\Entities\\Dish.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Domain\\Entities\\Dish.cs",
+              "RelativeToolTip": "Domain\\Entities\\Dish.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAB8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-26T20:39:08.165Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DishResponse.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Models\\Response\\DishResponse.cs",
+              "RelativeDocumentMoniker": "Application\\Models\\Response\\DishResponse.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Models\\Response\\DishResponse.cs",
+              "RelativeToolTip": "Application\\Models\\Response\\DishResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:37:37.24Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DishQuery.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Querys\\DishQuery.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Querys\\DishQuery.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Querys\\DishQuery.cs",
+              "RelativeToolTip": "Infrastructure\\Querys\\DishQuery.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAwwDgAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:43:47.495Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IDishQuery.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IDish\\IDishQuery.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\IDish\\IDishQuery.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IDish\\IDishQuery.cs",
+              "RelativeToolTip": "Application\\Interfaces\\IDish\\IDishQuery.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAABvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:54:32.1Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DishController.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\TPindv-Proyecto-Guerra\\Controller\\DishController.cs",
+              "RelativeDocumentMoniker": "TPindv-Proyecto-Guerra\\Controller\\DishController.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\TPindv-Proyecto-Guerra\\Controller\\DishController.cs",
+              "RelativeToolTip": "TPindv-Proyecto-Guerra\\Controller\\DishController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T01:31:46.544Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DishService.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Services\\DishService.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\DishService.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Services\\DishService.cs",
+              "RelativeToolTip": "Application\\Services\\DishService.cs",
+              "ViewState": "AgIAAGkAAAAAAAAAAAAswIIAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:29:20.945Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Category.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Domain\\Entities\\Category.cs",
+              "RelativeDocumentMoniker": "Domain\\Entities\\Category.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Domain\\Entities\\Category.cs",
+              "RelativeToolTip": "Domain\\Entities\\Category.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-26T20:36:50.633Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "IDishService.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IDish\\IDishService.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\IDish\\IDishService.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IDish\\IDishService.cs",
+              "RelativeToolTip": "Application\\Interfaces\\IDish\\IDishService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:55:36.953Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "IDishCommand.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IDish\\IDishCommand.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\IDish\\IDishCommand.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IDish\\IDishCommand.cs",
+              "RelativeToolTip": "Application\\Interfaces\\IDish\\IDishCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:53:16.878Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\TPindv-Proyecto-Guerra\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "TPindv-Proyecto-Guerra\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\TPindv-Proyecto-Guerra\\Properties\\launchSettings.json",
+              "RelativeToolTip": "TPindv-Proyecto-Guerra\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-08-28T17:50:55.489Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "DishCommand.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Command\\DishCommand.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Command\\DishCommand.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Command\\DishCommand.cs",
+              "RelativeToolTip": "Infrastructure\\Command\\DishCommand.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAACcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:41:44.399Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "DishRequest.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Models\\Request\\DishRequest.cs",
+              "RelativeDocumentMoniker": "Application\\Models\\Request\\DishRequest.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Models\\Request\\DishRequest.cs",
+              "RelativeToolTip": "Application\\Models\\Request\\DishRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:35:01.212Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "CategoryRequest.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Models\\Request\\CategoryRequest.cs",
+              "RelativeDocumentMoniker": "Application\\Models\\Request\\CategoryRequest.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Models\\Request\\CategoryRequest.cs",
+              "RelativeToolTip": "Application\\Models\\Request\\CategoryRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:33:34.729Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Data\\AppDbContext.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "Infrastructure\\Data\\AppDbContext.cs",
+              "ViewState": "AgIAAHoAAAAAAAAAAAAAwJIAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-26T20:01:19.837Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\TPindv-Proyecto-Guerra\\Program.cs",
+              "RelativeDocumentMoniker": "TPindv-Proyecto-Guerra\\Program.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\TPindv-Proyecto-Guerra\\Program.cs",
+              "RelativeToolTip": "TPindv-Proyecto-Guerra\\Program.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAAAAEEAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-26T20:12:04.264Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\TPindv-Proyecto-Guerra\\appsettings.json",
+              "RelativeDocumentMoniker": "TPindv-Proyecto-Guerra\\appsettings.json",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\TPindv-Proyecto-Guerra\\appsettings.json",
+              "RelativeToolTip": "TPindv-Proyecto-Guerra\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-08-26T18:44:32.54Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "ICategoryCommand.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\ICategory\\ICategoryCommand.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\ICategory\\ICategoryCommand.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\ICategory\\ICategoryCommand.cs",
+              "RelativeToolTip": "Application\\Interfaces\\ICategory\\ICategoryCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:50:48.472Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\TPindv-Proyecto-Guerra\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "TPindv-Proyecto-Guerra\\appsettings.Development.json",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\TPindv-Proyecto-Guerra\\appsettings.Development.json",
+              "RelativeToolTip": "TPindv-Proyecto-Guerra\\appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-08-28T15:51:06.906Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "20250828171524_NuevaMigracion.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Migrations\\20250828171524_NuevaMigracion.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Migrations\\20250828171524_NuevaMigracion.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Migrations\\20250828171524_NuevaMigracion.cs",
+              "RelativeToolTip": "Infrastructure\\Migrations\\20250828171524_NuevaMigracion.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-28T17:15:24.36Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Order.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Domain\\Entities\\Order.cs",
+              "RelativeDocumentMoniker": "Domain\\Entities\\Order.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Domain\\Entities\\Order.cs",
+              "RelativeToolTip": "Domain\\Entities\\Order.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAA1wCAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-26T20:52:48.541Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Status.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Domain\\Entities\\Status.cs",
+              "RelativeDocumentMoniker": "Domain\\Entities\\Status.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Domain\\Entities\\Status.cs",
+              "RelativeToolTip": "Domain\\Entities\\Status.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-26T20:48:40.772Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "StatusController.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\TPindv-Proyecto-Guerra\\Controller\\StatusController.cs",
+              "RelativeDocumentMoniker": "TPindv-Proyecto-Guerra\\Controller\\StatusController.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\TPindv-Proyecto-Guerra\\Controller\\StatusController.cs",
+              "RelativeToolTip": "TPindv-Proyecto-Guerra\\Controller\\StatusController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T01:32:40.366Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "OrderController.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\TPindv-Proyecto-Guerra\\Controller\\OrderController.cs",
+              "RelativeDocumentMoniker": "TPindv-Proyecto-Guerra\\Controller\\OrderController.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\TPindv-Proyecto-Guerra\\Controller\\OrderController.cs",
+              "RelativeToolTip": "TPindv-Proyecto-Guerra\\Controller\\OrderController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T01:32:03.566Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "DeliveryTypeController.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\TPindv-Proyecto-Guerra\\Controller\\DeliveryTypeController.cs",
+              "RelativeDocumentMoniker": "TPindv-Proyecto-Guerra\\Controller\\DeliveryTypeController.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\TPindv-Proyecto-Guerra\\Controller\\DeliveryTypeController.cs",
+              "RelativeToolTip": "TPindv-Proyecto-Guerra\\Controller\\DeliveryTypeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T01:31:25.28Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "IOrderCommand.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IOrder\\IOrderCommand.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\IOrder\\IOrderCommand.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IOrder\\IOrderCommand.cs",
+              "RelativeToolTip": "Application\\Interfaces\\IOrder\\IOrderCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:56:55.755Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "DeliveryType.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Domain\\Entities\\DeliveryType.cs",
+              "RelativeDocumentMoniker": "Domain\\Entities\\DeliveryType.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Domain\\Entities\\DeliveryType.cs",
+              "RelativeToolTip": "Domain\\Entities\\DeliveryType.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-26T20:47:09.532Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "OrderItem.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Domain\\Entities\\OrderItem.cs",
+              "RelativeDocumentMoniker": "Domain\\Entities\\OrderItem.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Domain\\Entities\\OrderItem.cs",
+              "RelativeToolTip": "Domain\\Entities\\OrderItem.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-26T20:49:26.935Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "CategoryController.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\TPindv-Proyecto-Guerra\\Controller\\CategoryController.cs",
+              "RelativeDocumentMoniker": "TPindv-Proyecto-Guerra\\Controller\\CategoryController.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\TPindv-Proyecto-Guerra\\Controller\\CategoryController.cs",
+              "RelativeToolTip": "TPindv-Proyecto-Guerra\\Controller\\CategoryController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T01:31:07.708Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "StatusQuery.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Querys\\StatusQuery.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Querys\\StatusQuery.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Querys\\StatusQuery.cs",
+              "RelativeToolTip": "Infrastructure\\Querys\\StatusQuery.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:45:40.267Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "OrderQuery.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Querys\\OrderQuery.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Querys\\OrderQuery.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Querys\\OrderQuery.cs",
+              "RelativeToolTip": "Infrastructure\\Querys\\OrderQuery.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:45:01.32Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "OrderItemController.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\TPindv-Proyecto-Guerra\\Controller\\OrderItemController.cs",
+              "RelativeDocumentMoniker": "TPindv-Proyecto-Guerra\\Controller\\OrderItemController.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\TPindv-Proyecto-Guerra\\Controller\\OrderItemController.cs",
+              "RelativeToolTip": "TPindv-Proyecto-Guerra\\Controller\\OrderItemController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T01:32:21.5Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "OrderItemQuery.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Querys\\OrderItemQuery.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Querys\\OrderItemQuery.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Querys\\OrderItemQuery.cs",
+              "RelativeToolTip": "Infrastructure\\Querys\\OrderItemQuery.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:45:21.55Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "DeliveryTypeQuery.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Querys\\DeliveryTypeQuery.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Querys\\DeliveryTypeQuery.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Querys\\DeliveryTypeQuery.cs",
+              "RelativeToolTip": "Infrastructure\\Querys\\DeliveryTypeQuery.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:43:28.346Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "CategoryQuery.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Querys\\CategoryQuery.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Querys\\CategoryQuery.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Querys\\CategoryQuery.cs",
+              "RelativeToolTip": "Infrastructure\\Querys\\CategoryQuery.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:43:07.037Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "StatusCommand.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Command\\StatusCommand.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Command\\StatusCommand.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Command\\StatusCommand.cs",
+              "RelativeToolTip": "Infrastructure\\Command\\StatusCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:42:32.476Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "OrderItemCommand.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Command\\OrderItemCommand.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Command\\OrderItemCommand.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Command\\OrderItemCommand.cs",
+              "RelativeToolTip": "Infrastructure\\Command\\OrderItemCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:42:19.415Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "OrderCommand.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Command\\OrderCommand.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Command\\OrderCommand.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Command\\OrderCommand.cs",
+              "RelativeToolTip": "Infrastructure\\Command\\OrderCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:42:00.046Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "DeliveryTypeCommand.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Command\\DeliveryTypeCommand.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Command\\DeliveryTypeCommand.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Command\\DeliveryTypeCommand.cs",
+              "RelativeToolTip": "Infrastructure\\Command\\DeliveryTypeCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:41:19.471Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "CategoryCommand.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Command\\CategoryCommand.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Command\\CategoryCommand.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Infrastructure\\Command\\CategoryCommand.cs",
+              "RelativeToolTip": "Infrastructure\\Command\\CategoryCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:40:28.663Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "OrderService.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Services\\OrderService.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\OrderService.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Services\\OrderService.cs",
+              "RelativeToolTip": "Application\\Services\\OrderService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:30:35.548Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "DeliveryTypeService.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Services\\DeliveryTypeService.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\DeliveryTypeService.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Services\\DeliveryTypeService.cs",
+              "RelativeToolTip": "Application\\Services\\DeliveryTypeService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:28:58.839Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "CategoryService.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Services\\CategoryService.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\CategoryService.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Services\\CategoryService.cs",
+              "RelativeToolTip": "Application\\Services\\CategoryService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:27:51.751Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "StatusResponse.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Models\\Response\\StatusResponse.cs",
+              "RelativeDocumentMoniker": "Application\\Models\\Response\\StatusResponse.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Models\\Response\\StatusResponse.cs",
+              "RelativeToolTip": "Application\\Models\\Response\\StatusResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:38:36.791Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "OrderResponse.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Models\\Response\\OrderResponse.cs",
+              "RelativeDocumentMoniker": "Application\\Models\\Response\\OrderResponse.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Models\\Response\\OrderResponse.cs",
+              "RelativeToolTip": "Application\\Models\\Response\\OrderResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:38:16.759Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
+              "Title": "OrderItemResponse.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Models\\Response\\OrderItemResponse.cs",
+              "RelativeDocumentMoniker": "Application\\Models\\Response\\OrderItemResponse.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Models\\Response\\OrderItemResponse.cs",
+              "RelativeToolTip": "Application\\Models\\Response\\OrderItemResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:37:57.317Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 45,
+              "Title": "DeliveryTypeResponse.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Models\\Response\\DeliveryTypeResponse.cs",
+              "RelativeDocumentMoniker": "Application\\Models\\Response\\DeliveryTypeResponse.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Models\\Response\\DeliveryTypeResponse.cs",
+              "RelativeToolTip": "Application\\Models\\Response\\DeliveryTypeResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:37:22.112Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 46,
+              "Title": "CategoryResponse.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Models\\Response\\CategoryResponse.cs",
+              "RelativeDocumentMoniker": "Application\\Models\\Response\\CategoryResponse.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Models\\Response\\CategoryResponse.cs",
+              "RelativeToolTip": "Application\\Models\\Response\\CategoryResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:36:49.762Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 47,
+              "Title": "StatusRequest.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Models\\Request\\StatusRequest.cs",
+              "RelativeDocumentMoniker": "Application\\Models\\Request\\StatusRequest.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Models\\Request\\StatusRequest.cs",
+              "RelativeToolTip": "Application\\Models\\Request\\StatusRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:35:57.062Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 48,
+              "Title": "OrderRequest.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Models\\Request\\OrderRequest.cs",
+              "RelativeDocumentMoniker": "Application\\Models\\Request\\OrderRequest.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Models\\Request\\OrderRequest.cs",
+              "RelativeToolTip": "Application\\Models\\Request\\OrderRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:35:38.545Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 49,
+              "Title": "OrderItemRequest.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Models\\Request\\OrderItemRequest.cs",
+              "RelativeDocumentMoniker": "Application\\Models\\Request\\OrderItemRequest.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Models\\Request\\OrderItemRequest.cs",
+              "RelativeToolTip": "Application\\Models\\Request\\OrderItemRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:35:20.253Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 50,
+              "Title": "DeliveryTypeRequest.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Models\\Request\\DeliveryTypeRequest.cs",
+              "RelativeDocumentMoniker": "Application\\Models\\Request\\DeliveryTypeRequest.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Models\\Request\\DeliveryTypeRequest.cs",
+              "RelativeToolTip": "Application\\Models\\Request\\DeliveryTypeRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:34:20.037Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 51,
+              "Title": "IStatusService.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IStatus\\IStatusService.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\IStatus\\IStatusService.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IStatus\\IStatusService.cs",
+              "RelativeToolTip": "Application\\Interfaces\\IStatus\\IStatusService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T01:00:06.087Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 52,
+              "Title": "IStatusQuery.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IStatus\\IStatusQuery.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\IStatus\\IStatusQuery.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IStatus\\IStatusQuery.cs",
+              "RelativeToolTip": "Application\\Interfaces\\IStatus\\IStatusQuery.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:59:48.344Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 53,
+              "Title": "IStatusCommand.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IStatus\\IStatusCommand.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\IStatus\\IStatusCommand.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IStatus\\IStatusCommand.cs",
+              "RelativeToolTip": "Application\\Interfaces\\IStatus\\IStatusCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:59:27.768Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 54,
+              "Title": "IOrderItemService.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IOrderItem\\IOrderItemService.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\IOrderItem\\IOrderItemService.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IOrderItem\\IOrderItemService.cs",
+              "RelativeToolTip": "Application\\Interfaces\\IOrderItem\\IOrderItemService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:58:59.156Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 55,
+              "Title": "IOrderItemQuery.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IOrderItem\\IOrderItemQuery.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\IOrderItem\\IOrderItemQuery.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IOrderItem\\IOrderItemQuery.cs",
+              "RelativeToolTip": "Application\\Interfaces\\IOrderItem\\IOrderItemQuery.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:58:26.65Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 56,
+              "Title": "IOrderItemCommand.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IOrderItem\\IOrderItemCommand.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\IOrderItem\\IOrderItemCommand.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IOrderItem\\IOrderItemCommand.cs",
+              "RelativeToolTip": "Application\\Interfaces\\IOrderItem\\IOrderItemCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:58:07.87Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 57,
+              "Title": "IOrderService.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IOrder\\IOrderService.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\IOrder\\IOrderService.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IOrder\\IOrderService.cs",
+              "RelativeToolTip": "Application\\Interfaces\\IOrder\\IOrderService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:57:47.406Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 58,
+              "Title": "IOrderQuery.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IOrder\\IOrderQuery.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\IOrder\\IOrderQuery.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IOrder\\IOrderQuery.cs",
+              "RelativeToolTip": "Application\\Interfaces\\IOrder\\IOrderQuery.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:57:23.119Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 59,
+              "Title": "IDeliveryTypeQuery.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IDeliveryType\\IDeliveryTypeQuery.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\IDeliveryType\\IDeliveryTypeQuery.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IDeliveryType\\IDeliveryTypeQuery.cs",
+              "RelativeToolTip": "Application\\Interfaces\\IDeliveryType\\IDeliveryTypeQuery.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:52:32.273Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 60,
+              "Title": "IDeliveryTypeCommand.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IDeliveryType\\IDeliveryTypeCommand.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\IDeliveryType\\IDeliveryTypeCommand.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IDeliveryType\\IDeliveryTypeCommand.cs",
+              "RelativeToolTip": "Application\\Interfaces\\IDeliveryType\\IDeliveryTypeCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:52:05.232Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 61,
+              "Title": "IDeliveryService.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IDeliveryType\\IDeliveryService.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\IDeliveryType\\IDeliveryService.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\IDeliveryType\\IDeliveryService.cs",
+              "RelativeToolTip": "Application\\Interfaces\\IDeliveryType\\IDeliveryService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:52:53.356Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 62,
+              "Title": "ICategoryService.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\ICategory\\ICategoryService.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\ICategory\\ICategoryService.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\ICategory\\ICategoryService.cs",
+              "RelativeToolTip": "Application\\Interfaces\\ICategory\\ICategoryService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:51:39.39Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 63,
+              "Title": "ICategoryQuery.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\ICategory\\ICategoryQuery.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\ICategory\\ICategoryQuery.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Interfaces\\ICategory\\ICategoryQuery.cs",
+              "RelativeToolTip": "Application\\Interfaces\\ICategory\\ICategoryQuery.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:51:07.817Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 65,
+              "Title": "OrderItemService.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Services\\OrderItemService.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\OrderItemService.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Services\\OrderItemService.cs",
+              "RelativeToolTip": "Application\\Services\\OrderItemService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:30:04.366Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 64,
+              "Title": "StatusService.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Services\\StatusService.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\StatusService.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Services\\StatusService.cs",
+              "RelativeToolTip": "Application\\Services\\StatusService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T00:28:17.313Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 67,
+              "Title": "Application.csproj",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Application.csproj",
+              "RelativeDocumentMoniker": "Application\\Application.csproj",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\Application\\Application.csproj",
+              "RelativeToolTip": "Application\\Application.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-08-26T18:51:26.56Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 66,
+              "Title": "TPRestaurante_Proyecto.csproj",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\TPindv-Proyecto-Guerra\\TPRestaurante_Proyecto.csproj",
+              "RelativeDocumentMoniker": "TPindv-Proyecto-Guerra\\TPRestaurante_Proyecto.csproj",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\TP1-Guerra_Miranda\\TP1-Guerra_Miranda\\TPindv-Proyecto-Guerra\\TPRestaurante_Proyecto.csproj",
+              "RelativeToolTip": "TPindv-Proyecto-Guerra\\TPRestaurante_Proyecto.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-08-26T18:52:24.436Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
