@@ -116,7 +116,7 @@ namespace Infrastructure.Data
                 entity.HasOne(oi => oi.Dish)
                       .WithMany(d => d.OrderItems)
                       .HasForeignKey(oi => oi.DishId)
-                      .OnDelete(DeleteBehavior.Restrict);
+                      .OnDelete(DeleteBehavior.Cascade);
 
                 // Order (1) ---- (N) OrderItem
                 entity.HasOne(oi => oi.Order)
