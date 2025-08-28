@@ -150,7 +150,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 3,
-                            Name = "Dine In"
+                            Name = "Dine in"
                         });
                 });
 

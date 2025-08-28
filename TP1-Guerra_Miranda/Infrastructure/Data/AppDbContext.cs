@@ -95,7 +95,7 @@ namespace Infrastructure.Data
                 entity.HasData(
                      new DeliveryType { Id = 1, Name = "Delivery" },
                      new DeliveryType { Id = 2, Name = "Take away" },
-                     new DeliveryType { Id = 3, Name = "Dine In" }
+                     new DeliveryType { Id = 3, Name = "Dine in" }
                 );
             });
 
