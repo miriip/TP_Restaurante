@@ -6,10 +6,8 @@ using Infrastructure.Querys;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using System.Reflection;
 using TPindv_Proyecto_Guerra.Middleware;
-
-
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 

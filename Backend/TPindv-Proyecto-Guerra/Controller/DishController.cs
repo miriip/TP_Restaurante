@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces.IDish;
 using Application.Models.Request;
 using Application.Models.Response;
+using Application.Enums;
 using Domain.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -33,7 +34,7 @@ namespace TPindv_Proyecto_Guerra.Controller
         {
             try
             {
-                // Validaciones adicionales 
+                // Validaciones adicionales como las de tu amigo
                 if (dishRequest == null)
                 {
                     return BadRequest(new ApiError("Los datos del plato son requeridos"));
@@ -67,7 +68,7 @@ namespace TPindv_Proyecto_Guerra.Controller
             {
                 return BadRequest(new ApiError(ex.Message));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return BadRequest(new ApiError("Error interno del servidor"));
             }
@@ -81,8 +82,8 @@ namespace TPindv_Proyecto_Guerra.Controller
         /// Obtiene una lista de platos del menú con opciones de filtrado y ordenamiento.
         /// </remarks>
         /// <param name="name">Buscar platos por nombre (búsqueda parcial)</param>
-        /// <param name="category">Filtrar por categoría de plato</param>
-        /// <param name="sortByPrice">Ordenar por precio: ASC (ascendente) o DESC (descendente)</param>
+        /// <param name="categoryId">Filtrar por categoría de plato</param>
+        /// <param name="orderPrice">Ordenar por precio: ASC (ascendente) o DESC (descendente)</param>
         /// <param name="onlyActive">Filtrar por estado: true para solo platos disponibles, false para todos</param>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<DishResponse>), StatusCodes.Status200OK)]
@@ -90,13 +91,14 @@ namespace TPindv_Proyecto_Guerra.Controller
         [ProducesResponseType(typeof(ApiError), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Search(
             [FromQuery] string? name,
-            [FromQuery] int? category,
-            [FromQuery] string? sortByPrice,
+            [FromQuery(Name = "categoryId")] int? categoryId,
+            [FromQuery(Name = "orderPrice")] OrderPrice? orderPrice = null,
             [FromQuery] bool onlyActive = true)
         {
             try
             {
-                var list = await _dishService.SearchAsync(name, category, sortByPrice);
+                string? priceOrder = orderPrice?.ToString().ToLowerInvariant();
+                var list = await _dishService.SearchAsync(name, categoryId, priceOrder);
 
                 // Aplicar filtro de estado activo ANTES de verificar resultados
                 if (onlyActive)
@@ -107,19 +109,22 @@ namespace TPindv_Proyecto_Guerra.Controller
                 // Verificar si se encontraron resultados DESPUÉS de aplicar filtros
                 if (list == null || !list.Any())
                 {
-
+                    // Mensaje más específico según los filtros aplicados
                     string message = "No se encontraron platos";
-                    if (!string.IsNullOrWhiteSpace(name) && category.HasValue)
+                    if (!string.IsNullOrWhiteSpace(name) && categoryId.HasValue)
                     {
                         message = $"No se encontraron platos con el nombre '{name}' en la categoría especificada";
+                        if (onlyActive) message += " que estén activos";
                     }
                     else if (!string.IsNullOrWhiteSpace(name))
                     {
                         message = $"No se encontraron platos con el nombre '{name}'";
+                        if (onlyActive) message += " que estén activos";
                     }
-                    else if (category.HasValue)
+                    else if (categoryId.HasValue)
                     {
                         message = "No se encontraron platos en la categoría especificada";
+                        if (onlyActive) message += " que estén activos";
                     }
                     else if (onlyActive)
                     {
@@ -135,7 +140,15 @@ namespace TPindv_Proyecto_Guerra.Controller
             {
                 return BadRequest(new ApiError(ex.Message));
             }
-            catch (Exception ex)
+            catch (NoDishesFoundException ex)
+            {
+                return NotFound(new ApiError(ex.Message));
+            }
+            catch (NoDishesInCategoryException ex)
+            {
+                return NotFound(new ApiError(ex.Message));
+            }
+            catch (Exception)
             {
                 return BadRequest(new ApiError("Error interno del servidor"));
             }
@@ -157,7 +170,7 @@ namespace TPindv_Proyecto_Guerra.Controller
         {
             try
             {
-                // Validaciones adicionales 
+                // Validaciones adicionales como las de tu amigo
                 if (dishUpdateRequest == null)
                 {
                     return BadRequest(new ApiError("Los datos del plato son requeridos"));
@@ -195,7 +208,7 @@ namespace TPindv_Proyecto_Guerra.Controller
             {
                 return BadRequest(new ApiError(ex.Message));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return BadRequest(new ApiError("Error interno del servidor"));
             }
