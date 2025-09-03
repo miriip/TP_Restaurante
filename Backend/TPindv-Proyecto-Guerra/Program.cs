@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using TPindv_Proyecto_Guerra.Middleware;
 using System.Reflection;
+using System.Text.Json.Serialization;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 

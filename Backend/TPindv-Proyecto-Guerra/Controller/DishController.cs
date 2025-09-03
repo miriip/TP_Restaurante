@@ -6,6 +6,7 @@ using Domain.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace TPindv_Proyecto_Guerra.Controller
 {
     [Route("api/v1/[controller]")]
