@@ -11,19 +11,20 @@ namespace Domain.Entities
     {
         public long OrderItemId { get; set; }
 
-        public long OrderId { get; set; }
-        public Order Order { get; set; }
+        public long Order { get; set; } //FK
+        public Order? OrderRef { get; set; }
 
         public int Quantity { get; set; }
-        public string Notes { get; set; }
+        public string? Notes { get; set; }
 
-        public Guid DishId { get; set; } //FK
-        public Dish Dish { get; set; }
+        public Guid Dish { get; set; } //FK
+        public Dish? DishRef { get; set; }
 
-        public int StatusId { get; set; } //FK
-        public Status Status { get; set; }
+        public int Status { get; set; } //FK
+        public Status? StatusRef { get; set; }
 
         public DateTime CreateDate { get; set; }
+
 
     }
 }

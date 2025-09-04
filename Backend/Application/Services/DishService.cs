@@ -44,7 +44,7 @@ namespace Application.Services
                 ImageUrl = dishRequest.Image,
                 CreateDate = DateTime.UtcNow,
                 UpdateDate = DateTime.UtcNow,
-                CategoryId = dishRequest.Category
+                Category = dishRequest.Category
             };
 
             await _dishcommand.InsertDish(dish);
@@ -84,7 +84,7 @@ namespace Application.Services
                 Name = dish.Name,
                 Description = dish.Description,
                 Price = dish.Price,
-                Category = new GenericResponse { Id = dish.CategoryId, Name = dish.Category?.Name },
+                Category = new GenericResponse { Id = dish.Category, Name = dish.CategoryRef?.Name },
                 Image = dish.ImageUrl,
                 IsActive = dish.Available,
                 CreatedAt = dish.CreateDate,
@@ -148,7 +148,7 @@ namespace Application.Services
             existingDish.Description = dishUpdateRequest.Description?.Trim();
             existingDish.Price = dishUpdateRequest.Price;
             existingDish.ImageUrl = dishUpdateRequest.Image;
-            existingDish.CategoryId = dishUpdateRequest.Category;
+            existingDish.Category = dishUpdateRequest.Category;
             existingDish.Available = dishUpdateRequest.IsActive;
             existingDish.UpdateDate = DateTime.UtcNow;
 

@@ -14,8 +14,8 @@ namespace Domain.Entities
         public decimal Price { get; set; }
         public bool Available { get; set; }
 
-        public int CategoryId { get; set; } 
-        public Category Category { get; set; }
+        public int Category { get; set; }
+        public Category? CategoryRef { get; set; }
 
         public string? ImageUrl { get; set; }
 
@@ -24,8 +24,6 @@ namespace Domain.Entities
         public DateTime UpdateDate { get; set; }
 
         //Relacion con OrderItem
-        public ICollection<OrderItem> OrderItems { get; set; }
-
-
+        public ICollection<OrderItem>? OrderItems { get; set; }
     }
 }

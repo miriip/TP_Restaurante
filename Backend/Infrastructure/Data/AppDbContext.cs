@@ -106,45 +106,45 @@ namespace Infrastructure.Data
             // Category (1) ---- (N) Dish
             modelBuilder.Entity<Dish>(entity =>
             {
-                entity.HasOne(d => d.Category)
+                entity.HasOne(d => d.CategoryRef)
                       .WithMany(c => c.Dishes)
-                      .HasForeignKey(d => d.CategoryId)
+                      .HasForeignKey(d => d.Category)
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
             // Dish (1) ---- (N) OrderItem
             modelBuilder.Entity<OrderItem>(entity =>
             {
-                entity.HasOne(oi => oi.Dish)
+                entity.HasOne(oi => oi.DishRef)
                       .WithMany(d => d.OrderItems)
-                      .HasForeignKey(oi => oi.DishId)
+                      .HasForeignKey(oi => oi.Dish)
                       .OnDelete(DeleteBehavior.Cascade);
 
                 // Order (1) ---- (N) OrderItem
-                entity.HasOne(oi => oi.Order)
+                entity.HasOne(oi => oi.OrderRef)
                       .WithMany(o => o.OrderItems)
-                      .HasForeignKey(oi => oi.OrderId)
+                      .HasForeignKey(oi => oi.Order)
                       .OnDelete(DeleteBehavior.Cascade);
 
                 // Status (1) ---- (N) OrderItem
-                entity.HasOne(oi => oi.Status)
+                entity.HasOne(oi => oi.StatusRef)
                       .WithMany(s => s.OrderItems)
-                      .HasForeignKey(oi => oi.StatusId)
+                      .HasForeignKey(oi => oi.Status)
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
             // DeliveryType (1) ---- (N) Order
             modelBuilder.Entity<Order>(entity =>
             {
-                entity.HasOne(o => o.DeliveryType)
+                entity.HasOne(o => o.DeliveryTypeRef)
                       .WithMany(dt => dt.Orders)
-                      .HasForeignKey(o => o.DeliveryTypeId)
+                      .HasForeignKey(o => o.DeliveryType)
                       .OnDelete(DeleteBehavior.Restrict);
 
                 // Status (1) ---- (N) Order
-                entity.HasOne(o => o.OverallStatus)
+                entity.HasOne(o => o.OverallStatusRef)
                       .WithMany(s => s.Orders)
-                      .HasForeignKey(o => o.StatusId)
+                      .HasForeignKey(o => o.OverallStatus)
                       .OnDelete(DeleteBehavior.Restrict);
             });
 

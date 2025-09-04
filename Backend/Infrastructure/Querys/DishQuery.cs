@@ -27,7 +27,7 @@ namespace Infrastructure.Querys
         public async Task<IEnumerable<Dish>> GetAllAsync(string? name = null, int? category = null, string? sortByPrice = null)
         {
             var query = _context.Dishes
-                .Include(d => d.Category)
+                .Include(d => d.CategoryRef)
                 .AsNoTracking()
                 .AsQueryable();
 
@@ -38,7 +38,7 @@ namespace Infrastructure.Querys
 
             if (category.HasValue)
             {
-                query = query.Where(d => d.CategoryId == category.Value);
+                query = query.Where(d => d.Category == category.Value);
             }
 
             if (!string.IsNullOrWhiteSpace(sortByPrice))
@@ -67,7 +67,7 @@ namespace Infrastructure.Querys
         public async Task<Dish?> GetDishByName(string name)
         {
             return await _context.Dishes
-                .Include(d => d.Category)
+                .Include(d => d.CategoryRef)
                 .FirstOrDefaultAsync(d => d.Name == name);
         }
 
