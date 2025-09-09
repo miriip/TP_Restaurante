@@ -7,9 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using TPindv_Proyecto_Guerra.Middleware;
+using TPindv_Proyecto_Guerra.Swagger;
 using System.Reflection;
-using System.Text.Json.Serialization;
-using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,9 +22,23 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 //builder Dish
 builder.Services.AddScoped<IDishCommand, DishCommand>();
 builder.Services.AddScoped<IDishQuery, DishQuery>();
-builder.Services.AddScoped<IDishService, DishService>();
 
-builder.Services.AddControllers();
+// Servicios especializados
+builder.Services.AddScoped<ICreateDishService, DishCreationService>();
+builder.Services.AddScoped<ISearchDishesService, DishSearchService>();
+builder.Services.AddScoped<IUpdateDishService, DishUpdateService>();
+
+// Si se decide mantener una fachada IDishService, registrar aquí. Eliminado para usar casos de uso directos.
+
+builder.Services.AddControllers()
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.SuppressModelStateInvalidFilter = true;
+    })
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString;
+    });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -49,6 +62,7 @@ builder.Services.AddSwaggerGen(c =>
     {
         c.IncludeXmlComments(xmlPath);
     }
+    c.OperationFilter<ExamplesOperationFilter>();
 });
 
 var app = builder.Build();

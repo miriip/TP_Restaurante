@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Application.Models.Request
 {
-    public class DishUpdateRequest
+    public class UpdateDishRequest
     {
         [Required(ErrorMessage = "El nombre del plato es obligatorio")]
         [MaxLength(100, ErrorMessage = "El nombre no puede exceder los 100 caracteres")]

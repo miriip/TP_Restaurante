@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.Models.Request
 {
-    public class DishRequest
+    public class CreateDishRequest
     {
         [Required(ErrorMessage = "El nombre del plato es obligatorio")]
         [MaxLength(100, ErrorMessage = "El nombre no puede exceder los 100 caracteres")]

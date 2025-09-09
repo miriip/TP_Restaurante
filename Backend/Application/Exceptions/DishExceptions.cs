@@ -1,16 +1,17 @@
 using System;
 
-namespace Domain.Exceptions
+namespace Application.Exceptions
 {
+    // NotFound / Conflict / Validation exceptions (flujo/casos de uso)
     public class DishNotFoundException : Exception
     {
         public DishNotFoundException(string message) : base(message) { }
-        public DishNotFoundException(Guid id) : base($"Plato no encontrado") { }
+        public DishNotFoundException(Guid id) : base("Plato no encontrado") { }
     }
 
     public class DishNameAlreadyExistsException : Exception
     {
-        public DishNameAlreadyExistsException(string name) : base($"Ya existe un plato con ese nombre") { }
+        public DishNameAlreadyExistsException(string name) : base("Ya existe un plato con ese nombre") { }
     }
 
     public class InvalidDishDataException : Exception
@@ -78,3 +79,5 @@ namespace Domain.Exceptions
         public NoDishesInCategoryByNameException(string categoryName) : base($"No se encontraron platos en la categoría '{categoryName}'") { }
     }
 }
+
+
