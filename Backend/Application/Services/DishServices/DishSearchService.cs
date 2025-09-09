@@ -1,12 +1,12 @@
+using Application.Exceptions;
 using Application.Interfaces.IDish;
 using Application.Models.Response;
-using Domain.Exceptions;
 using System;
 using System.Linq;
 
-namespace Application.Services
+namespace Application.Services.DishServices
 {
-    public class DishSearchService
+    public class DishSearchService : ISearchDishesService
     {
         private readonly IDishQuery _dishQuery;
 
@@ -27,7 +27,7 @@ namespace Application.Services
             }
 
             var list = await _dishQuery.GetAllAsync(name, categoryId, priceOrder);
-            
+
             // Verificar si se encontraron resultados
             if (!list.Any())
             {

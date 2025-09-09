@@ -1,5 +1,5 @@
 using Application.Models.Response;
-using Domain.Exceptions;
+using Application.Exceptions;
 using System.Net;
 using System.Text.Json;
 

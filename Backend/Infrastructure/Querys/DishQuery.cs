@@ -1,18 +1,12 @@
-﻿using Application.Interfaces.IDish;
-using Application.Models.Request;
-using Application.Models.Response;
-using Domain.Entities;
-using Domain.Exceptions;
-using Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
+﻿using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-
-
+using Microsoft.EntityFrameworkCore;
+using Infrastructure.Data;
+using Application.Interfaces.IDish;
 
 namespace Infrastructure.Querys
 {
@@ -24,7 +18,7 @@ namespace Infrastructure.Querys
             _context = context;
         }
 
-        public async Task<IEnumerable<Dish>> GetAllAsync(string? name = null, int? category = null, string? sortByPrice = null)
+        public async Task<IEnumerable<Dish>> GetAllAsync(string? name = null, int? categoryId = null, string? priceOrder = null)
         {
             var query = _context.Dishes
                 .Include(d => d.CategoryRef)
@@ -36,14 +30,14 @@ namespace Infrastructure.Querys
                 query = query.Where(d => d.Name.Contains(name));
             }
 
-            if (category.HasValue)
+            if (categoryId.HasValue)
             {
-                query = query.Where(d => d.Category == category.Value);
+                query = query.Where(d => d.Category == categoryId.Value);
             }
 
-            if (!string.IsNullOrWhiteSpace(sortByPrice))
+            if (!string.IsNullOrWhiteSpace(priceOrder))
             {
-                var normalized = sortByPrice.Trim().ToLowerInvariant();
+                var normalized = priceOrder.Trim().ToLowerInvariant();
                 if (normalized == "asc")
                 {
                     query = query.OrderBy(d => d.Price);
@@ -59,16 +53,32 @@ namespace Infrastructure.Querys
 
         public async Task<Dish?> GetDishById(Guid id)
         {
-            return await _context.Dishes
-                .Include(d => d.Category)
+            var dish = await _context.Dishes
                 .FirstOrDefaultAsync(d => d.DishId == id);
+
+            if (dish != null)
+            {
+                // Cargar la categoría por separado
+                dish.CategoryRef = await _context.Categories
+                    .FirstOrDefaultAsync(c => c.Id == dish.Category);
+            }
+
+            return dish;
         }
 
         public async Task<Dish?> GetDishByName(string name)
         {
-            return await _context.Dishes
-                .Include(d => d.CategoryRef)
+            var dish = await _context.Dishes
                 .FirstOrDefaultAsync(d => d.Name == name);
+
+            if (dish != null)
+            {
+                // Cargar la categoría por separado
+                dish.CategoryRef = await _context.Categories
+                    .FirstOrDefaultAsync(c => c.Id == dish.Category);
+            }
+
+            return dish;
         }
 
         public async Task<Category?> GetCategoryById(int categoryId)
@@ -78,3 +88,4 @@ namespace Infrastructure.Querys
         }
     }
 }
+

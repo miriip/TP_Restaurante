@@ -11,10 +11,10 @@ namespace Application.Interfaces.IDish
     public interface IDishService
     {
         // Create
-        Task<DishResponse> CreateDish(DishRequest dishRequest);
+        Task<DishResponse> CreateDish(CreateDishRequest dishRequest);
 
         // Update
-        Task<DishResponse> UpdateDish(Guid id, DishUpdateRequest dishUpdateRequest);
+        Task<DishResponse> UpdateDish(Guid id, UpdateDishRequest dishUpdateRequest);
 
         // Search
         Task<IEnumerable<DishResponse>> SearchAsync(string? name, int? category, string? sortByPrice);

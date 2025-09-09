@@ -1,14 +1,17 @@
 using Application.Interfaces.IDish;
 using Application.Services;
+using Application.Services.DishServices;
 using Infrastructure.Command;
 using Infrastructure.Data;
 using Infrastructure.Querys;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using TPindv_Proyecto_Guerra.Middleware;
 using TPindv_Proyecto_Guerra.Swagger;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +41,8 @@ builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString;
+        options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+        options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
     });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

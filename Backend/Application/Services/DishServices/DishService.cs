@@ -2,10 +2,10 @@
 using Application.Models.Request;
 using Application.Models.Response;
 using Domain.Entities;
-using Domain.Exceptions;
 
 
-namespace Application.Services
+
+namespace Application.Services.DishServices
 {
     public class DishService : IDishService
     {
@@ -20,7 +20,7 @@ namespace Application.Services
             _dishUpdateService = updateService;
         }
 
-        public async Task<DishResponse> CreateDish(DishRequest dishRequest)
+        public async Task<DishResponse> CreateDish(CreateDishRequest dishRequest)
         {
             return await _dishCreationService.CreateDish(dishRequest);
         }
@@ -30,7 +30,7 @@ namespace Application.Services
             return await _dishSearchService.SearchAsync(name, categoryId, priceOrder);
         }
 
-        public async Task<DishResponse> UpdateDish(Guid id, DishUpdateRequest dishUpdateRequest)
+        public async Task<DishResponse> UpdateDish(Guid id, UpdateDishRequest dishUpdateRequest)
         {
             return await _dishUpdateService.UpdateDish(id, dishUpdateRequest);
         }

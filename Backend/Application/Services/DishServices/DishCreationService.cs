@@ -2,13 +2,13 @@ using Application.Interfaces.IDish;
 using Application.Models.Request;
 using Application.Models.Response;
 using Domain.Entities;
-using Domain.Exceptions;
+using Application.Exceptions;
 using System;
 using System.Linq;
 
-namespace Application.Services
+namespace Application.Services.DishServices
 {
-    public class DishCreationService
+    public class DishCreationService : ICreateDishService
     {
         private readonly IDishCommand _dishCommand;
         private readonly IDishQuery _dishQuery;
@@ -19,8 +19,26 @@ namespace Application.Services
             _dishQuery = query;
         }
 
-        public async Task<DishResponse> CreateDish(DishRequest dishRequest)
+        public async Task<DishResponse> CreateDish(CreateDishRequest dishRequest)
         {
+            // Validar nombre
+            if (string.IsNullOrWhiteSpace(dishRequest.Name))
+            {
+                throw new InvalidDishNameException(dishRequest.Name ?? "");
+            }
+
+            // Validar precio
+            if (dishRequest.Price <= 0)
+            {
+                throw new InvalidPriceException();
+            }
+
+            // Validar categoría
+            if (dishRequest.Category <= 0)
+            {
+                throw new InvalidCategoryIdException(dishRequest.Category);
+            }
+
             // Validar que no exista un plato con el mismo nombre
             var existingDish = await _dishQuery.GetDishByName(dishRequest.Name);
             if (existingDish != null)

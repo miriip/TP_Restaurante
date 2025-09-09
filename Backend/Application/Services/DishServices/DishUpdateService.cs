@@ -1,12 +1,12 @@
+using Application.Exceptions;
 using Application.Interfaces.IDish;
 using Application.Models.Request;
 using Application.Models.Response;
-using Domain.Exceptions;
 using System;
 
-namespace Application.Services
+namespace Application.Services.DishServices
 {
-    public class DishUpdateService
+    public class DishUpdateService : IUpdateDishService
     {
         private readonly IDishCommand _dishCommand;
         private readonly IDishQuery _dishQuery;
@@ -17,7 +17,7 @@ namespace Application.Services
             _dishQuery = query;
         }
 
-        public async Task<DishResponse> UpdateDish(Guid id, DishUpdateRequest dishUpdateRequest)
+        public async Task<DishResponse> UpdateDish(Guid id, UpdateDishRequest dishUpdateRequest)
         {
             // Validar que el nombre no esté vacío o contenga solo espacios
             if (string.IsNullOrWhiteSpace(dishUpdateRequest.Name))
@@ -93,4 +93,5 @@ namespace Application.Services
             };
         }
     }
+
 }

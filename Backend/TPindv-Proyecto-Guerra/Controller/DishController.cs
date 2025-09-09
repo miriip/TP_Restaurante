@@ -16,7 +16,7 @@ namespace TPindv_Proyecto_Guerra.Controller
         private readonly ICreateDishService _createDishService;
         private readonly ISearchDishesService _searchDishesService;
         private readonly IUpdateDishService _updateDishService;
-
+        
         public DishController(ICreateDishService createDishService, ISearchDishesService searchDishesService, IUpdateDishService updateDishService)
         {
             _createDishService = createDishService;
@@ -30,6 +30,8 @@ namespace TPindv_Proyecto_Guerra.Controller
         /// </summary>
         /// <remarks>
         /// Crea un nuevo plato en el menú del restaurante.
+        /// 
+        /// **IMPORTANTE**: Para el campo `isActive`, use `true` o `false` (minúsculas), no `True` o `False`.
         /// </remarks>
         /// <response code="201">Plato creado exitosamente</response>
         /// <response code="400">Datos de entrada inválidos </response>
@@ -93,7 +95,7 @@ namespace TPindv_Proyecto_Guerra.Controller
         [ProducesResponseType(typeof(IEnumerable<DishResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiError), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Search(
-            [FromQuery] string? name,
+            [FromQuery] string? name, 
             [FromQuery(Name = "category")] int? category,
             [FromQuery(Name = "sortByPrice")] OrderPrice? sortByPrice = null,
             [FromQuery] bool onlyActive = true)
@@ -112,13 +114,13 @@ namespace TPindv_Proyecto_Guerra.Controller
                     }
                 }
                 var list = await _searchDishesService.SearchAsync(name, effectiveCategoryId, priceOrder);
-
+                
                 // Aplicar filtro de estado activo ANTES de verificar resultados
                 if (onlyActive)
                 {
                     list = list.Where(d => d.IsActive);
                 }
-
+                
                 // Verificar si se encontraron resultados DESPUÉS de aplicar filtros
                 if (list == null || !list.Any())
                 {
@@ -143,10 +145,10 @@ namespace TPindv_Proyecto_Guerra.Controller
                     {
                         message = "No se encontraron platos activos";
                     }
-
+                    
                     return NotFound(new ApiError(message));
                 }
-
+                
                 return Ok(list);
             }
             catch (InvalidSortOrderException ex)
@@ -173,6 +175,9 @@ namespace TPindv_Proyecto_Guerra.Controller
         /// </summary>
         /// <remarks>
         /// Actualiza todos los campos de un plato existente en el menú.
+        /// 
+        /// **IMPORTANTE**: Para el campo `isActive`, use `true` o `false` (minúsculas), no `True` o `False`.
+        /// 
         /// </remarks>
         /// <response code="200">Plato actualizado exitosamente</response>
         /// <response code="400">Datos de entrada inválidos </response>
@@ -187,7 +192,7 @@ namespace TPindv_Proyecto_Guerra.Controller
         {
             try
             {
-                if (dishUpdateRequest == null)
+                 if (dishUpdateRequest == null)
                 {
                     return BadRequest(new ApiError("Los datos del plato son requeridos"));
                 }
@@ -196,6 +201,14 @@ namespace TPindv_Proyecto_Guerra.Controller
                 return Ok(updatedDish);
             }
             catch (InvalidDishNameException ex)
+            {
+                return Conflict(new ApiError(ex.Message));
+            }
+            catch (DishNameTooLongException ex)
+            {
+                return Conflict(new ApiError(ex.Message));
+            }
+            catch (InvalidDishDescriptionException ex)
             {
                 return Conflict(new ApiError(ex.Message));
             }
@@ -219,9 +232,12 @@ namespace TPindv_Proyecto_Guerra.Controller
             {
                 return NotFound(new ApiError(ex.Message));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest(new ApiError("Error interno del servidor"));
+                // Log para debugging (en producción usar ILogger)
+                Console.WriteLine($"Error en UpdateDish: {ex.GetType().Name} - {ex.Message}");
+                Console.WriteLine($"StackTrace: {ex.StackTrace}");
+                return BadRequest(new ApiError($"Error interno del servidor: {ex.Message}"));
             }
         }
     }
