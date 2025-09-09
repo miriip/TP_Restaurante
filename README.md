@@ -14,21 +14,33 @@ Una API REST moderna para la gestión de menús y pedidos de restaurante, desarr
 ## 🏗️ Arquitectura del Proyecto
 
 ```
-├── Domain/                 # Entidades y lógica de negocio
-│   ├── Entities/          # Modelos de dominio
-│   └── Exceptions/        # Excepciones personalizadas
-├── Application/           # Casos de uso y servicios
-│   ├── Interfaces/        # Contratos de servicios
-│   ├── Models/           # DTOs de request/response
-│   └── Services/         # Implementación de servicios
-├── Infrastructure/        # Acceso a datos y persistencia
-│   ├── Data/             # DbContext y configuración
-│   ├── Command/          # Comandos de escritura
-│   ├── Querys/           # Consultas de lectura
-│   └── Migrations/       # Migraciones de EF Core
-└── TPindv-Proyecto-Guerra/ # API Web
-    ├── Controller/       # Controladores REST
-    └── Middleware/       # Middleware personalizado
+TPRestaurante_Proyecto/
+├── Domain/                     # Entidades y lógica de negocio
+│   ├── Entities/              # Modelos de dominio
+│   └── Exceptions/            # Excepciones personalizadas
+│
+├── Application/               # Casos de uso y capa de aplicación
+│   ├── Interfaces/            # Contratos de servicios
+│   ├── Models/               # Modelos de transferencia de datos (DTOs)
+│   │   ├── Request/          # Modelos para recibir datos
+│   │   └── Response/         # Modelos para enviar datos
+│   ├── Enums/                # Enumeraciones globales
+│   ├── Exceptions/           # Manejo de excepciones propias
+│   └── Services/             # Implementación de la lógica de aplicación
+│
+├── Infrastructure/            # Persistencia y acceso a datos
+│   ├── Data/                 # DbContext y configuración de base de datos
+│   ├── Command/              # Comandos de escritura (Create, Update, Delete)
+│   ├── Querys/               # Consultas de lectura
+│   ├── Migrations/           # Migraciones de EF Core
+│   └── Dependencies/         # Inyecciones de dependencias
+│
+├── TPRestaurante_Proyecto/    # API Web principal
+│   ├── Controllers/          # Controladores REST
+│   ├── Middleware/           # Middleware personalizado
+│   ├── Swagger/              # Configuración y documentación de la API
+│   ├── appsettings.json      # Configuración de la aplicación
+│   └── Program.cs            # Punto de entrada principal
 ```
 
 ## 📋 Entidades del Dominio
