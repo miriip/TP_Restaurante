@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TPindv_Proyecto_Guerra.Controller
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [Produces("application/json")]
     public class DishController : ControllerBase
@@ -98,7 +98,7 @@ namespace TPindv_Proyecto_Guerra.Controller
             [FromQuery] string? name, 
             [FromQuery(Name = "category")] int? category,
             [FromQuery(Name = "sortByPrice")] OrderPrice? sortByPrice = null,
-            [FromQuery] bool onlyActive = true)
+            [FromQuery] bool? onlyActive = null)
         {
             try
             {
@@ -116,11 +116,16 @@ namespace TPindv_Proyecto_Guerra.Controller
                 var list = await _searchDishesService.SearchAsync(name, effectiveCategoryId, priceOrder);
                 
                 // Aplicar filtro de estado activo ANTES de verificar resultados
-                if (onlyActive)
+                if (onlyActive==true)
                 {
                     list = list.Where(d => d.IsActive);
                 }
-                
+
+                if (onlyActive == false)
+                {
+                    list = list.Where(d => d.IsActive);
+                }
+
                 // Verificar si se encontraron resultados DESPUÉS de aplicar filtros
                 if (list == null || !list.Any())
                 {
@@ -129,22 +134,22 @@ namespace TPindv_Proyecto_Guerra.Controller
                     if (!string.IsNullOrWhiteSpace(name) && effectiveCategoryId.HasValue)
                     {
                         message = $"No se encontraron platos con el nombre '{name}' en la categoría especificada";
-                        if (onlyActive) message += " que estén activos";
+                        
                     }
                     else if (!string.IsNullOrWhiteSpace(name))
                     {
                         message = $"No se encontraron platos con el nombre '{name}'";
-                        if (onlyActive) message += " que estén activos";
+                        
                     }
                     else if (effectiveCategoryId.HasValue)
                     {
                         message = "No se encontraron platos en la categoría especificada";
-                        if (onlyActive) message += " que estén activos";
+                        
                     }
-                    else if (onlyActive)
+                   /* else if (onlyActive)
                     {
                         message = "No se encontraron platos activos";
-                    }
+                    }*/
                     
                     return NotFound(new ApiError(message));
                 }
