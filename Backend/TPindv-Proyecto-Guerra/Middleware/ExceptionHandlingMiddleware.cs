@@ -47,7 +47,7 @@ namespace TPindv_Proyecto_Guerra.Middleware
                     errorResponse = new ApiError(exception.Message);
                     break;
                 case CategoryNotFoundException:
-                    statusCode = HttpStatusCode.BadRequest;
+                    statusCode = HttpStatusCode.NotFound;
                     errorResponse = new ApiError(exception.Message);
                     break;
                 case CategoryNameNotFoundException:
