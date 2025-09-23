@@ -1,5 +1,6 @@
 using Application.Interfaces.IDish;
-using Application.Models.Request;
+using Application.Models.Request.Dish;
+using Application.Models.Response.Dish;
 using Application.Models.Response;
 using Domain.Entities;
 using Application.Exceptions;
@@ -19,7 +20,7 @@ namespace Application.Services.DishServices
             _dishQuery = query;
         }
 
-        public async Task<DishResponse> CreateDish(CreateDishRequest dishRequest)
+        public async Task<DishResponse> CreateDish(DishRequest dishRequest)
         {
             // Validar nombre
             if (string.IsNullOrWhiteSpace(dishRequest.Name))
@@ -66,7 +67,7 @@ namespace Application.Services.DishServices
                 Category = dishRequest.Category
             };
 
-            await _dishCommand.InsertDish(dish);
+            await _dishCommand.CreateDish(dish);
 
             return new DishResponse
             {

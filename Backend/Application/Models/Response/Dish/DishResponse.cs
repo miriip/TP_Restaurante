@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 
-namespace Application.Models.Response
+namespace Application.Models.Response.Dish
 {
     public class DishResponse
     {

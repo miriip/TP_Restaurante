@@ -78,6 +78,17 @@ namespace Application.Exceptions
     {
         public NoDishesInCategoryByNameException(string categoryName) : base($"No se encontraron platos en la categoría '{categoryName}'") { }
     }
+
+    public class InvalidDishIdFormatException : Exception
+    {
+        public InvalidDishIdFormatException() : base("Formato de ID inválido") { }
+    }
+
+    public class DishHasDependenciesException : Exception
+    {
+        public DishHasDependenciesException() : base("No se puede eliminar el plato porque tiene dependencias que impiden su eliminación") { }
+        public DishHasDependenciesException(string message) : base(message) { }
+    }
 }
 
 

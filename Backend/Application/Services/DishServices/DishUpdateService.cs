@@ -1,7 +1,8 @@
-using Application.Exceptions;
 using Application.Interfaces.IDish;
-using Application.Models.Request;
+using Application.Models.Request.Dish;
+using Application.Models.Response.Dish;
 using Application.Models.Response;
+using Application.Exceptions;
 using System;
 
 namespace Application.Services.DishServices
@@ -93,5 +94,4 @@ namespace Application.Services.DishServices
             };
         }
     }
-
 }

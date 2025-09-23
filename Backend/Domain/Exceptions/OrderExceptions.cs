@@ -3,7 +3,7 @@ using System;
 namespace Domain.Exceptions
 {
     // Excepciones de REGLAS DE NEGOCIO del Dominio (no de validación de entrada)
-    // Se usarán en la Parte 2 cuando implementemos órdenes/comandas.
+    // Para futuro.
 
     public class InvalidOrderStatusTransitionException : Exception
     {

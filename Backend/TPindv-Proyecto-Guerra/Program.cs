@@ -1,6 +1,11 @@
+using Application.Interfaces.ICategory;
+using Application.Interfaces.IDeliveryType;
 using Application.Interfaces.IDish;
+using Application.Interfaces.IOrder;
+using Application.Interfaces.IOrderItem;
+using Application.Interfaces.IStatus;
 using Application.Services;
-using Application.Services.DishServices;
+using Application.Services.StatusServices;
 using Asp.Versioning;
 using Infrastructure.Command;
 using Infrastructure.Data;
@@ -13,6 +18,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using TPindv_Proyecto_Guerra.Middleware;
 using TPindv_Proyecto_Guerra.Swagger;
+using TPindv_Proyecto_Guerra.Converters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,16 +29,58 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 //INJECTIONS
-//builder Dish
-builder.Services.AddScoped<IDishCommand, DishCommand>();
-builder.Services.AddScoped<IDishQuery, DishQuery>();
+// Dish interfaces
+builder.Services.AddScoped<Application.Interfaces.IDish.IDishCommand, Infrastructure.Command.DishCommand>();
+builder.Services.AddScoped<Application.Interfaces.IDish.IDishQuery, Infrastructure.Querys.DishQuery>();
+
+// Category interfaces
+builder.Services.AddScoped<Application.Interfaces.ICategory.ICategoryCommand, Infrastructure.Command.CategoryCommand>();
+builder.Services.AddScoped<Application.Interfaces.ICategory.ICategoryQuery, Infrastructure.Querys.CategoryQuery>();
+
+// Status interfaces
+builder.Services.AddScoped<Application.Interfaces.IStatus.IStatusCommand, Infrastructure.Command.StatusCommand>();
+builder.Services.AddScoped<Application.Interfaces.IStatus.IStatusQuery, Infrastructure.Querys.StatusQuery>();
+
+// DeliveryType interfaces
+builder.Services.AddScoped<Application.Interfaces.IDeliveryType.IDeliveryTypeCommand, Infrastructure.Command.DeliveryTypeCommand>();
+builder.Services.AddScoped<Application.Interfaces.IDeliveryType.IDeliveryTypeQuery, Infrastructure.Querys.DeliveryTypeQuery>();
+
+// Order interfaces
+builder.Services.AddScoped<Application.Interfaces.IOrder.IOrderCommand, Infrastructure.Command.OrderCommand>();
+builder.Services.AddScoped<Application.Interfaces.IOrder.IOrderQuery, Infrastructure.Querys.OrderQuery>();
+
+// OrderItem interfaces
+builder.Services.AddScoped<Application.Interfaces.IOrderItem.IOrderItemCommand, Infrastructure.Command.OrderItemCommand>();
+builder.Services.AddScoped<Application.Interfaces.IOrderItem.IOrderItemQuery, Infrastructure.Querys.OrderItemQuery>();
 
 // Servicios especializados
-builder.Services.AddScoped<ICreateDishService, DishCreationService>();
-builder.Services.AddScoped<ISearchDishesService, DishSearchService>();
-builder.Services.AddScoped<IUpdateDishService, DishUpdateService>();
+builder.Services.AddScoped<Application.Services.DishServices.DishCreationService>();
+builder.Services.AddScoped<Application.Services.DishServices.DishSearchService>();
+builder.Services.AddScoped<Application.Services.DishServices.DishUpdateService>();
+builder.Services.AddScoped<Application.Services.DishServices.DishDeleteService>();
 
-// Si se decide mantener una fachada IDishService, registrar aquÌ. Eliminado para usar casos de uso directos.
+// Servicios de Dish con interfaces espec√≠ficas
+builder.Services.AddScoped<Application.Interfaces.IDish.ICreateDishService, Application.Services.DishServices.DishCreationService>();
+builder.Services.AddScoped<Application.Interfaces.IDish.ISearchDishesService, Application.Services.DishServices.DishSearchService>();
+builder.Services.AddScoped<Application.Interfaces.IDish.IUpdateDishService, Application.Services.DishServices.DishUpdateService>();
+builder.Services.AddScoped<Application.Interfaces.IDish.IDeleteDishService, Application.Services.DishServices.DishDeleteService>();
+
+// Servicios de √≥rdenes (nombres descriptivos)
+builder.Services.AddScoped<Application.Interfaces.IOrder.IOrderCreationService, Application.Services.OrderServices.OrderCreationService>();
+builder.Services.AddScoped<Application.Interfaces.IOrder.IOrderListService, Application.Services.OrderServices.OrderListService>();
+builder.Services.AddScoped<Application.Interfaces.IOrder.IOrderDetailsService, Application.Services.OrderServices.OrderDetailsService>();
+builder.Services.AddScoped<Application.Interfaces.IOrder.IOrderUpdateService, Application.Services.OrderServices.OrderUpdateService>();
+
+// Servicios de OrderItem
+builder.Services.AddScoped<Application.Interfaces.IOrderItem.IOrderItemStatusUpdateService, Application.Services.OrderItemServices.OrderItemStatusUpdateService>();
+
+
+// Servicios de cat√°logos
+builder.Services.AddScoped<Application.Interfaces.ICategory.ICategoryListService, Application.Services.CategoryServices.CategoryListService>();
+builder.Services.AddScoped<Application.Interfaces.IDeliveryType.IDeliveryTypeListService, Application.Services.DeliveryTypeServices.DeliveryTypeListService>();
+builder.Services.AddScoped<Application.Interfaces.IStatus.IStatusListService, Application.Services.StatusServices.StatusListService>();
+
+// Si se decide mantener una fachada IDishService, registrar aqu√≠. Eliminado para usar casos de uso directos.
 
 builder.Services.AddControllers()
     .ConfigureApiBehaviorOptions(options =>
@@ -44,8 +92,9 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString;
         options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
         options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+        // Configurar formato de fecha para que coincida con la API del profesor
+        options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
     });
-
 
 builder.Services.AddApiVersioning(options =>
 {
@@ -67,7 +116,7 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = "Restaurant API",
         Version = "1.0",
-        Description = "API para la gestiÛn de platos en un restaurante",
+        Description = "API para la gesti√≥n de platos en un restaurante",
         Contact = new OpenApiContact
         {
             Name = "Restaurant API Support",
@@ -75,7 +124,7 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 
-    // Incluir comentarios XML para mejor documentaciÛn
+    // Incluir comentarios XML para mejor documentaci√≥n
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     if (File.Exists(xmlPath))
@@ -95,7 +144,7 @@ if (app.Environment.IsDevelopment())
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Restaurant API v1");
         c.RoutePrefix = "swagger";
-        c.DocumentTitle = "Restaurant API - DocumentaciÛn";
+        c.DocumentTitle = "Restaurant API - Documentaci√≥n";
     });
 }
 
@@ -116,3 +165,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+

@@ -1,6 +1,7 @@
-using Application.Exceptions;
 using Application.Interfaces.IDish;
+using Application.Models.Response.Dish;
 using Application.Models.Response;
+using Application.Exceptions;
 using System;
 using System.Linq;
 
@@ -15,7 +16,7 @@ namespace Application.Services.DishServices
             _dishQuery = query;
         }
 
-        public async Task<IEnumerable<DishResponse>> SearchAsync(string? name, int? categoryId, string? priceOrder)
+        public async Task<IEnumerable<DishResponse>> SearchAsync(string? name, int? categoryId, string? priceOrder, bool? onlyActive)
         {
             if (!string.IsNullOrWhiteSpace(priceOrder))
             {
@@ -26,44 +27,9 @@ namespace Application.Services.DishServices
                 }
             }
 
-            var list = await _dishQuery.GetAllAsync(name, categoryId, priceOrder);
-
-            // Verificar si se encontraron resultados
-            if (!list.Any())
-            {
-                if (!string.IsNullOrWhiteSpace(name) && categoryId.HasValue)
-                {
-                    // Buscar por nombre y categoría
-                    var category = await _dishQuery.GetCategoryById(categoryId.Value);
-                    if (category != null)
-                    {
-                        throw new NoDishesInCategoryByNameException(category.Name);
-                    }
-                    else
-                    {
-                        throw new NoDishesInCategoryException(categoryId.Value);
-                    }
-                }
-                else if (!string.IsNullOrWhiteSpace(name))
-                {
-                    // Buscar solo por nombre
-                    throw new NoDishesFoundException(name);
-                }
-                else if (categoryId.HasValue)
-                {
-                    // Buscar solo por categoría
-                    var category = await _dishQuery.GetCategoryById(categoryId.Value);
-                    if (category != null)
-                    {
-                        throw new NoDishesInCategoryException(categoryId.Value);
-                    }
-                    else
-                    {
-                        throw new NoDishesInCategoryException(categoryId.Value);
-                    }
-                }
-                // Si no hay filtros, no lanzar excepción (puede ser que no haya platos en la base)
-            }
+            // Pasar onlyActive (true: solo activos; false: todos; null: por defecto true)
+            var effectiveOnlyActive = onlyActive ?? true;
+            var list = await _dishQuery.GetAllAsync(name, categoryId, priceOrder, effectiveOnlyActive);
 
             return list.Select(dish => new DishResponse
             {

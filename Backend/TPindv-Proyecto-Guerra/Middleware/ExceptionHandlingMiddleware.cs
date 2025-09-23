@@ -47,7 +47,7 @@ namespace TPindv_Proyecto_Guerra.Middleware
                     errorResponse = new ApiError(exception.Message);
                     break;
                 case CategoryNotFoundException:
-                    statusCode = HttpStatusCode.NotFound;
+                    statusCode = HttpStatusCode.BadRequest;
                     errorResponse = new ApiError(exception.Message);
                     break;
                 case CategoryNameNotFoundException:
@@ -98,8 +98,77 @@ namespace TPindv_Proyecto_Guerra.Middleware
                     statusCode = HttpStatusCode.NotFound;
                     errorResponse = new ApiError(exception.Message);
                     break;
+                // Order exceptions
+                case OrderNotFoundException:
+                    statusCode = HttpStatusCode.NotFound;
+                    errorResponse = new ApiError(exception.Message);
+                    break;
+                case OrderItemNotFoundException:
+                    statusCode = HttpStatusCode.NotFound;
+                    errorResponse = new ApiError(exception.Message);
+                    break;
+                case InvalidOrderDataException:
+                    statusCode = HttpStatusCode.BadRequest;
+                    errorResponse = new ApiError(exception.Message);
+                    break;
+                case InvalidOrderStatusException:
+                    statusCode = HttpStatusCode.BadRequest;
+                    errorResponse = new ApiError(exception.Message);
+                    break;
+                case InvalidOrderStatusTransitionException:
+                    statusCode = HttpStatusCode.BadRequest;
+                    errorResponse = new ApiError(exception.Message);
+                    break;
+                case OrderInProgressException:
+                    statusCode = HttpStatusCode.BadRequest;
+                    errorResponse = new ApiError(exception.Message);
+                    break;
+                case OrderClosedException:
+                    statusCode = HttpStatusCode.BadRequest;
+                    errorResponse = new ApiError(exception.Message);
+                    break;
+                case InvalidOrderItemQuantityException:
+                    statusCode = HttpStatusCode.BadRequest;
+                    errorResponse = new ApiError(exception.Message);
+                    break;
+                case DishNotAvailableException:
+                    statusCode = HttpStatusCode.BadRequest;
+                    errorResponse = new ApiError(exception.Message);
+                    break;
+                case InvalidDeliveryTypeException:
+                    statusCode = HttpStatusCode.BadRequest;
+                    errorResponse = new ApiError(exception.Message);
+                    break;
+                case EmptyOrderItemsException:
+                    statusCode = HttpStatusCode.BadRequest;
+                    errorResponse = new ApiError(exception.Message);
+                    break;
+                case InvalidOrderIdFormatException:
+                    statusCode = HttpStatusCode.BadRequest;
+                    errorResponse = new ApiError(exception.Message);
+                    break;
+                case InvalidOrderItemIdFormatException:
+                    statusCode = HttpStatusCode.BadRequest;
+                    errorResponse = new ApiError(exception.Message);
+                    break;
+                case OrderCannotBeDeletedException:
+                    statusCode = HttpStatusCode.Conflict;
+                    errorResponse = new ApiError(exception.Message);
+                    break;
+                case DishHasDependenciesException:
+                    statusCode = HttpStatusCode.Conflict;
+                    errorResponse = new ApiError(exception.Message);
+                    break;
+                case InvalidDateRangeException:
+                    statusCode = HttpStatusCode.BadRequest;
+                    errorResponse = new ApiError(exception.Message);
+                    break;
+                case InvalidSearchParametersException:
+                    statusCode = HttpStatusCode.BadRequest;
+                    errorResponse = new ApiError(exception.Message);
+                    break;
                 default:
-                    _logger.LogError(exception, "Error no manejado: {Message}", exception.Message);
+                    _logger.LogError(exception, "Error no manejado: {Message} - Tipo: {ExceptionType}", exception.Message, exception.GetType().Name);
                     break;
             }
 

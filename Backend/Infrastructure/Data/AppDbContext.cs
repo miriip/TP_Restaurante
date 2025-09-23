@@ -42,7 +42,7 @@ namespace Infrastructure.Data
                     new Category { Id = 7, Name = "Sandwiches", Description = "Sandwiches y lomitos completos preparados al momento.", Order = 6 },
                     new Category { Id = 8, Name = "Bebidas", Description = "Gaseosas, jugos, aguas y opciones sin alcohol.", Order = 8 },
                     new Category { Id = 9, Name = "Cerveza Artesanal", Description = "Cervezas de producción artesanal, rubias, rojas y negras.", Order = 9 },
-                    new Category { Id = 10, Name = "Postres", Description = "Clásicos dulces caseros para cerrar la comida.", Order = 10 });
+                    new Category { Id = 10,Name = "Postres", Description = "Clásicos dulces caseros para cerrar la comida.", Order = 10 });
             });
 
 
@@ -81,11 +81,11 @@ namespace Infrastructure.Data
                 entity.HasKey(s => s.Id);
                 entity.Property(s => s.Name).IsRequired().HasMaxLength(25);
                 entity.HasData(
-                    new Status { Id = 1, Name = "Pending" },
-                    new Status { Id = 2, Name = "In progress" },
-                    new Status { Id = 3, Name = "Ready" },
-                    new Status { Id = 4, Name = "Delivery" },
-                    new Status { Id = 5, Name = "Closed" }
+                    new Status { Id = 1, Name = "Pendiente" },
+                    new Status { Id = 2, Name = "En preparación" },
+                    new Status { Id = 3, Name = "Listo" },
+                    new Status { Id = 4, Name = "Entregado" },
+                    new Status { Id = 5, Name = "Cancelado" }
                 );
             });
 
@@ -122,7 +122,7 @@ namespace Infrastructure.Data
 
                 // Order (1) ---- (N) OrderItem
                 entity.HasOne(oi => oi.OrderRef)
-                      .WithMany(o => o.OrderItems)
+                      .WithMany(o => o.OrderItems)        
                       .HasForeignKey(oi => oi.Order)
                       .OnDelete(DeleteBehavior.Cascade);
 
@@ -153,4 +153,3 @@ namespace Infrastructure.Data
         }
     }
 }
-

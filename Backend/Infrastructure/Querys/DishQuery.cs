@@ -1,29 +1,36 @@
-﻿using Domain.Entities;
+using Application.Interfaces.IDish;
+using Domain.Entities;
+using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Infrastructure.Data;
-using Application.Interfaces.IDish;
 
 namespace Infrastructure.Querys
 {
     public class DishQuery : IDishQuery
     {
         private readonly AppDbContext _context;
+        
         public DishQuery(AppDbContext context)
         {
             _context = context;
         }
 
-        public async Task<IEnumerable<Dish>> GetAllAsync(string? name = null, int? categoryId = null, string? priceOrder = null)
+        public async Task<IEnumerable<Dish>> GetAllAsync(string? name = null, int? categoryId = null, string? priceOrder = null, bool? onlyActive = true)
         {
             var query = _context.Dishes
                 .Include(d => d.CategoryRef)
                 .AsNoTracking()
                 .AsQueryable();
+
+            // Aplicar filtro de disponibilidad en la base de datos
+            if (onlyActive.HasValue && onlyActive.Value)
+            {
+                query = query.Where(d => d.Available);
+            }
+            // Si onlyActive es false, no aplicamos filtro (traemos todos)
 
             if (!string.IsNullOrWhiteSpace(name))
             {
@@ -50,19 +57,19 @@ namespace Infrastructure.Querys
 
             return await query.ToListAsync();
         }
-
+       
         public async Task<Dish?> GetDishById(Guid id)
         {
             var dish = await _context.Dishes
                 .FirstOrDefaultAsync(d => d.DishId == id);
-
+            
             if (dish != null)
             {
                 // Cargar la categoría por separado
                 dish.CategoryRef = await _context.Categories
                     .FirstOrDefaultAsync(c => c.Id == dish.Category);
             }
-
+            
             return dish;
         }
 
@@ -70,14 +77,14 @@ namespace Infrastructure.Querys
         {
             var dish = await _context.Dishes
                 .FirstOrDefaultAsync(d => d.Name == name);
-
+            
             if (dish != null)
             {
                 // Cargar la categoría por separado
                 dish.CategoryRef = await _context.Categories
                     .FirstOrDefaultAsync(c => c.Id == dish.Category);
             }
-
+            
             return dish;
         }
 
@@ -88,4 +95,3 @@ namespace Infrastructure.Querys
         }
     }
 }
-
