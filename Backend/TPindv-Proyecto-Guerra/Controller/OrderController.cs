@@ -125,7 +125,7 @@ namespace TPindv_Proyecto_Guerra.Controller
         /// <response code="200">Estado del item actualizado exitosamente</response>
         /// <response code="400">Estado inválido o transición no permitida</response>
         /// <response code="404">Orden o item no encontrado</response>
-        [HttpPut("{id}/item/{itemId}")]
+        [HttpPatch("{id}/item/{itemId}")]
         [ProducesResponseType(typeof(OrderUpdateResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiError), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiError), StatusCodes.Status404NotFound)]
