@@ -86,6 +86,10 @@ namespace TPindv_Proyecto_Guerra.Middleware
                     statusCode = HttpStatusCode.BadRequest;
                     errorResponse = new ApiError(exception.Message);
                     break;
+                case InvalidDishIdFormatException:
+                    statusCode = HttpStatusCode.BadRequest;
+                    errorResponse = new ApiError(exception.Message);
+                    break;
                 case NoDishesFoundException:
                     statusCode = HttpStatusCode.NotFound;
                     errorResponse = new ApiError(exception.Message);
