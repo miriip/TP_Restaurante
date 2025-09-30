@@ -102,12 +102,6 @@ namespace Application.Services.OrderItemServices
                 return; // No hay items, mantener estado actual
             }
 
-            // Lógica para determinar el estado general basado en los items:
-            // 1. Si algún item está cancelado (5) → Orden cancelada (5)
-            // 2. Si todos los items están entregados (4) → Orden entregada (4)
-            // 3. Si todos los items están listos (3) → Orden lista (3)
-            // 4. Si algún item está en preparación (2) → Orden en preparación (2)
-            // 5. Si todos están pendientes (1) → Orden pendiente (1)
 
             var hasCancelledItems = orderItems.Any(item => item.Status == 5);
             if (hasCancelledItems)
