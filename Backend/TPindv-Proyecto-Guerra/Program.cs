@@ -28,7 +28,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-//INJECTIONS
+// INJECTIONS
 // Dish interfaces
 builder.Services.AddScoped<Application.Interfaces.IDish.IDishCommand, Infrastructure.Command.DishCommand>();
 builder.Services.AddScoped<Application.Interfaces.IDish.IDishQuery, Infrastructure.Querys.DishQuery>();
@@ -74,14 +74,12 @@ builder.Services.AddScoped<Application.Interfaces.IOrder.IOrderUpdateService, Ap
 // Servicios de OrderItem
 builder.Services.AddScoped<Application.Interfaces.IOrderItem.IOrderItemStatusUpdateService, Application.Services.OrderItemServices.OrderItemStatusUpdateService>();
 
-
 // Servicios de catálogos
 builder.Services.AddScoped<Application.Interfaces.ICategory.ICategoryListService, Application.Services.CategoryServices.CategoryListService>();
 builder.Services.AddScoped<Application.Interfaces.IDeliveryType.IDeliveryTypeListService, Application.Services.DeliveryTypeServices.DeliveryTypeListService>();
 builder.Services.AddScoped<Application.Interfaces.IStatus.IStatusListService, Application.Services.StatusServices.StatusListService>();
 
-// Si se decide mantener una fachada IDishService, registrar aquí. Eliminado para usar casos de uso directos.
-
+// Controllers y JSON
 builder.Services.AddControllers()
     .ConfigureApiBehaviorOptions(options =>
     {
@@ -92,10 +90,11 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString;
         options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
         options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
-        // Configurar formato de fecha para que coincida con la API del profesor
+        // Formato de fecha compatible con la API del profesor
         options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
     });
 
+// Versionado de API
 builder.Services.AddApiVersioning(options =>
 {
     options.DefaultApiVersion = new ApiVersion(1, 0);
@@ -108,7 +107,7 @@ builder.Services.AddApiVersioning(options =>
     options.SubstituteApiVersionInUrl = true;
 });
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -124,7 +123,7 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 
-    // Incluir comentarios XML para mejor documentación
+    // Incluir comentarios XML si existen
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     if (File.Exists(xmlPath))
@@ -134,9 +133,21 @@ builder.Services.AddSwaggerGen(c =>
     c.OperationFilter<ExamplesOperationFilter>();
 });
 
+// CORS para permitir el front en 127.0.0.1:5500 y localhost:5500
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FrontendPolicy", policy =>
+    {
+        policy.WithOrigins("http://127.0.0.1:5500", "http://localhost:5500")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+        // .AllowCredentials(); // habilitar solo si usás cookies/autenticación
+    });
+});
+
 var app = builder.Build();
 
-// Mostrar Swagger solo en desarrollo
+// Swagger en desarrollo
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -157,12 +168,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// Agregar middleware de manejo de excepciones
+// Middleware de excepciones
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+// Aplicar CORS antes de MapControllers
+app.UseCors("FrontendPolicy");
 
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
-

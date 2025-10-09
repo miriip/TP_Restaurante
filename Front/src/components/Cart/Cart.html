@@ -1,0 +1,28 @@
+<section id="comanda" class="view hidden">
+    <h1 class="view__title">Mi comanda</h1>
+    <div id="cartItems" class="list"></div>
+    <div class="cart__footer">
+        <label class="select">
+            <span>Entrega</span>
+            <select id="deliveryTypeSelect"></select>
+        </label>
+        <label class="select" id="deliveryToWrap">
+            <span id="deliveryToLabel">Para</span>
+            <input id="deliveryToInput" class="input" type="text" placeholder="Nombre del comensal" />
+        </label>
+        <label class="select hidden" id="deliveryAddressWrap">
+            <span>Dirección</span>
+            <input id="deliveryAddressInput" class="input" type="text" placeholder="Calle, número, piso" list="addressHistoryList" />
+            <datalist id="addressHistoryList"></datalist>
+        </label>
+        <div class="total">
+            <span>Total:</span>
+            <strong id="cartTotal">$0</strong>
+        </div>
+        <label class="select" style="flex:1; min-width: 240px;">
+            <span>Notas del pedido</span>
+            <input id="orderNotesInput" class="input" type="text" placeholder="Sin queso, sin sal, etc." />
+        </label>
+        <button id="confirmOrderBtn" class="btn btn--primary">Confirmar pedido</button>
+    </div>
+</section>

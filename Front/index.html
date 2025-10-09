@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rosso & Oro - Elegancia que se sirve</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+    <header class="header">
+        <div class="container header__content">
+            <div class="brand">
+                <img src="./assets/logo.svg" alt="Rosso & Oro" class="brand__logo" />
+                <span class="brand__name">Rosso & Oro</span>
+            </div>
+            <nav class="nav">
+                <a href="#menu" class="nav__link">Menú</a>
+                <a href="#comanda" class="nav__link">Mi comanda</a>
+                <a href="#mis-ordenes" class="nav__link">Mis órdenes</a>
+                <a id="panelLink" href="#panel-ordenes" class="nav__link">Panel</a>
+                <label class="toggle" style="margin-left:12px">
+                    <input id="roleToggle" type="checkbox" />
+                    <span id="roleLabel">Rol: Cliente</span>
+                </label>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main container">
+        <section id="welcome" class="view welcome-page">
+            <div class="welcome-content">
+                <div class="welcome-logo">
+                    <img src="./assets/logo.svg" alt="Rosso & Oro" class="welcome-logo__img" />
+                    <h1 class="welcome-title">Rosso & Oro</h1>
+                    <p class="welcome-subtitle">Elegancia que se sirve</p>
+                </div>
+                
+                <div class="welcome-info">
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                        </div>
+                        <div class="info-text">
+                            <span class="info-label">Dirección</span>
+                            <span class="info-value">Av. Corrientes 1234, Buenos Aires</span>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                                <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                            </svg>
+                        </div>
+                        <div class="info-text">
+                            <span class="info-label">Teléfono</span>
+                            <span class="info-value">+54 11 4567-8900</span>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </div>
+                        <div class="info-text">
+                            <span class="info-label">Instagram</span>
+                            <span class="info-value">@rossooro_restaurant</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="enterBtn" class="welcome-btn">Ingresar al Menú</button>
+            </div>
+        </section>
+
+        <section id="menu" class="view hidden">
+            <h1 class="view__title">Menú</h1>
+            <div class="toolbar">
+                <div class="toolbar__search">
+                    <input id="searchInput" class="input" type="search" placeholder="Buscar platos..." />
+                </div>
+                
+                <div class="toolbar__filters">
+                    <div class="filter-group">
+                        <label class="filter-label">Categorías</label>
+                        <div id="categoriesTabs" class="tabs"></div>
+                    </div>
+                    
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Ordenar por</label>
+                        <div class="sort-buttons">
+                            <button id="sortName" class="sort-btn" data-sort="name">
+                                <span>Nombre</span>
+                            </button>
+                            <button id="sortPrice" class="sort-btn" data-sort="price">
+                                <span>Precio</span>
+                            </button>
+                            <button id="sortPopular" class="sort-btn" data-sort="popular">
+                                <span>Popularidad</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Rango de precio</label>
+                        <div class="price-range">
+                            <input id="priceMin" class="price-input" type="number" placeholder="Mín" min="0" />
+                            <span class="price-separator">-</span>
+                            <input id="priceMax" class="price-input" type="number" placeholder="Máx" min="0" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="dishesGrid" class="grid"></div>
+        </section>
+
+        <section id="detalle-plato" class="view hidden"></section>
+
+        <section id="comanda" class="view hidden">
+            <h1 class="view__title">Mi comanda</h1>
+            <div id="cartItems" class="list"></div>
+            <div class="cart__footer">
+                <label class="select">
+                    <span>Entrega</span>
+                    <select id="deliveryTypeSelect"></select>
+                </label>
+                <label class="select" id="deliveryToWrap">
+                    <span id="deliveryToLabel">Para</span>
+                    <input id="deliveryToInput" class="input" type="text" placeholder="Nombre del comensal" />
+                </label>
+                <label class="select hidden" id="deliveryAddressWrap">
+                    <span>Dirección</span>
+                    <input id="deliveryAddressInput" class="input" type="text" placeholder="Calle, número, piso" list="addressHistoryList" />
+                    <datalist id="addressHistoryList"></datalist>
+                </label>
+                <div class="total">
+                    <span>Total:</span>
+                    <strong id="cartTotal">$0</strong>
+                </div>
+                <label class="select" style="flex:1; min-width: 240px;">
+                    <span>Notas del pedido</span>
+                    <input id="orderNotesInput" class="input" type="text" placeholder="Sin queso, sin sal, etc." />
+                </label>
+                <button id="confirmOrderBtn" class="btn btn--primary">Confirmar pedido</button>
+            </div>
+        </section>
+
+        <section id="mis-ordenes" class="view hidden">
+            <h1 class="view__title">Mis órdenes</h1>
+            <div id="myOrdersList" class="list"></div>
+        </section>
+
+        <section id="panel-ordenes" class="view hidden">
+            <h1 class="view__title">Panel de órdenes</h1>
+            <div class="toolbar">
+                <label class="select">
+                    <span>Estado</span>
+                    <select id="panelStatusFilter">
+                        <option value="all">Todos</option>
+                    </select>
+                </label>
+            </div>
+            <div id="ordersPanel" class="list"></div>
+        </section>
+    </main>
+
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+    <script type="module" src="./js/router.js"></script>
+    <script type="module" src="./js/menu.js"></script>
+    <script type="module" src="./js/dish-detail.js"></script>
+    <script type="module" src="./js/cart.js"></script>
+    <script type="module" src="./js/orders.js"></script>
+    <script type="module" src="./js/admin-panel.js"></script>
+    <script type="module" src="./js/api.js"></script>
+    <script type="module" src="./js/utils.js"></script>
+</body>
+</html>
+
+

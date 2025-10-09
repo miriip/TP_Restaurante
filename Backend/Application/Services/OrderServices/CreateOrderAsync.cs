@@ -63,8 +63,8 @@ namespace Application.Services.OrderServices
                 OverallStatus = 1,
                 Notes = orderRequest.Notes,
                 Price = totalAmount,
-                CreateDate = DateTime.UtcNow,
-                UpdateDate = DateTime.UtcNow
+                CreateDate = DateTime.Now,
+                UpdateDate = DateTime.Now
             };
 
             await _orderCommand.CreateOrderAsync(order);
@@ -78,7 +78,7 @@ namespace Application.Services.OrderServices
                     Notes = item.Notes,
                     Dish = item.Id,
                     Status = 1,
-                    CreateDate = DateTime.UtcNow
+                    CreateDate = DateTime.Now
                 };
                 await _orderItemCommand.CreateOrderItemAsync(orderItem);
             }

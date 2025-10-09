@@ -83,7 +83,7 @@ namespace Application.Services.OrderServices
                     Notes = item.Notes,
                     Dish = item.Id,
                     Status = 1,
-                    CreateDate = DateTime.UtcNow
+                    CreateDate = DateTime.Now
                 };
                 await _orderItemCommand.CreateOrderItemAsync(newItem);
             }
@@ -91,7 +91,7 @@ namespace Application.Services.OrderServices
             // Actualizar el precio total de la orden
             order.Price = totalAmount;
 
-            order.UpdateDate = DateTime.UtcNow;
+            order.UpdateDate = DateTime.Now;
             await _orderCommand.UpdateOrderAsync(order);
 
             return new OrderUpdateResponse

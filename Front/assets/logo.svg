@@ -1,0 +1,17 @@
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Copa de vino realista -->
+  <!-- Cuerpo de la copa (parte ancha) -->
+  <ellipse cx="20" cy="18" rx="6" ry="8" fill="#8B0000"/>
+  
+  <!-- Líquido rojo dentro de la copa -->
+  <ellipse cx="20" cy="16" rx="5" ry="6" fill="#A00000"/>
+  
+  <!-- Tallo de la copa -->
+  <rect x="19" y="26" width="2" height="8" fill="#8B0000"/>
+  
+  <!-- Base de la copa -->
+  <ellipse cx="20" cy="34" rx="4" ry="2" fill="#8B0000"/>
+  
+  <!-- Borde superior de la copa -->
+  <ellipse cx="20" cy="10" rx="6" ry="1" fill="#8B0000"/>
+</svg>

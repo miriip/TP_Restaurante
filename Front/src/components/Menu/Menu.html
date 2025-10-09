@@ -1,0 +1,40 @@
+<section id="menu" class="view hidden">
+    <h1 class="view__title">Menú</h1>
+    <div class="toolbar">
+        <div class="toolbar__search">
+            <input id="searchInput" class="input" type="search" placeholder="Buscar platos..." />
+        </div>
+        
+        <div class="toolbar__filters">
+            <div class="filter-group">
+                <label class="filter-label">Categorías</label>
+                <div id="categoriesTabs" class="tabs"></div>
+            </div>
+            
+            <div class="filter-group">
+                <label class="filter-label">Ordenar por</label>
+                <div class="sort-buttons">
+                    <button id="sortName" class="sort-btn" data-sort="name">
+                        <span>Nombre</span>
+                    </button>
+                    <button id="sortPrice" class="sort-btn" data-sort="price">
+                        <span>Precio</span>
+                    </button>
+                    <button id="sortPopular" class="sort-btn" data-sort="popular">
+                        <span>Popularidad</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="filter-group">
+                <label class="filter-label">Rango de precio</label>
+                <div class="price-range">
+                    <input id="priceMin" class="price-input" type="number" placeholder="Mín" min="0" />
+                    <span class="price-separator">-</span>
+                    <input id="priceMax" class="price-input" type="number" placeholder="Máx" min="0" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="dishesGrid" class="grid"></div>
+</section>
