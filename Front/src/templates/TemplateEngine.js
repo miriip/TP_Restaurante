@@ -19,7 +19,7 @@ export class TemplateEngine {
 
         for (const templateName of templateModules) {
             try {
-                const module = await import(`../templates/${templateName}.js`);
+                const module = await import(`./${templateName}.js`);
                 this.templates.set(templateName, module.default);
             } catch (error) {
                 console.warn(`Template ${templateName} not found:`, error);

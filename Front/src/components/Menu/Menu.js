@@ -3,7 +3,7 @@
  * Maneja la lógica del menú de platos
  */
 import { api } from '../../services/api.js';
-import { createEl, toast } from '../../utils/utils.js';
+import { createEl, toast, debounce, formatPrice, getFallbackImage } from '../../utils/utils.js';
 
 export class Menu {
     constructor() {
@@ -14,189 +14,218 @@ export class Menu {
         this.priceMin = document.getElementById('priceMin');
         this.priceMax = document.getElementById('priceMax');
         
-        this.dishes = [];
-        this.filteredDishes = [];
-        this.currentCategory = 'all';
-        this.currentSort = 'name';
+        this.state = { 
+            categories: [], 
+            dishes: [], 
+            activeCategoryId: null, 
+            query: '', 
+            priceMin: null,
+            priceMax: null,
+            sort: 'none',
+            sortDirection: 'asc'
+        };
         
         this.init();
     }
 
     async init() {
-        await this.loadDishes();
         await this.loadCategories();
+        await this.loadDishes();
         this.setupEventListeners();
         this.renderDishes();
     }
 
-    async loadDishes() {
-        try {
-            this.dishes = await api.getAllDishes();
-            this.filteredDishes = [...this.dishes];
-        } catch (error) {
-            console.error('Error loading dishes:', error);
-            toast('Error al cargar el menú');
-        }
-    }
-
     async loadCategories() {
         try {
-            const categories = await api.getAllCategories();
-            this.renderCategories(categories);
-        } catch (error) {
-            console.error('Error loading categories:', error);
+            this.state.categories = await api.getAllCategories();
+            this.renderCategories();
+        } catch (e) {
+            console.error('Error cargando categorías', e);
+            toast('No se pudo cargar categorías. Verificá la API.');
         }
     }
 
-    renderCategories(categories) {
-        this.categoriesTabs.innerHTML = '';
-        
-        const allTab = createEl('button', 'tab active', 'Todos');
-        allTab.addEventListener('click', () => this.filterByCategory('all'));
-        this.categoriesTabs.appendChild(allTab);
+    async loadDishes() {
+        try {
+            const params = new URLSearchParams();
+            if (this.state.query) params.append('search', this.state.query);
+            if (this.state.activeCategoryId) params.append('categoryId', this.state.activeCategoryId);
+            if (this.state.sort !== 'none') params.append('sort', this.state.sort);
+            
+            let list = await api.getAllDishes(params.toString());
+            
+            // Aplicar filtros adicionales en el frontend
+            list = this.applyFrontendFilters(list);
+            
+            this.state.dishes = list;
+            this.renderDishes();
+        } catch (e) {
+            console.error('Error cargando platos', e);
+            toast('No se pudo cargar el menú. Verificá la API.');
+        }
+    }
 
-        categories.forEach(category => {
-            const tab = createEl('button', 'tab', category.name);
-            tab.addEventListener('click', () => this.filterByCategory(category.id));
-            this.categoriesTabs.appendChild(tab);
+    applyFrontendFilters(dishes) {
+        return dishes.filter(dish => {
+            // Filtro de precio
+            if (this.state.priceMin !== null && dish.price < this.state.priceMin) return false;
+            if (this.state.priceMax !== null && dish.price > this.state.priceMax) return false;
+            
+            return true;
+        }).sort((a, b) => {
+            if (this.state.sort === 'name') {
+                return this.state.sortDirection === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+            }
+            if (this.state.sort === 'price') {
+                return this.state.sortDirection === 'asc' ? a.price - b.price : b.price - a.price;
+            }
+            if (this.state.sort === 'popular') {
+                const aPopularity = a.popularity || Math.random();
+                const bPopularity = b.popularity || Math.random();
+                return this.state.sortDirection === 'asc' ? aPopularity - bPopularity : bPopularity - aPopularity;
+            }
+            return 0;
         });
+    }
+
+    renderCategories() {
+        this.categoriesTabs.innerHTML = '';
+        const all = createEl('button', `tab ${this.state.activeCategoryId ? '' : 'tab--active'}`, 'Todas');
+        all.addEventListener('click', () => { 
+            this.state.activeCategoryId = null; 
+            this.loadDishes(); 
+            this.highlightActive(); 
+        });
+        this.categoriesTabs.appendChild(all);
+        
+        for (const c of this.state.categories) {
+            const btn = createEl('button', `tab ${this.state.activeCategoryId === c.id ? 'tab--active' : ''}`, c.name);
+            btn.addEventListener('click', () => { 
+                this.state.activeCategoryId = c.id; 
+                this.loadDishes(); 
+                this.highlightActive(); 
+            });
+            this.categoriesTabs.appendChild(btn);
+        }
+    }
+
+    highlightActive() {
+        [...this.categoriesTabs.children].forEach((el, i) => {
+            const isAll = i === 0 && !this.state.activeCategoryId;
+            el.classList.toggle('tab--active', isAll || this.state.categories[i-1]?.id === this.state.activeCategoryId);
+        });
+    }
+
+    renderDishes() {
+        const filtered = this.state.dishes;
+        this.dishesGrid.innerHTML = '';
+        
+        if (!filtered.length) {
+            const msg = createEl('div', 'row', 'No hay platos que coincidan con los filtros seleccionados.');
+            this.dishesGrid.appendChild(msg);
+            return;
+        }
+        
+        for (const d of filtered) {
+            const card = createEl('article', 'card');
+            const img = createEl('img', 'card__media');
+            img.src = d.imageUrl || getFallbackImage(d.name || d.id);
+            img.onerror = () => { img.src = getFallbackImage(d.name || d.id); };
+            img.alt = d.name || 'Plato';
+            
+            const body = createEl('div', 'card__body');
+            const title = createEl('h3', 'card__title card__title--center', d.name);
+            const meta = createEl('div', 'card__meta');
+            const price = createEl('span', 'price', formatPrice(d.price));
+            const chip = createEl('span', `chip ${d.isAvailable ? 'chip--ok' : 'chip--off'}`, d.isAvailable ? 'Disponible' : 'Sin stock');
+            
+            const actions = createEl('div', 'row__actions');
+            const btn = createEl('button', 'btn btn--primary btn--pill', 'Ver detalle');
+            btn.addEventListener('click', () => { 
+                location.hash = `#detalle-plato/${d.id}`; 
+            });
+            
+            const quick = createEl('button', 'btn btn--ghost btn--pill', 'Agregar');
+            quick.addEventListener('click', () => {
+                if (!d.isAvailable) { 
+                    toast('El plato no está disponible'); 
+                    return; 
+                }
+                this.addToCart({ dishId: d.id, name: d.name, price: d.price, quantity: 1 });
+                toast('Agregado a la comanda');
+                location.hash = '#comanda';
+            });
+            
+            meta.append(price, chip);
+            actions.append(btn, quick);
+            body.append(title, meta, actions);
+            card.append(img, body);
+            this.dishesGrid.appendChild(card);
+        }
     }
 
     setupEventListeners() {
         // Search
         if (this.searchInput) {
-            this.searchInput.addEventListener('input', (e) => {
-                this.filterDishes(e.target.value);
-            });
+            this.searchInput.addEventListener('input', debounce((e) => { 
+                this.state.query = e.target.value.trim(); 
+                this.loadDishes(); 
+            }, 300));
+        }
+
+        // Price filters
+        if (this.priceMin) {
+            this.priceMin.addEventListener('input', debounce((e) => { 
+                this.state.priceMin = e.target.value ? parseFloat(e.target.value) : null; 
+                this.loadDishes(); 
+            }, 300));
+        }
+        
+        if (this.priceMax) {
+            this.priceMax.addEventListener('input', debounce((e) => { 
+                this.state.priceMax = e.target.value ? parseFloat(e.target.value) : null; 
+                this.loadDishes(); 
+            }, 300));
         }
 
         // Sort buttons
         this.sortButtons.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                this.sortDishes(e.target.dataset.sort);
+            btn.addEventListener('click', () => {
+                const sortType = btn.dataset.sort;
+                
+                if (this.state.sort === sortType) {
+                    this.state.sortDirection = this.state.sortDirection === 'asc' ? 'desc' : 'asc';
+                } else {
+                    this.state.sort = sortType;
+                    this.state.sortDirection = 'asc';
+                }
+                
+                // Actualizar UI
+                this.sortButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Agregar indicador de dirección
+                const span = btn.querySelector('span');
+                if (span) {
+                    span.textContent = btn.dataset.sort === 'name' ? 'Nombre' : 
+                                      btn.dataset.sort === 'price' ? 'Precio' : 'Popularidad';
+                    if (this.state.sortDirection === 'desc') {
+                        span.textContent += ' ↓';
+                    } else {
+                        span.textContent += ' ↑';
+                    }
+                }
+                
+                this.loadDishes();
             });
         });
-
-        // Price range
-        if (this.priceMin) {
-            this.priceMin.addEventListener('input', () => this.applyFilters());
-        }
-        if (this.priceMax) {
-            this.priceMax.addEventListener('input', () => this.applyFilters());
-        }
     }
 
-    filterByCategory(categoryId) {
-        this.currentCategory = categoryId;
-        this.applyFilters();
-        
-        // Update active tab
-        document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-        event.target.classList.add('active');
-    }
-
-    filterDishes(searchTerm) {
-        this.searchTerm = searchTerm.toLowerCase();
-        this.applyFilters();
-    }
-
-    sortDishes(sortBy) {
-        this.currentSort = sortBy;
-        this.applyFilters();
-        
-        // Update active sort button
-        this.sortButtons.forEach(btn => btn.classList.remove('active'));
-        document.querySelector(`[data-sort="${sortBy}"]`).classList.add('active');
-    }
-
-    applyFilters() {
-        let filtered = [...this.dishes];
-
-        // Category filter
-        if (this.currentCategory !== 'all') {
-            filtered = filtered.filter(dish => dish.categoryId === this.currentCategory);
-        }
-
-        // Search filter
-        if (this.searchTerm) {
-            filtered = filtered.filter(dish => 
-                dish.name.toLowerCase().includes(this.searchTerm)
-            );
-        }
-
-        // Price filter
-        const minPrice = parseFloat(this.priceMin?.value) || 0;
-        const maxPrice = parseFloat(this.priceMax?.value) || Infinity;
-        filtered = filtered.filter(dish => 
-            dish.price >= minPrice && dish.price <= maxPrice
-        );
-
-        // Sort
-        filtered.sort((a, b) => {
-            switch (this.currentSort) {
-                case 'name':
-                    return a.name.localeCompare(b.name);
-                case 'price':
-                    return a.price - b.price;
-                case 'popular':
-                    return (b.popularity || 0) - (a.popularity || 0);
-                default:
-                    return 0;
-            }
-        });
-
-        this.filteredDishes = filtered;
-        this.renderDishes();
-    }
-
-    renderDishes() {
-        this.dishesGrid.innerHTML = '';
-        
-        if (this.filteredDishes.length === 0) {
-            this.dishesGrid.innerHTML = '<div class="no-results">No se encontraron platos</div>';
-            return;
-        }
-
-        this.filteredDishes.forEach(dish => {
-            const dishCard = this.createDishCard(dish);
-            this.dishesGrid.appendChild(dishCard);
-        });
-    }
-
-    createDishCard(dish) {
-        const card = createEl('div', 'card');
-        card.innerHTML = `
-            <div class="card__image">
-                <img src="${dish.image || './assets/placeholder-dish.jpg'}" alt="${dish.name}" />
-            </div>
-            <div class="card__content">
-                <h3 class="card__title">${dish.name}</h3>
-                <p class="card__description">${dish.description || ''}</p>
-                <div class="card__footer">
-                    <span class="card__price">$${dish.price}</span>
-                    <button class="btn btn--primary" data-dish-id="${dish.id}">
-                        Agregar
-                    </button>
-                </div>
-            </div>
-        `;
-
-        // Add click handler
-        const addBtn = card.querySelector('button');
-        addBtn.addEventListener('click', () => {
-            this.addToCart(dish);
-        });
-
-        return card;
-    }
-
-    addToCart(dish) {
+    addToCart(item) {
         // Emit custom event for cart
         const event = new CustomEvent('addToCart', { 
-            detail: { dish } 
+            detail: { dish: item } 
         });
         document.dispatchEvent(event);
-        
-        toast(`${dish.name} agregado al carrito`);
     }
 }

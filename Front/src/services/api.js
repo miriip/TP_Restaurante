@@ -2,7 +2,7 @@
  * API Service
  * Centraliza todas las llamadas al backend
  */
-const baseURL = 'http://localhost:7069/api/v1';
+const baseURL = 'http://localhost:5069/api/v1';
 
 class ApiService {
     constructor() {
@@ -35,8 +35,8 @@ class ApiService {
     }
 
     // Dish endpoints
-    async getAllDishes() {
-        return this.request('/Dish');
+    async getAllDishes(params = '') {
+        return this.request(`/Dish${params ? '?' + params : ''}`);
     }
 
     async getDishById(id) {
@@ -53,8 +53,9 @@ class ApiService {
     }
 
     // Order endpoints
-    async getAllOrders() {
-        return this.request('/Order');
+    async getAllOrders(params = {}) {
+        const queryString = new URLSearchParams(params).toString();
+        return this.request(`/Order${queryString ? '?' + queryString : ''}`);
     }
 
     async getOrderById(id) {
@@ -76,6 +77,20 @@ class ApiService {
         return this.request(`/Order/${id}`, {
             method: 'PUT',
             body: JSON.stringify(orderData)
+        });
+    }
+
+    async updateOrderStatus(orderId, statusId) {
+        return this.request(`/Order/${orderId}/status`, {
+            method: 'PUT',
+            body: JSON.stringify({ statusId })
+        });
+    }
+
+    async updateOrderItemStatus(orderId, itemId, data) {
+        return this.request(`/Order/${orderId}/items/${itemId}`, {
+            method: 'PUT',
+            body: JSON.stringify(data)
         });
     }
 

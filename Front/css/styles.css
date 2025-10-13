@@ -31,7 +31,7 @@ body {
 
 .container { width: min(1100px, 92%); margin: 0 auto; }
 
-.header { position: sticky; top: 0; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: var(--shadow); z-index: 10; border-bottom: 3px solid rgba(200, 157, 61, 0.25); filter: none; }
+.header { position: sticky; top: 0; background: rgba(255, 255, 255, 0.95); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: var(--shadow); z-index: 10; border-bottom: 3px solid rgba(200, 157, 61, 0.25); filter: none; }
 .header__content { display: flex; align-items: center; justify-content: space-between; padding: calc(var(--space-3) + 6px) 0; }
 .brand { display: flex; align-items: center; gap: 6px; font-weight: 700; }
 .brand__logo { width: 40px; height: 40px; }
@@ -68,6 +68,7 @@ body {
     background: rgba(255, 255, 255, 0.9);
     border-radius: 20px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
@@ -93,6 +94,7 @@ body {
     background: rgba(255, 255, 255, 0.4);
     border-radius: 16px;
     border: 1px solid rgba(200, 157, 61, 0.2);
+    -webkit-backdrop-filter: blur(5px);
     backdrop-filter: blur(5px);
     transition: all 0.3s ease;
     width: 220px;
@@ -196,7 +198,7 @@ body {
 
 .toolbar { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; margin-bottom: var(--space-4); }
 .input { padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; min-width: 240px; }
-.toggle { display: inline-flex; align-items: center; gap: 8px; }
+.toggle { display: inline-flex; align-items: center; gap: 8px; margin-left: 12px; }
 .tabs { display: flex; gap: 8px; flex-wrap: wrap; }
 .tab { padding: 8px 12px; border-radius: 999px; background: #fff; border: 1px solid #eee; cursor: pointer; }
 .tab--active { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }

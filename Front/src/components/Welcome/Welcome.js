@@ -9,18 +9,15 @@ export class Welcome {
     }
 
     init() {
-        this.setupEnterButton();
+        this.setupEventListeners();
     }
 
-    setupEnterButton() {
+    setupEventListeners() {
         if (this.enterBtn) {
             this.enterBtn.addEventListener('click', () => {
-                this.navigateToMenu();
+                // Navigate to menu
+                window.location.hash = '#menu';
             });
         }
-    }
-
-    navigateToMenu() {
-        window.location.hash = '#menu';
     }
 }

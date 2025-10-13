@@ -8,6 +8,1204 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/styles.css" />
+    <style>
+        /* Estilos personalizados para botones y efectos */
+        .btn-quantity {
+            background: #8B0000;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-quantity:hover {
+            background: #A52A2A;
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(139, 0, 0, 0.3);
+        }
+        
+        .btn-quantity:active {
+            transform: scale(0.95);
+        }
+        
+        .quantity-display {
+            background: #f8f9fa;
+            border: 2px solid #8B0000;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-weight: bold;
+            color: #8B0000;
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        .btn-remove {
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+        
+        .btn-remove:hover {
+            background: #c82333;
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+        }
+        
+        .btn-confirm-order {
+            background: linear-gradient(135deg, #8B0000, #A52A2A);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(139, 0, 0, 0.3);
+            width: 100%;
+        }
+        
+        .btn-confirm-order:hover {
+            background: linear-gradient(135deg, #A52A2A, #8B0000);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(139, 0, 0, 0.4);
+        }
+        
+        .btn-confirm-order:active {
+            transform: translateY(0);
+        }
+        
+        /* Mejorar botones del menú */
+        .btn--primary {
+            background: linear-gradient(135deg, #8B0000, #A52A2A);
+            transition: all 0.3s ease;
+        }
+        
+        .btn--primary:hover {
+            background: linear-gradient(135deg, #A52A2A, #8B0000);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(139, 0, 0, 0.4);
+        }
+        
+        .btn--ghost {
+            border: 2px solid #8B0000;
+            color: #8B0000;
+            transition: all 0.3s ease;
+        }
+        
+        .btn--ghost:hover {
+            background: #8B0000;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(139, 0, 0, 0.3);
+        }
+        
+        /* Estilos para el carrito */
+        .item-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .item-info h4 {
+            color: #8B0000;
+            margin-bottom: 5px;
+        }
+        
+        .item-info p {
+            color: #666;
+            font-weight: 500;
+        }
+        
+        /* Animaciones suaves */
+        .card {
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        /* Estilos para radio buttons */
+        input[type="radio"] {
+            accent-color: #8B0000;
+            transform: scale(1.2);
+        }
+        
+        /* Estilos para inputs */
+        input[type="text"] {
+            transition: all 0.3s ease;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #8B0000;
+            box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.1);
+        }
+        
+        /* Estilos mejorados para filtros */
+        .filter-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: #8B0000;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .filter-label svg {
+            color: #8B0000;
+        }
+        
+        .sort-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .sort-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            color: #666;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .sort-btn:hover {
+            background: #8B0000;
+            color: white;
+            border-color: #8B0000;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(139, 0, 0, 0.2);
+        }
+        
+        .sort-btn.active {
+            background: #8B0000;
+            color: white;
+            border-color: #8B0000;
+            box-shadow: 0 2px 4px rgba(139, 0, 0, 0.3);
+        }
+        
+        .sort-icon {
+            transition: transform 0.3s ease;
+        }
+        
+        .sort-btn[data-direction="desc"] .sort-icon {
+            transform: rotate(180deg);
+        }
+        
+        .price-range {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .price-input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 13px;
+            transition: all 0.3s ease;
+        }
+        
+        .price-input:focus {
+            outline: none;
+            border-color: #8B0000;
+            box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.1);
+        }
+        
+        .price-separator {
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 6px 12px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 20px;
+            color: #666;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tab:hover {
+            background: #8B0000;
+            color: white;
+            border-color: #8B0000;
+        }
+        
+        .tab.active {
+            background: #8B0000;
+            color: white;
+            border-color: #8B0000;
+        }
+        
+        /* Estilos para mensaje vacío */
+        .empty-dishes {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 300px;
+            padding: 40px 20px;
+        }
+        
+        .empty-dishes__content {
+            text-align: center;
+            color: #666;
+        }
+        
+        .empty-dishes__content svg {
+            color: #8B0000;
+            margin-bottom: 20px;
+            opacity: 0.6;
+        }
+        
+        .empty-dishes__content h3 {
+            color: #8B0000;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .empty-dishes__content p {
+            color: #999;
+            font-size: 16px;
+            margin: 0;
+        }
+        
+        /* Estilos para modal de detalles de orden */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal__overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+        }
+        
+        .modal__content {
+            position: relative;
+            background: white;
+            border-radius: 12px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            margin: 20px auto;
+        }
+        
+        .modal__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+            background: #8B0000;
+            color: white;
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .modal__header h2 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .modal__close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+        }
+        
+        .modal__close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .modal__body {
+            padding: 20px;
+        }
+        
+        .order-details {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .order-info {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-row .label {
+            font-weight: 600;
+            color: #8B0000;
+            min-width: 120px;
+        }
+        
+        .info-row .value {
+            color: #333;
+            text-align: right;
+        }
+        
+        .info-row .value.price {
+            font-weight: bold;
+            font-size: 18px;
+            color: #8B0000;
+        }
+        
+        .status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+        
+        .status--pendiente {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status--en-preparación {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .status--listo {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status--entregado {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .status--cancelado {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .order-items h3 {
+            color: #8B0000;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #8B0000;
+        }
+        
+        .item-info h4 {
+            margin: 0 0 5px 0;
+            color: #333;
+            font-size: 16px;
+        }
+        
+        .item-info p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .item-notes {
+            font-style: italic;
+            color: #8B0000 !important;
+        }
+        
+        .item-status {
+            text-align: right;
+        }
+        
+        /* Estilos mejorados para tarjetas de órdenes */
+        .order-card {
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            border: 1px solid #e9ecef;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .order-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #8B0000, #A52A2A, #8B0000);
+            border-radius: 16px 16px 0 0;
+        }
+        
+        .order-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            border-color: #8B0000;
+        }
+        
+        /* Animación de entrada para las tarjetas */
+        .order-card {
+            animation: slideInUp 0.6s ease-out;
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Efecto de pulso para estados importantes */
+        .status-2, .status-3 {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); }
+            50% { box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6); }
+            100% { box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); }
+        }
+        
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .order-number {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin: 0;
+        }
+        
+        .order-status {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .order-total {
+            font-size: 18px;
+            font-weight: 600;
+            color: #8B0000;
+            margin: 12px 0;
+        }
+        
+        .order-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        /* Estilos para botones de órdenes */
+        .order-actions button {
+            background: linear-gradient(135deg, #8B0000, #A52A2A);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(139, 0, 0, 0.2);
+        }
+        
+        .order-actions button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .order-actions button:hover::before {
+            left: 100%;
+        }
+        
+        .order-actions button:hover {
+            background: linear-gradient(135deg, #A52A2A, #8B0000);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 0, 0, 0.3);
+        }
+        
+        .order-actions button:active {
+            transform: translateY(0);
+        }
+            
+            /* Estilos mejorados para el select del panel de administración */
+            .order-actions select {
+                padding: 12px 16px;
+                border: 2px solid #8B0000;
+                border-radius: 12px;
+                background: linear-gradient(145deg, #ffffff, #f8f9fa);
+                color: #8B0000;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                min-width: 180px;
+                font-size: 14px;
+                box-shadow: 0 2px 8px rgba(139, 0, 0, 0.1);
+                position: relative;
+            }
+            
+            .order-actions select:hover {
+                border-color: #A52A2A;
+                background: linear-gradient(145deg, #f8f9fa, #ffffff);
+                transform: translateY(-1px);
+                box-shadow: 0 4px 15px rgba(139, 0, 0, 0.2);
+            }
+            
+            .order-actions select:focus {
+                outline: none;
+                border-color: #A52A2A;
+                box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.1), 0 4px 15px rgba(139, 0, 0, 0.2);
+                transform: translateY(-1px);
+            }
+            
+            .order-actions select option {
+                padding: 8px 12px;
+                font-weight: 500;
+            }
+            
+            /* Estilos para el contenedor de órdenes */
+            #myOrdersList, #ordersPanel {
+                display: grid;
+                gap: 20px;
+                padding: 20px 0;
+            }
+            
+            /* Estilos para el toolbar del panel de administración */
+            .admin-toolbar {
+                background: linear-gradient(145deg, #ffffff, #f8f9fa);
+                border: 1px solid #e9ecef;
+                border-radius: 16px;
+                padding: 24px;
+                margin-bottom: 24px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            }
+            
+            .filter-section {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 24px;
+                flex-wrap: wrap;
+            }
+            
+            .filter-group {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                min-width: 250px;
+            }
+            
+            .filter-label {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-weight: 600;
+                color: #8B0000;
+                font-size: 16px;
+            }
+            
+            .filter-label svg {
+                color: #8B0000;
+                transition: transform 0.3s ease;
+            }
+            
+            .filter-label:hover svg {
+                transform: scale(1.1);
+            }
+            
+            .status-filter-container {
+                position: relative;
+            }
+            
+            .status-filter {
+                width: 100%;
+                padding: 14px 20px;
+                border: 2px solid #8B0000;
+                border-radius: 12px;
+                background: linear-gradient(145deg, #ffffff, #f8f9fa);
+                color: #8B0000;
+                font-weight: 600;
+                font-size: 15px;
+                cursor: pointer;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: 0 2px 8px rgba(139, 0, 0, 0.1);
+                appearance: none;
+                background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%238B0000' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+                background-position: right 12px center;
+                background-repeat: no-repeat;
+                background-size: 16px;
+                padding-right: 40px;
+            }
+            
+            .status-filter:hover {
+                border-color: #A52A2A;
+                background: linear-gradient(145deg, #f8f9fa, #ffffff);
+                transform: translateY(-1px);
+                box-shadow: 0 4px 15px rgba(139, 0, 0, 0.2);
+            }
+            
+            .status-filter:focus {
+                outline: none;
+                border-color: #A52A2A;
+                box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.1), 0 4px 15px rgba(139, 0, 0, 0.2);
+                transform: translateY(-1px);
+            }
+            
+            .status-filter option {
+                padding: 8px 12px;
+                font-weight: 500;
+                background: white;
+            }
+            
+            .filter-actions {
+                display: flex;
+                gap: 12px;
+                align-items: center;
+            }
+            
+            .refresh-btn {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 12px 20px;
+                background: linear-gradient(135deg, #8B0000, #A52A2A);
+                color: white;
+                border: none;
+                border-radius: 12px;
+                font-weight: 600;
+                font-size: 14px;
+                cursor: pointer;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: 0 4px 15px rgba(139, 0, 0, 0.2);
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .refresh-btn::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                transition: left 0.5s;
+            }
+            
+            .refresh-btn:hover::before {
+                left: 100%;
+            }
+            
+            .refresh-btn:hover {
+                background: linear-gradient(135deg, #A52A2A, #8B0000);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(139, 0, 0, 0.3);
+            }
+            
+            .refresh-btn:active {
+                transform: translateY(0);
+            }
+            
+            .refresh-btn svg {
+                transition: transform 0.3s ease;
+            }
+            
+            .refresh-btn:hover svg {
+                transform: rotate(180deg);
+            }
+            
+            /* Animación de carga para el botón */
+            .animate-spin {
+                animation: spin 1s linear infinite;
+            }
+            
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+            
+            /* Estilos para el contador de resultados */
+            .filter-results {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 8px 16px;
+                background: linear-gradient(145deg, #e8f4fd, #ffffff);
+                border: 1px solid #b3d9ff;
+                border-radius: 20px;
+                font-size: 14px;
+                font-weight: 500;
+                color: #0066cc;
+            }
+            
+            .filter-results svg {
+                color: #0066cc;
+            }
+            
+            /* Estilos para mensajes vacíos */
+            .empty {
+                text-align: center;
+                padding: 40px 20px;
+                color: #6c757d;
+                font-size: 16px;
+                font-weight: 500;
+                background: linear-gradient(145deg, #f8f9fa, #ffffff);
+                border-radius: 12px;
+                border: 2px dashed #dee2e6;
+            }
+            
+            /* Estilos para mensajes de error */
+            .error {
+                text-align: center;
+                padding: 20px;
+                color: #dc3545;
+                background: linear-gradient(145deg, #f8d7da, #ffffff);
+                border-radius: 12px;
+                border: 2px solid #f5c6cb;
+                font-weight: 500;
+            }
+            
+            /* Colores mejorados para estados de órdenes */
+            .status-badge {
+                display: inline-flex;
+                align-items: center;
+                padding: 8px 16px;
+                border-radius: 25px;
+                font-weight: 600;
+                font-size: 12px;
+                text-transform: uppercase;
+                letter-spacing: 0.8px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .status-badge::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+                transition: left 0.6s;
+            }
+            
+            .status-badge:hover::before {
+                left: 100%;
+            }
+            
+            .status-1 { /* Pendiente */
+                background: linear-gradient(135deg, #FF9500, #FF7A00);
+                color: white;
+                box-shadow: 0 4px 15px rgba(255, 149, 0, 0.4);
+            }
+            
+            .status-2 { /* En preparación */
+                background: linear-gradient(135deg, #FF4757, #FF3742);
+                color: white;
+                box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
+            }
+            
+            .status-3 { /* Listo */
+                background: linear-gradient(135deg, #00D2D3, #00B4B5);
+                color: white;
+                box-shadow: 0 4px 15px rgba(0, 210, 211, 0.4);
+            }
+            
+            .status-4 { /* Entregado */
+                background: linear-gradient(135deg, #2ED573, #1DD65A);
+                color: white;
+                box-shadow: 0 4px 15px rgba(46, 213, 115, 0.4);
+            }
+            
+            .status-5 { /* Cancelado */
+                background: linear-gradient(135deg, #FF3838, #E74C3C);
+                color: white;
+                box-shadow: 0 4px 15px rgba(255, 56, 56, 0.4);
+            }
+            
+            /* Estilos para modal de detalles del plato */
+            .dish-image {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            
+            .dish-image img {
+                max-width: 300px;
+                max-height: 200px;
+                object-fit: cover;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+            
+            .dish-info {
+                margin-bottom: 20px;
+            }
+            
+            .dish-price {
+                font-size: 24px;
+                font-weight: bold;
+                color: #8B0000;
+                margin-bottom: 10px;
+            }
+            
+            .dish-description {
+                margin: 15px 0;
+                padding: 10px;
+                background: #f8f9fa;
+                border-radius: 6px;
+                border-left: 4px solid #8B0000;
+            }
+            
+            .dish-category {
+                color: #666;
+                font-style: italic;
+                margin: 10px 0;
+            }
+            
+            .dish-admin-actions {
+                margin-top: 20px;
+                padding: 20px;
+                background: #f8f9fa;
+                border-radius: 8px;
+                border: 2px solid #8B0000;
+            }
+            
+            .dish-admin-actions h3 {
+                color: #8B0000;
+                margin-bottom: 15px;
+            }
+            
+            .admin-form label {
+                display: block;
+                margin-bottom: 8px;
+                font-weight: 600;
+                color: #8B0000;
+            }
+            
+            .admin-form textarea {
+                width: 100%;
+                min-height: 100px;
+                padding: 10px;
+                border: 2px solid #ddd;
+                border-radius: 6px;
+                font-family: inherit;
+                resize: vertical;
+                margin-bottom: 15px;
+            }
+            
+            .admin-form textarea:focus {
+                outline: none;
+                border-color: #8B0000;
+                box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.1);
+            }
+            
+            /* Estilos para modal de confirmación */
+            .confirm-modal {
+                max-width: 400px;
+                text-align: center;
+            }
+            
+            .confirm-message {
+                font-size: 16px;
+                line-height: 1.5;
+                color: #333;
+                margin: 20px 0;
+            }
+            
+            .modal__footer {
+                display: flex;
+                gap: 12px;
+                justify-content: flex-end;
+                padding: 20px;
+                border-top: 1px solid #e9ecef;
+                background: #f8f9fa;
+                border-radius: 0 0 12px 12px;
+            }
+            
+            .modal__footer .btn {
+                min-width: 100px;
+                padding: 10px 20px;
+                font-weight: 600;
+            }
+            
+            .modal__footer .btn--primary {
+                background: linear-gradient(135deg, #8B0000, #A52A2A);
+                color: white;
+                border: none;
+            }
+            
+            .modal__footer .btn--primary:hover {
+                background: linear-gradient(135deg, #A52A2A, #8B0000);
+                transform: translateY(-1px);
+            }
+            
+            .modal__footer .btn--ghost {
+                background: transparent;
+                color: #8B0000;
+                border: 2px solid #8B0000;
+            }
+            
+            .modal__footer .btn--ghost:hover {
+                background: #8B0000;
+                color: white;
+            }
+            
+            /* Estilos para el modal base */
+            .modal {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 1000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(0, 0, 0, 0.5);
+            }
+            
+            .modal__overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                cursor: pointer;
+            }
+            
+            .modal__content {
+                position: relative;
+                background: white;
+                border-radius: 12px;
+                max-width: 400px;
+                width: 90%;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+                z-index: 1001;
+            }
+            
+            .modal__header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 20px;
+                border-bottom: 1px solid #e9ecef;
+                background: #f8f9fa;
+                border-radius: 12px 12px 0 0;
+            }
+            
+            .modal__header h2 {
+                margin: 0;
+                color: #8B0000;
+                font-size: 18px;
+                font-weight: 600;
+            }
+            
+            .modal__close {
+                background: none;
+                border: none;
+                font-size: 24px;
+                color: #666;
+                cursor: pointer;
+                padding: 0;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                transition: all 0.3s ease;
+            }
+            
+            .modal__close:hover {
+                background: #e9ecef;
+                color: #8B0000;
+            }
+            
+            .modal__body {
+                padding: 20px;
+            }
+            
+            .modal__footer {
+                display: flex;
+                gap: 12px;
+                justify-content: flex-end;
+                padding: 20px;
+                border-top: 1px solid #e9ecef;
+                background: #f8f9fa;
+                border-radius: 0 0 12px 12px;
+            }
+            
+            .modal__footer .btn {
+                min-width: 100px;
+                padding: 10px 20px;
+                font-weight: 600;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+            
+            .modal__footer .btn--primary {
+                background: linear-gradient(135deg, #8B0000, #A52A2A);
+                color: white;
+                border: none;
+            }
+            
+            .modal__footer .btn--primary:hover {
+                background: linear-gradient(135deg, #A52A2A, #8B0000);
+                transform: translateY(-1px);
+            }
+            
+            .modal__footer .btn--ghost {
+                background: transparent;
+                color: #8B0000;
+                border: 2px solid #8B0000;
+            }
+            
+            .modal__footer .btn--ghost:hover {
+                background: #8B0000;
+                color: white;
+            }
+            
+            /* Animaciones para el modal */
+            .modal {
+                animation: modalFadeIn 0.3s ease-out;
+            }
+            
+            .modal__content {
+                animation: modalSlideIn 0.3s ease-out;
+            }
+            
+            @keyframes modalFadeIn {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes modalSlideIn {
+                from {
+                    transform: translateY(-50px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+        </style>
 </head>
 <body>
     <header class="header">
@@ -21,7 +1219,7 @@
                 <a href="#comanda" class="nav__link">Mi comanda</a>
                 <a href="#mis-ordenes" class="nav__link">Mis órdenes</a>
                 <a id="panelLink" href="#panel-ordenes" class="nav__link">Panel</a>
-                <label class="toggle" style="margin-left:12px">
+                <label class="toggle">
                     <input id="roleToggle" type="checkbox" />
                     <span id="roleLabel">Rol: Cliente</span>
                 </label>
@@ -80,7 +1278,7 @@
                     </div>
                 </div>
                 
-                <button id="enterBtn" class="welcome-btn">Ingresar al Menú</button>
+                <button id="enterBtn" class="welcome-btn" onclick="showView('menu'); loadMenu();">Ingresar al Menú</button>
             </div>
         </section>
 
@@ -93,28 +1291,52 @@
                 
                 <div class="toolbar__filters">
                     <div class="filter-group">
-                        <label class="filter-label">Categorías</label>
+                        <label class="filter-label">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="22,3 2,3 10,12.46 10,19 14,21 14,12.46 22,3"></polygon>
+                            </svg>
+                            Categorías
+                        </label>
                         <div id="categoriesTabs" class="tabs"></div>
                     </div>
                     
-                    
                     <div class="filter-group">
-                        <label class="filter-label">Ordenar por</label>
+                        <label class="filter-label">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 6h18"></path>
+                                <path d="M7 12h10"></path>
+                                <path d="M10 18h4"></path>
+                            </svg>
+                            Ordenar por
+                        </label>
                         <div class="sort-buttons">
-                            <button id="sortName" class="sort-btn" data-sort="name">
+                            <button id="sortName" class="sort-btn" data-sort="name" data-direction="asc">
                                 <span>Nombre</span>
+                                <svg class="sort-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 6h18"></path>
+                                    <path d="M6 12h12"></path>
+                                    <path d="M9 18h6"></path>
+                                </svg>
                             </button>
-                            <button id="sortPrice" class="sort-btn" data-sort="price">
+                            <button id="sortPrice" class="sort-btn" data-sort="price" data-direction="asc">
                                 <span>Precio</span>
-                            </button>
-                            <button id="sortPopular" class="sort-btn" data-sort="popular">
-                                <span>Popularidad</span>
+                                <svg class="sort-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 6h18"></path>
+                                    <path d="M6 12h12"></path>
+                                    <path d="M9 18h6"></path>
+                                </svg>
                             </button>
                         </div>
                     </div>
                     
                     <div class="filter-group">
-                        <label class="filter-label">Rango de precio</label>
+                        <label class="filter-label">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="1" x2="12" y2="23"></line>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                            </svg>
+                            Rango de precio
+                        </label>
                         <div class="price-range">
                             <input id="priceMin" class="price-input" type="number" placeholder="Mín" min="0" />
                             <span class="price-separator">-</span>
@@ -132,28 +1354,10 @@
             <h1 class="view__title">Mi comanda</h1>
             <div id="cartItems" class="list"></div>
             <div class="cart__footer">
-                <label class="select">
-                    <span>Entrega</span>
-                    <select id="deliveryTypeSelect"></select>
-                </label>
-                <label class="select" id="deliveryToWrap">
-                    <span id="deliveryToLabel">Para</span>
-                    <input id="deliveryToInput" class="input" type="text" placeholder="Nombre del comensal" />
-                </label>
-                <label class="select hidden" id="deliveryAddressWrap">
-                    <span>Dirección</span>
-                    <input id="deliveryAddressInput" class="input" type="text" placeholder="Calle, número, piso" list="addressHistoryList" />
-                    <datalist id="addressHistoryList"></datalist>
-                </label>
                 <div class="total">
                     <span>Total:</span>
                     <strong id="cartTotal">$0</strong>
                 </div>
-                <label class="select" style="flex:1; min-width: 240px;">
-                    <span>Notas del pedido</span>
-                    <input id="orderNotesInput" class="input" type="text" placeholder="Sin queso, sin sal, etc." />
-                </label>
-                <button id="confirmOrderBtn" class="btn btn--primary">Confirmar pedido</button>
             </div>
         </section>
 
@@ -164,13 +1368,46 @@
 
         <section id="panel-ordenes" class="view hidden">
             <h1 class="view__title">Panel de órdenes</h1>
-            <div class="toolbar">
-                <label class="select">
-                    <span>Estado</span>
-                    <select id="panelStatusFilter">
-                        <option value="all">Todos</option>
-                    </select>
-                </label>
+            <div class="admin-toolbar">
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <label class="filter-label">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"></path>
+                            </svg>
+                            Filtrar por Estado
+                        </label>
+                        <div class="status-filter-container">
+                            <select id="panelStatusFilter" class="status-filter" title="Filtrar órdenes por estado">
+                                <option value="all">Todos los estados</option>
+                                <option value="1">Pendiente</option>
+                                <option value="2">En preparación</option>
+                                <option value="3">Listo</option>
+                                <option value="4">Entregado</option>
+                                <option value="5">Cancelado</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-actions">
+                        <div class="filter-results" id="filterResults">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 12l2 2 4-4"></path>
+                                <path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"></path>
+                            </svg>
+                            <span id="resultsCount">Cargando...</span>
+                        </div>
+                        <button id="refreshOrders" class="refresh-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="23 4 23 10 17 10"></polyline>
+                                <polyline points="1 20 1 14 7 14"></polyline>
+                                <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
+                            </svg>
+                            Actualizar
+                        </button>
+                    </div>
+                </div>
             </div>
             <div id="ordersPanel" class="list"></div>
         </section>
@@ -178,15 +1415,6 @@
 
     <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
 
-    <script type="module" src="./js/router.js"></script>
-    <script type="module" src="./js/menu.js"></script>
-    <script type="module" src="./js/dish-detail.js"></script>
-    <script type="module" src="./js/cart.js"></script>
-    <script type="module" src="./js/orders.js"></script>
-    <script type="module" src="./js/admin-panel.js"></script>
-    <script type="module" src="./js/api.js"></script>
-    <script type="module" src="./js/utils.js"></script>
+    <script src="./src/app.js"></script>
 </body>
 </html>
-
-

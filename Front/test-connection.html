@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>Test Connection</title>
+</head>
+<body>
+    <h1>Test de Conexión</h1>
+    <button onclick="testConnection()">Probar /Dish</button>
+    <button onclick="testRoot()">Probar /</button>
+    <button onclick="testHealth()">Probar /health</button>
+    <div id="result"></div>
+
+    <script>
+        async function testConnection() {
+            await testEndpoint('http://localhost:5069/api/v1/Dish', 'Dish');
+        }
+        
+        async function testRoot() {
+            await testEndpoint('http://localhost:5069/', 'Root');
+        }
+        
+        async function testHealth() {
+            await testEndpoint('http://localhost:5069/health', 'Health');
+        }
+        
+        async function testEndpoint(url, name) {
+            const result = document.getElementById('result');
+            result.innerHTML += `<br>Probando ${name} (${url})...`;
+            
+            try {
+                const response = await fetch(url);
+                if (response.ok) {
+                    const data = await response.text();
+                    result.innerHTML += `<br>✅ ${name} exitoso! Respuesta: ${data.substring(0, 200)}...`;
+                } else {
+                    result.innerHTML += `<br>❌ ${name} Error HTTP: ${response.status}`;
+                }
+            } catch (error) {
+                result.innerHTML += `<br>❌ ${name} Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>

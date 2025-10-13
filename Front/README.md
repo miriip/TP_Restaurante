@@ -1,33 +1,163 @@
-TP3 Frontend - TP_GUERRA_MIRANDA_com2
+# Rosso & Oro - Frontend Modular
 
-Cómo correr
-1. Abrí index.html directamente en el navegador, o serví la carpeta con un server estático.
-2. Configurá la URL de la API: en el navegador, abrí la consola y ejecutá:
-   localStorage.setItem('apiBaseURL', 'http://localhost:5228');
-   Recargá la página. Alternativamente, editá js/api.js y cambiá baseURL por defecto.
+## 🏗️ Estructura del Proyecto
 
-Agregar platos a una orden existente
-- En "Mis Órdenes", presioná "Agregar platos" en la orden deseada.
-- Serás enviado al Menú; agregá platos a la comanda y luego confirmá en "Mi comanda".
-- El sistema agregará esos ítems a la orden activa en lugar de crear una nueva.
+```
+Front/
+├── src/                          # Código fuente modular
+│   ├── components/               # Componentes UI reutilizables
+│   │   ├── Header/              # Navegación y toggle de roles
+│   │   ├── Welcome/             # Página de bienvenida
+│   │   ├── Menu/                # Catálogo de platos
+│   │   ├── Cart/                # Carrito de compras
+│   │   ├── Orders/              # Órdenes del usuario
+│   │   └── AdminPanel/          # Panel de administración
+│   ├── services/                # Servicios de negocio
+│   │   ├── api.js              # Llamadas a la API
+│   │   └── CartService.js      # Lógica del carrito
+│   ├── templates/               # Templates dinámicos
+│   │   ├── DishCard.js         # Tarjeta de plato
+│   │   ├── OrderCard.js        # Tarjeta de orden
+│   │   └── TemplateEngine.js   # Motor de templates
+│   ├── router/                  # Navegación
+│   │   └── Router.js           # Router principal
+│   ├── utils/                   # Utilidades
+│   │   └── utils.js            # Funciones auxiliares
+│   └── app.js                   # Punto de entrada
+├── css/                         # Estilos
+│   └── styles.css              # Estilos principales
+├── assets/                      # Recursos estáticos
+│   ├── logo.svg                # Logo de la empresa
+│   └── damask-pattern.webp.jpg # Patrón de fondo
+├── index.html                   # Página principal
+├── package.json                 # Dependencias
+└── vite.config.js              # Configuración de Vite
+```
 
-Estructura
-- index.html: contenedor de vistas (Menú, Detalle, Comanda, Mis Órdenes, Panel).
-- css/styles.css: estilos base, paleta, layout responsive.
-- js/api.js: helpers de fetch a la API del TP2.
-- js/router.js: enrutado por hash (#menu, #comanda, etc.).
-- js/menu.js: carga categorías y platos, búsqueda y filtros.
-- js/dish-detail.js: detalle de plato y agregado a comanda.
-- js/cart.js: comanda, selector de entrega y confirmación.
-- js/orders.js: listado de órdenes del usuario.
-- js/admin-panel.js: panel para cambiar estado de órdenes.
-- assets/: logo e imágenes placeholder.
+## 🚀 Cómo ejecutar
 
-Notas
-- El panel se actualiza por polling cada ~7s.
-- Se usa localStorage para userId y cart.
-- Asegurate de que los endpoints de tu backend coincidan con los usados en js/api.js.
-- Tipografía: Playfair Display (títulos) + Inter (texto) via Google Fonts.
-- Paleta: Vino (#8B0000), Beige (#D4A373), Dorado (#C89D3D), Fondo (#F5F5F5), Texto (#2E2E2E).
+### Desarrollo
+```bash
+# Instalar dependencias
+npm install
 
+# Servidor de desarrollo con Vite
+npm run dev
 
+# Servidor simple (alternativo)
+npm run serve
+```
+
+### Producción
+```bash
+# Build para producción
+npm run build
+```
+
+## 🎯 Características
+
+- **Arquitectura Modular**: Componentes separados y reutilizables
+- **Routing**: Navegación por hash (#menu, #comanda, etc.)
+- **Estado Persistente**: Carrito guardado en localStorage
+- **Responsive Design**: Adaptable a diferentes dispositivos
+- **API Integration**: Comunicación con backend REST
+
+## 📦 Componentes
+
+### Header
+- Navegación principal
+- Toggle de roles (Cliente/Admin)
+- Logo y branding
+
+### Menu
+- Catálogo de platos
+- Filtros y búsqueda
+- Agregar al carrito
+
+### Cart
+- Gestión del carrito
+- Tipos de entrega
+- Confirmación de pedidos
+
+### Orders
+- Historial de órdenes
+- Estados de pedidos
+- Agregar más platos
+
+### AdminPanel
+- Gestión de órdenes
+- Cambio de estados
+- Filtros por estado
+
+## 🔧 Servicios
+
+### API Service
+- Centraliza llamadas al backend
+- Manejo de errores
+- Configuración de URLs
+
+### Cart Service
+- Estado del carrito
+- Eventos de cambio
+- Cálculos de totales
+
+## 🎨 Templates
+
+### Template Engine
+- Sistema de templates dinámicos
+- Registro de templates personalizados
+- Renderizado eficiente
+
+## 🧭 Router
+
+### Navegación
+- Hash-based routing
+- Lazy loading de componentes
+- Gestión de estado de navegación
+
+## 🔄 Flujo de Datos
+
+```
+User Action → Component → Service → API → Backend
+                ↓
+            State Update → Template → UI Update
+```
+
+## 🏢 Patrones Empresariales
+
+- **Component-Based Architecture**: Como React/Vue
+- **Service Layer Pattern**: Separación de lógica de negocio
+- **Template Engine**: Como Handlebars/Mustache
+- **Event-Driven Architecture**: Comunicación entre componentes
+- **Dependency Injection**: Servicios inyectados
+- **Observer Pattern**: Event listeners y subscriptions
+
+## 📋 Configuración
+
+### API Base URL
+```javascript
+// En src/services/api.js
+const baseURL = 'http://localhost:7069/api/v1';
+```
+
+### LocalStorage Keys
+- `cart`: Carrito de compras
+- `userId`: ID del usuario
+- `activeOrderId`: Orden activa para agregar platos
+
+## 🎨 Estilos
+
+- **Tipografía**: Playfair Display (títulos) + Inter (texto)
+- **Paleta**: Vino (#8B0000), Beige (#D4A373), Dorado (#C89D3D)
+- **Responsive**: Mobile-first design
+- **Animaciones**: Transiciones suaves
+
+## 🚀 Próximos Pasos
+
+1. **Testing**: Tests unitarios para cada componente
+2. **State Management**: Store global (Redux/Zustand)
+3. **Performance**: Lazy loading y code splitting
+4. **PWA**: Service workers y offline support
+5. **TypeScript**: Migración gradual a TypeScript
+
+Esta arquitectura sigue las mejores prácticas de la industria y facilita el mantenimiento y escalabilidad del proyecto.

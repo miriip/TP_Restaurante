@@ -133,15 +133,15 @@ builder.Services.AddSwaggerGen(c =>
     c.OperationFilter<ExamplesOperationFilter>();
 });
 
-// CORS para permitir el front en 127.0.0.1:5500 y localhost:5500
+// CORS para permitir el front en cualquier puerto
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("FrontendPolicy", policy =>
     {
-        policy.WithOrigins("http://127.0.0.1:5500", "http://localhost:5500")
+        policy.WithOrigins("http://127.0.0.1:5500", "http://localhost:5500", "http://127.0.0.1:3000", "http://localhost:3000")
               .AllowAnyHeader()
-              .AllowAnyMethod();
-        // .AllowCredentials(); // habilitar solo si usás cookies/autenticación
+              .AllowAnyMethod()
+              .SetIsOriginAllowed(origin => true); // Permitir cualquier origen
     });
 });
 

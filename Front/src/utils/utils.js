@@ -93,6 +93,71 @@ export function generateId() {
 }
 
 /**
+ * Obtiene imagen de fallback para platos
+ * @param {string} name - Nombre del plato
+ * @returns {string}
+ */
+export function getFallbackImage(name) {
+    // Implementar lógica de imágenes de fallback
+    return './assets/placeholder-dish.jpg';
+}
+
+/**
+ * Mapea parámetros de búsqueda
+ * @param {Object} params - Parámetros a mapear
+ * @returns {URLSearchParams}
+ */
+export function mapSearchParams(params) {
+    const searchParams = new URLSearchParams();
+    Object.entries(params).forEach(([key, value]) => {
+        if (value !== null && value !== undefined && value !== '') {
+            searchParams.append(key, value);
+        }
+    });
+    return searchParams;
+}
+
+/**
+ * Agrega item al carrito
+ * @param {Object} item - Item a agregar
+ */
+export function addToCart(item) {
+    const cart = JSON.parse(localStorage.getItem('cart') || '{"items": []}');
+    const existingItem = cart.items.find(i => i.dishId === item.dishId && (i.note || '') === (item.note || ''));
+    
+    if (existingItem) {
+        existingItem.quantity += item.quantity;
+    } else {
+        cart.items.push(item);
+    }
+    
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+/**
+ * Obtiene historial de direcciones
+ * @returns {Array}
+ */
+export function getAddressHistory() {
+    return JSON.parse(localStorage.getItem('addressHistory') || '[]');
+}
+
+/**
+ * Guarda dirección en historial
+ * @param {string} address - Dirección a guardar
+ */
+export function saveAddressToHistory(address) {
+    if (!address || address.trim() === '') return;
+    
+    const history = getAddressHistory();
+    if (!history.includes(address)) {
+        history.unshift(address);
+        if (history.length > 10) history.pop();
+        localStorage.setItem('addressHistory', JSON.stringify(history));
+    }
+}
+
+/**
  * Local Storage helpers
  */
 export const storage = {
