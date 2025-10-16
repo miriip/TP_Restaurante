@@ -69,29 +69,49 @@ namespace Application.Services.OrderServices
             }
 
             var existingItems = await _orderItemQuery.GetOrderItemsByOrderId(order.OrderId);
-            foreach (var existing in existingItems)
-            {
-                await _orderItemCommand.DeleteOrderItemAsync(existing.OrderItemId);
-            }
+
+            // Indexar ítems existentes por Dish para merge sin duplicados
+            var dishIdToExistingItem = existingItems.ToDictionary(oi => oi.Dish, oi => oi);
 
             foreach (var item in orderUpdateRequest.Items)
             {
-                var newItem = new OrderItem
+                if (dishIdToExistingItem.TryGetValue(item.Id, out var existing))
                 {
-                    Order = order.OrderId,
-                    Quantity = item.Quantity,
-                    Notes = item.Notes,
-                    Dish = item.Id,
-                    Status = 1,
-                    CreateDate = DateTime.Now
-                };
-                await _orderItemCommand.CreateOrderItemAsync(newItem);
+                    // Sobrescribir cantidad y notas del ítem existente
+                    existing.Quantity = item.Quantity;
+                    existing.Notes = item.Notes;
+                    await _orderItemCommand.UpdateOrderItemAsync(existing);
+                }
+                else
+                {
+                    // Agregar nuevo ítem para platos no presentes
+                    var newItem = new OrderItem
+                    {
+                        Order = order.OrderId,
+                        Quantity = item.Quantity,
+                        Notes = item.Notes,
+                        Dish = item.Id,
+                        Status = 1,
+                        CreateDate = DateTime.UtcNow
+                    };
+                    await _orderItemCommand.CreateOrderItemAsync(newItem);
+                }
             }
 
-            // Actualizar el precio total de la orden
-            order.Price = totalAmount;
+            // Recalcular el precio total con todos los ítems actuales
+            var mergedItems = await _orderItemQuery.GetOrderItemsByOrderId(order.OrderId);
+            decimal recalculatedTotal = 0;
+            foreach (var oi in mergedItems)
+            {
+                var dish = await _dishQuery.GetDishById(oi.Dish);
+                if (dish != null)
+                {
+                    recalculatedTotal += dish.Price * oi.Quantity;
+                }
+            }
+            order.Price = recalculatedTotal;
 
-            order.UpdateDate = DateTime.Now;
+            order.UpdateDate = DateTime.UtcNow;
             await _orderCommand.UpdateOrderAsync(order);
 
             return new OrderUpdateResponse

@@ -5,21 +5,49 @@
 
 console.log('🚀 Iniciando aplicación...');
 
+// Función de prueba para verificar que el archivo se carga
+window.testApp = function() {
+    console.log('✅ Aplicación cargada correctamente');
+    return true;
+};
+
 // Función para mostrar vista
-function showView(viewId) {
-    console.log('Mostrando vista:', viewId);
-    document.querySelectorAll('.view').forEach(view => view.classList.add('hidden'));
-    const targetView = document.getElementById(viewId);
-    if (targetView) {
-        targetView.classList.remove('hidden');
-        console.log('✅ Vista mostrada:', viewId);
-    } else {
-        console.error('❌ No se encontró la vista:', viewId);
+window.showView = function(viewId) {
+    console.log('🔍 Mostrando vista:', viewId);
+    
+    try {
+        // Ocultar todas las vistas
+        const allViews = document.querySelectorAll('.view');
+        allViews.forEach(view => {
+            view.classList.add('hidden');
+        });
+        
+        // Mostrar la vista objetivo
+        const targetView = document.getElementById(viewId);
+        if (targetView) {
+            targetView.classList.remove('hidden');
+            console.log('✅ Vista mostrada:', viewId);
+        } else {
+            console.error('❌ No se encontró la vista:', viewId);
+        }
+        
+        // Manejar navegación
+        const nav = document.getElementById('mainNav');
+        if (nav) {
+            if (viewId === 'welcome') {
+                nav.style.display = 'none';
+            } else {
+                nav.style.display = 'flex';
+            }
+        }
+    } catch (error) {
+        console.error('❌ Error en showView:', error);
     }
-}
+};
+
 
 // Función para cargar menú
-async function loadMenu() {
+window.loadMenu = async function() {
     console.log('🍽️ Cargando menú...');
     const dishesGrid = document.getElementById('dishesGrid');
     if (!dishesGrid) {
@@ -28,7 +56,7 @@ async function loadMenu() {
     }
     
     try {
-        const response = await fetch('https://localhost:7069/api/v1/Dish', {
+        const response = await fetch('http://localhost:5000/api/v1/Dish', {
             method: 'GET',
             mode: 'cors',
             headers: {
@@ -215,7 +243,7 @@ window.updateDishDescription = async function(dishId) {
         
         console.log('📤 Enviando datos de actualización:', updateData);
         
-        const response = await fetch(`https://localhost:7069/api/v1/Dish/${dishId}`, {
+        const response = await fetch(`http://localhost:5000/api/v1/Dish/${dishId}`, {
             method: 'PUT',
             mode: 'cors',
             headers: {
@@ -394,24 +422,50 @@ function updateCartCounter() {
 }
 
 // Inicializar cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     console.log('✅ DOM cargado');
 
-    // Navegación
+    // Detectar la URL correcta del backend
+    console.log('🔍 Detectando backend...');
+    const backendURL = await detectBackendURL();
+    if (backendURL) {
+        console.log(`✅ Backend detectado en: ${backendURL}`);
+    } else {
+        console.log('❌ No se pudo conectar con el backend. Verifica que esté corriendo.');
+        showNotification('No se pudo conectar con el servidor. Verifica que el backend esté corriendo.', 'error');
+    }
+
+    // Asegurar que la navegación esté oculta en la página de bienvenida inicial
+    const nav = document.getElementById('mainNav');
+    const welcomePage = document.getElementById('welcome');
+    if (welcomePage && !welcomePage.classList.contains('hidden')) {
+        nav.style.display = 'none';
+    }
+
+    // Navegación (excluyendo enlaces del panel de administración)
     document.querySelectorAll('a[href^="#"]').forEach(link => {
+        // Saltar enlaces del panel de administración
+        if (link.onclick && link.onclick.toString().includes('showAdminSection')) {
+            return;
+        }
+        
         link.addEventListener('click', (e) => {
             e.preventDefault();
             const viewId = link.getAttribute('href').substring(1);
-            showView(viewId);
             
-            if (viewId === 'menu') {
-                loadMenu();
-            } else if (viewId === 'comanda') {
-                loadCart();
-            } else if (viewId === 'mis-ordenes') {
-                loadOrders();
-            } else if (viewId === 'panel-ordenes') {
-                loadAdminPanel();
+            // Solo procesar si no es un enlace vacío
+            if (viewId && viewId !== '') {
+                showView(viewId);
+                
+                if (viewId === 'menu') {
+                    loadMenu();
+                } else if (viewId === 'comanda') {
+                    loadCart();
+                } else if (viewId === 'mis-ordenes') {
+                    loadOrders();
+                } else if (viewId === 'panel-ordenes') {
+                    loadAdminPanel();
+                }
             }
         });
     });
@@ -516,6 +570,90 @@ function showNotification(message, type = 'info') {
     }, 4000);
 }
 
+// Notificación especial para órdenes movidas al historial
+function showSpecialNotification(message) {
+    // Crear contenedor si no existe
+    let container = document.getElementById('notifications');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'notifications';
+        container.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        `;
+        document.body.appendChild(container);
+    }
+    
+    // Crear notificación especial
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        background: linear-gradient(135deg, #4CAF50, #45a049);
+        color: white;
+        padding: 16px 24px;
+        border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+        transform: translateX(100%) scale(0.8);
+        transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        max-width: 350px;
+        font-family: 'Inter', sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        border: 2px solid #45a049;
+        position: relative;
+        overflow: hidden;
+    `;
+    
+    // Efecto de brillo animado
+    const shine = document.createElement('div');
+    shine.style.cssText = `
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.6s ease;
+    `;
+    
+    notification.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 12px; position: relative; z-index: 1;">
+            <div style="font-size: 24px;">📋</div>
+            <div style="flex: 1;">
+                <div style="font-size: 18px; font-weight: 700; margin-bottom: 4px;">¡Orden Entregada!</div>
+                <div style="font-size: 14px; opacity: 0.9;">${message}</div>
+            </div>
+            <button onclick="this.parentElement.parentElement.remove()" 
+                    style="background: none; border: none; color: white; cursor: pointer; font-size: 20px; padding: 0; margin-left: 10px; opacity: 0.8; transition: opacity 0.2s;">×</button>
+        </div>
+    `;
+    
+    notification.appendChild(shine);
+    container.appendChild(notification);
+    
+    // Animar entrada con efecto especial
+    setTimeout(() => {
+        notification.style.transform = 'translateX(0) scale(1)';
+        // Activar efecto de brillo
+        setTimeout(() => {
+            shine.style.left = '100%';
+        }, 200);
+    }, 100);
+    
+    // Auto-remover después de 5 segundos
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.style.transform = 'translateX(100%) scale(0.8)';
+            notification.style.opacity = '0';
+            setTimeout(() => notification.remove(), 400);
+        }
+    }, 5000);
+}
+
 // Función para cargar el carrito
 async function loadCart() {
     console.log('🛒 Cargando carrito...');
@@ -600,9 +738,9 @@ function addDeliveryOptions() {
                 <span>Delivery</span>
             </label>
         </div>
-        <div id="deliveryAddress" style="display: none;">
-            <label style="display: block; margin-bottom: 8px; font-weight: 500;">Dirección de entrega:</label>
-            <input type="text" id="deliveryAddressInput" placeholder="Ingresa tu dirección completa..." 
+        <div id="deliveryToWrap">
+            <label id="deliveryToLabel" style="display: block; margin-bottom: 8px; font-weight: 500;">Mesa</label>
+            <input type="text" id="deliveryToInput" placeholder="Ej: Mesa 12" 
                    style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
         </div>
         <div style="margin-top: 20px;">
@@ -612,17 +750,28 @@ function addDeliveryOptions() {
         </div>
     `;
     
-    // Agregar event listeners para mostrar/ocultar dirección
+    // Agregar event listeners para ajustar etiqueta/placeholder
     deliveryDiv.querySelectorAll('input[name="deliveryType"]').forEach(radio => {
         radio.addEventListener('change', function() {
-            const addressDiv = document.getElementById('deliveryAddress');
-            if (this.value === 'delivery') {
-                addressDiv.style.display = 'block';
-            } else {
-                addressDiv.style.display = 'none';
+            const label = document.getElementById('deliveryToLabel');
+            const input = document.getElementById('deliveryToInput');
+            if (!label || !input) return;
+            if (this.value === 'delivery') { 
+                label.textContent = 'Dirección de entrega';
+                input.placeholder = 'Ej: Av. Corrientes 1234, Piso 5B';
+            } else if (this.value === 'para_llevar') {
+                label.textContent = 'Nombre de quien retira';
+                input.placeholder = 'Ej: Juan Pérez';
+            } else { // mesa
+                label.textContent = 'Mesa';
+                input.placeholder = 'Ej: Mesa 12';
             }
         });
     });
+    // Inicializar label/placeholder con la opción por defecto
+    const evt = new Event('change');
+    const checked = deliveryDiv.querySelector('input[name="deliveryType"]:checked');
+    if (checked) checked.dispatchEvent(evt);
     
     cartSection.appendChild(deliveryDiv);
 }
@@ -638,15 +787,24 @@ window.updateItemNotes = function(index, notes) {
 window.confirmOrder = async function() {
     const cart = JSON.parse(localStorage.getItem('cart') || '{"items": []}');
     const deliveryType = document.querySelector('input[name="deliveryType"]:checked').value;
-    const deliveryAddress = document.getElementById('deliveryAddressInput')?.value;
+    const deliveryTo = document.getElementById('deliveryToInput')?.value?.trim();
     
     if (cart.items.length === 0) {
         showNotification('Tu carrito está vacío', 'error');
         return;
     }
     
-    if (deliveryType === 'delivery' && !deliveryAddress) {
+    // Validaciones por tipo
+    if (deliveryType === 'delivery' && !deliveryTo) {
         showNotification('Por favor ingresa la dirección de entrega', 'error');
+        return;
+    }
+    if (deliveryType === 'para_llevar' && !deliveryTo) {
+        showNotification('Ingresá el nombre de quien retira', 'error');
+        return;
+    }
+    if (deliveryType === 'mesa' && !deliveryTo) {
+        showNotification('Ingresá el número de mesa', 'error');
         return;
     }
     
@@ -667,7 +825,7 @@ window.confirmOrder = async function() {
         })),
         delivery: {
             id: deliveryTypeMap[deliveryType],
-            to: deliveryType === 'delivery' ? deliveryAddress : null
+            to: deliveryTo || null
         },
         notes: null
     };
@@ -676,30 +834,14 @@ window.confirmOrder = async function() {
     
     try {
         // Enviar orden al backend
-        const response = await fetch('https://localhost:7069/api/v1/Order', {
+        const orderResponse = await backendRequest('/Order', {
             method: 'POST',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json',
-            },
             body: JSON.stringify(orderRequest)
         });
         
-        if (response.ok) {
-            const orderResponse = await response.json();
-            console.log('✅ Orden creada en el backend:', orderResponse);
-            
-            showNotification(`¡Pedido confirmado! Número de orden: ${orderResponse.orderNumber}`, 'success');
-            
-            // Limpiar carrito
-            localStorage.removeItem('cart');
-            loadCart();
-            updateCartCounter();
-        } else {
-            const errorData = await response.json();
-            console.error('❌ Error del backend:', errorData);
-            showNotification(`Error al crear la orden: ${errorData.message || 'Error desconocido'}`, 'error');
-        }
+        console.log('✅ Orden creada en el backend:', orderResponse);
+        // Abrir simulación de pago
+        showPaymentModal(orderResponse);
     } catch (error) {
         console.error('❌ Error de conexión:', error);
         showNotification('Error de conexión. Intenta nuevamente.', 'error');
@@ -735,17 +877,11 @@ async function loadOrders() {
     if (!ordersList) return;
     
     try {
-        const response = await fetch('https://localhost:7069/api/v1/Order');
-        if (response.ok) {
-            const orders = await response.json();
+        const orders = await backendRequest('/Order');
             console.log('✅ Órdenes cargadas:', orders);
             renderOrders(orders);
-        } else {
-            console.error('❌ Error HTTP:', response.status);
-            ordersList.innerHTML = '<div class="error">Error cargando órdenes</div>';
-        }
     } catch (error) {
-        console.error('❌ Error de conexión:', error);
+        console.error('❌ Error cargando órdenes:', error);
         ordersList.innerHTML = '<div class="error">No se pudieron cargar las órdenes</div>';
     }
 }
@@ -803,29 +939,29 @@ async function loadAdminPanel() {
     }
     
     try {
-        console.log('📡 Enviando request a: https://localhost:7069/api/v1/Order');
-        const response = await fetch('https://localhost:7069/api/v1/Order');
-        console.log('📡 Respuesta recibida:', response.status, response.statusText);
-        
-        if (response.ok) {
-            const orders = await response.json();
+        console.log('📡 Cargando órdenes del panel de administración...');
+        const orders = await backendRequest('/Order');
             console.log('📋 Órdenes recibidas:', orders);
+            
+            // Filtrar órdenes: solo mostrar las que NO estén entregadas (estado 4)
+            const activeOrders = orders.filter(order => {
+                const orderStatusId = order.status?.id || 1;
+                return orderStatusId !== 4; // Excluir órdenes entregadas
+            });
+            
+            console.log(`📊 Órdenes activas (no entregadas): ${activeOrders.length} de ${orders.length} total`);
             
             // Almacenar todas las órdenes globalmente
             allOrders = orders;
             
-            // Renderizar órdenes sin filtro inicialmente
-            renderAdminOrders(orders);
+            // Renderizar solo órdenes activas
+            renderAdminOrders(activeOrders);
             
             // Configurar el filtro
             setupStatusFilter();
             
             // Configurar el botón de actualizar
             setupRefreshButton();
-        } else {
-            console.error('❌ Error en la respuesta:', response.status);
-            ordersPanel.innerHTML = '<div class="error">Error cargando órdenes</div>';
-        }
     } catch (error) {
         console.error('❌ Error cargando órdenes:', error);
         ordersPanel.innerHTML = '<div class="error">No se pudieron cargar las órdenes</div>';
@@ -846,17 +982,63 @@ function setupStatusFilter() {
         const selectedStatus = this.value;
         console.log('🔍 Filtrando por estado:', selectedStatus);
         
-        let filteredOrders = allOrders;
+        // Si se selecciona "Entregados" (estado 4), mostrar mensaje informativo
+        if (selectedStatus === '4') {
+            const ordersPanel = document.getElementById('ordersPanel');
+            if (ordersPanel) {
+                ordersPanel.innerHTML = `
+                    <div class="info-message" style="
+                        text-align: center;
+                        padding: 40px 20px;
+                        background: #f8f9fa;
+                        border-radius: 12px;
+                        border: 2px dashed #dee2e6;
+                        margin: 20px 0;
+                    ">
+                        <div style="font-size: 48px; margin-bottom: 16px;">📋</div>
+                        <h3 style="color: #495057; margin-bottom: 12px; font-size: 20px;">Órdenes Entregadas</h3>
+                        <p style="color: #6c757d; margin-bottom: 16px; font-size: 16px;">
+                            Las órdenes entregadas se han movido al historial.
+                        </p>
+                        <p style="color: #6c757d; font-size: 14px;">
+                            Ve a la sección <strong>"Entregados"</strong> para ver todas las órdenes completadas.
+                        </p>
+                        <button onclick="showAdminSection('history')" style="
+                            background: #007bff;
+                            color: white;
+                            border: none;
+                            padding: 10px 20px;
+                            border-radius: 6px;
+                            cursor: pointer;
+                            font-size: 14px;
+                            margin-top: 16px;
+                            transition: background 0.2s;
+                        " onmouseover="this.style.background='#0056b3'" onmouseout="this.style.background='#007bff'">
+                            Ver Órdenes Entregadas
+                        </button>
+                    </div>
+                `;
+            }
+            return;
+        }
+        
+        // Para otros estados, filtrar órdenes activas (no entregadas)
+        let activeOrders = allOrders.filter(order => {
+            const orderStatusId = order.status?.id || 1;
+            return orderStatusId !== 4; // Excluir órdenes entregadas
+        });
+        
+        let filteredOrders = activeOrders;
         
         if (selectedStatus !== 'all') {
             const statusId = parseInt(selectedStatus);
-            filteredOrders = allOrders.filter(order => {
+            filteredOrders = activeOrders.filter(order => {
                 const orderStatusId = order.status?.id || 1;
                 return orderStatusId === statusId;
             });
         }
         
-        console.log(`📊 Mostrando ${filteredOrders.length} de ${allOrders.length} órdenes`);
+        console.log(`📊 Mostrando ${filteredOrders.length} de ${activeOrders.length} órdenes activas`);
         renderAdminOrders(filteredOrders);
     });
 }
@@ -977,28 +1159,12 @@ function renderAdminOrders(orders) {
 // Funciones globales adicionales
 window.viewOrderDetails = async function(orderId) {
     console.log('📋 Cargando detalles de la orden:', orderId);
-    console.log('🔍 URL:', `https://localhost:7069/api/v1/Order/${orderId}`);
+    console.log('🔍 Obteniendo detalles de orden:', orderId);
     
     try {
-        const response = await fetch(`https://localhost:7069/api/v1/Order/${orderId}`, {
-            method: 'GET',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
-        
-        console.log('📡 Respuesta del servidor:', response.status, response.statusText);
-        
-        if (response.ok) {
-            const orderDetails = await response.json();
+        const orderDetails = await backendRequest(`/Order/${orderId}`);
             console.log('✅ Detalles de la orden recibidos:', orderDetails);
             showOrderDetailsModal(orderDetails);
-        } else {
-            const errorText = await response.text();
-            console.error('❌ Error HTTP:', response.status, errorText);
-            showNotification(`Error ${response.status}: ${errorText}`, 'error');
-        }
     } catch (error) {
         console.error('❌ Error de conexión:', error);
         showNotification(`Error de conexión: ${error.message}`, 'error');
@@ -1015,10 +1181,25 @@ function showOrderDetailsModal(orderDetails) {
         modal.className = 'modal';
         document.body.appendChild(modal);
     }
+    // Persistir datos clave como dataset para usos posteriores (recibo)
+    try {
+        modal.setAttribute('data-created-at', orderDetails.createdAt || '');
+        modal.setAttribute('data-delivery-to', (orderDetails.deliveryTo || ''));
+        modal.setAttribute('data-delivery-type', (orderDetails.deliveryType?.name || ''));
+    } catch {}
     
-    // Determinar si mostrar dirección (solo si es delivery)
-    const isDelivery = orderDetails.deliveryType?.id === 1; // 1 = Delivery
-    const showAddress = isDelivery && orderDetails.deliveryTo;
+    // Etiqueta contextual según tipo de entrega
+    const typeName = (orderDetails.deliveryType?.name || '').toLowerCase();
+    const isDelivery = /delivery/.test(typeName) || orderDetails.deliveryType?.id === 1;
+    const isTakeAway = /take|retir/.test(typeName) || orderDetails.deliveryType?.id === 2;
+    const isDineIn = /dine|comer|mesa|local/.test(typeName) || orderDetails.deliveryType?.id === 3;
+    let deliveryLabel = '';
+    if (isDelivery) deliveryLabel = 'Dirección';
+    else if (isTakeAway) deliveryLabel = 'Retira';
+    else if (isDineIn) deliveryLabel = 'Mesa';
+    const showDeliveryTo = !!deliveryLabel; // siempre mostramos la fila, con fallback si vacío
+    const deliveryToValue = (orderDetails.deliveryTo || '').trim();
+    console.log('[DETALLE] tipo=', orderDetails.deliveryType, 'label=', deliveryLabel, 'to=', deliveryToValue);
     
     modal.innerHTML = `
         <div class="modal__overlay" onclick="closeOrderDetailsModal()"></div>
@@ -1038,10 +1219,10 @@ function showOrderDetailsModal(orderDetails) {
                             <span class="label">Tipo de entrega:</span>
                             <span class="value">${orderDetails.deliveryType?.name || 'Desconocido'}</span>
                         </div>
-                        ${showAddress ? `
+                        ${showDeliveryTo ? `
                         <div class="info-row">
-                            <span class="label">Dirección:</span>
-                            <span class="value">${orderDetails.deliveryTo}</span>
+                            <span class="label">${deliveryLabel}:</span>
+                            <span class="value">${deliveryToValue || (isDineIn ? 'No especificada' : isTakeAway ? 'No especificado' : 'No especificada')}</span>
                         </div>
                         ` : ''}
                         <div class="info-row">
@@ -1077,6 +1258,9 @@ function showOrderDetailsModal(orderDetails) {
                             `).join('') || '<p>No hay items en esta orden</p>'}
                         </div>
                     </div>
+                    <div class="order-actions" style="margin-top: 16px; display: flex; gap: 8px;">
+                        <button class="btn btn--primary" onclick="printOrderReceipt()">Imprimir comprobante</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1084,6 +1268,172 @@ function showOrderDetailsModal(orderDetails) {
     
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
+}
+// Comprobante/recibo (no fiscal)
+window.printOrderReceipt = function () {
+    try {
+        // Resolver datos desde la página actual si no viene el objeto completo
+        const modal = document.getElementById('orderDetailsModal');
+        const safeGet = (sel) => modal?.querySelector(sel)?.textContent || '';
+        const orderNumber = safeGet('.modal__header h2')?.replace(/\D+/g, '') || '';
+        const deliveryTypeName = safeGet('.info-row:nth-child(2) .value');
+        const deliveryLabelEl = Array.from(modal?.querySelectorAll('.info-row .label')||[]).find(el=>/dirección|retira|mesa/i.test(el.textContent||''));
+        const deliveryValueEl = deliveryLabelEl ? deliveryLabelEl.nextElementSibling : null;
+        const deliveryLabel = deliveryLabelEl?.textContent || '';
+        const deliveryTo = (deliveryValueEl?.textContent || '');
+        const totalAmount = safeGet('.price')?.replace(/[^0-9.,]/g,'');
+        let createdAt = modal?.getAttribute('data-created-at') || safeGet('.info-row:nth-child(4) .value');
+        // Si no es válido, intentar buscar por etiqueta "Fecha" y luego fallback a ahora
+        if (!createdAt || isNaN(new Date(createdAt).getTime())) {
+            const dateRowLabel = Array.from(modal?.querySelectorAll('.info-row .label')||[]).find(el=>/fecha/i.test(el.textContent||''));
+            const dateValEl = dateRowLabel ? dateRowLabel.nextElementSibling : null;
+            createdAt = (dateValEl?.textContent || '').trim();
+        }
+        if (!createdAt || isNaN(new Date(createdAt).getTime())) {
+            createdAt = new Date().toISOString();
+        }
+
+        // Extraer items (nombre y cantidad) del modal
+        const items = Array.from(modal?.querySelectorAll('.items-list .item-row')||[]).map(row => ({
+            name: row.querySelector('h4')?.textContent || 'Plato',
+            qty: row.querySelector('p')?.textContent?.replace(/\D+/g,'') || '1'
+        }));
+
+        const w = window.open('', '_blank');
+        if (!w) return;
+        w.document.write(`<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Comprobante #${orderNumber}</title>
+            <style>
+            :root{--brand:#8B0000;--ink:#1f2328;--muted:#6b7280;--border:#e5e7eb}
+            *{box-sizing:border-box}
+            body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,sans-serif;margin:0;background:#fafafa;color:var(--ink)}
+            .page{max-width:720px;margin:32px auto;padding:0 16px}
+            .receipt{background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.06);overflow:hidden}
+            .head{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;border-bottom:1px solid var(--border)}
+            .brand{display:flex;gap:12px;align-items:center}
+            .logo{width:36px;height:36px;border-radius:8px;background:var(--brand);box-shadow:inset 0 0 0 3px rgba(255,255,255,.4)}
+            .title{font-weight:800;letter-spacing:.2px;color:var(--brand)}
+            .code{color:var(--muted)}
+            .body{padding:20px 24px;display:grid;gap:18px}
+            .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+            .row{display:flex;justify-content:space-between;gap:12px}
+            .label{color:var(--muted)}
+            table{width:100%;border-collapse:collapse;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+            th,td{padding:10px 12px;border-bottom:1px solid var(--border);text-align:left}
+            th{background:#f9fafb;color:#374151;font-weight:600}
+            tfoot td{font-weight:800;color:var(--brand)}
+            .actions{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end}
+            .btn{background:var(--brand);color:#fff;border:none;border-radius:8px;padding:10px 14px;font-weight:600;cursor:pointer}
+            @media print{.actions{display:none}body{background:#fff}.page{margin:0}.receipt{border:none;box-shadow:none}}
+            </style>
+        </head><body>
+            <div class="page">
+                <div class="receipt">
+                    <div class="head">
+                        <div class="brand"><div class="logo"></div><div class="title">Comprobante (no fiscal)</div></div>
+                        <div class="code">#${orderNumber}</div>
+                    </div>
+                    <div class="body">
+                        <div class="grid">
+                            <div class="row"><span class="label">Fecha</span><span>${new Date(createdAt).toLocaleString()}</span></div>
+                            <div class="row"><span class="label">Tipo de entrega</span><span>${deliveryTypeName || '—'}</span></div>
+                            ${deliveryLabel ? `<div class="row"><span class="label">${deliveryLabel}</span><span>${deliveryTo || '—'}</span></div>` : ''}
+                        </div>
+                        <div>
+                            <table>
+                                <thead><tr><th>Item</th><th style="width:110px">Cantidad</th></tr></thead>
+                                <tbody>
+                                    ${items.map(i=>`<tr><td>${i.name}</td><td>${i.qty}</td></tr>`).join('')}
+                                </tbody>
+                                <tfoot><tr><td>Total</td><td>$${totalAmount}</td></tr></tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="actions"><button class="btn" onclick="window.print()">Imprimir</button></div>
+                </div>
+            </div>
+        </body></html>`);
+        w.document.close();
+        w.focus();
+    } catch (e) { console.error('No se pudo imprimir el comprobante', e); }
+}
+
+// Simulación de pago (estilo MP)
+function showPaymentModal(order) {
+    // Crear modal si no existe
+    let modal = document.getElementById('paymentModal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'paymentModal';
+        modal.className = 'modal';
+        document.body.appendChild(modal);
+    }
+
+    const total = order?.totalAmount ?? 0;
+    const orderNumber = order?.orderNumber ?? '—';
+    
+    modal.innerHTML = `
+        <div class="modal__overlay" onclick="closePaymentModal()"></div>
+        <div class="modal__content">
+            <div class="modal__header">
+                <h2>Pagar orden #${orderNumber}</h2>
+                <button class="modal__close" onclick="closePaymentModal()">×</button>
+            </div>
+            <div class="modal__body">
+                <div style="display:grid;gap:12px;">
+                    <div style="font-size:1.1rem;">Total a pagar: <strong class="price">$${total}</strong></div>
+                    <label>Método de pago
+                        <select id="payMethod" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;">
+                            <option>Tarjeta de crédito</option>
+                            <option>Tarjeta de débito</option>
+                            <option>QR / Billetera</option>
+                        </select>
+                    </label>
+                    <button id="payBtn" class="btn btn--primary">Pagar</button>
+                    <div id="payProgress" style="display:none;align-items:center;gap:8px;">
+                        <div class="spinner" style="width:18px;height:18px;border:2px solid #ccc;border-top-color:#8B0000;border-radius:50%;animation:spin 1s linear infinite"></div>
+                        Procesando pago...
+                    </div>
+                    <div id="payResult" style="display:none;color:#0a7a14;font-weight:600;">Pago exitoso</div>
+                    <div id="payActions" style="display:none;gap:8px;">
+                        <button class="btn btn--primary" onclick="printOrderReceipt()">Imprimir comprobante</button>
+                        <button class="btn" onclick="closePaymentModal()">Cerrar</button>
+                    </div>
+                    <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.style.overflow = 'hidden';
+    modal.style.display = 'flex';
+
+    const payBtn = modal.querySelector('#payBtn');
+    const progress = modal.querySelector('#payProgress');
+    const result = modal.querySelector('#payResult');
+    const actions = modal.querySelector('#payActions');
+
+    payBtn.addEventListener('click', () => {
+        payBtn.disabled = true;
+        progress.style.display = 'flex';
+
+        setTimeout(() => {
+            progress.style.display = 'none';
+            result.style.display = '';
+            actions.style.display = 'flex';
+            // Limpiar carrito tras pago
+            localStorage.removeItem('cart');
+            loadCart();
+            updateCartCounter();
+        }, 1800);
+    });
+}
+
+window.closePaymentModal = function() {
+    const modal = document.getElementById('paymentModal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
 }
 
 // Función para cerrar el modal
@@ -1145,15 +1495,7 @@ window.updateOrderStatus = async function(orderId, statusId, selectElement) {
         console.log('🚀 Iniciando actualización de estado...');
         
         // Obtener los detalles de la orden primero
-        const orderDetailsResponse = await fetch(`https://localhost:7069/api/v1/Order/${orderId}`);
-        if (!orderDetailsResponse.ok) {
-            if (orderDetailsResponse.status === 404) {
-                throw new Error('Orden no encontrada');
-            }
-            throw new Error('No se pudo obtener los detalles de la orden');
-        }
-        
-        const orderDetails = await orderDetailsResponse.json();
+        const orderDetails = await backendRequest(`/Order/${orderId}`);
         console.log('📋 Detalles de la orden:', orderDetails);
         
         // Validar que la orden no esté cerrada (estado 5 = Cancelado)
@@ -1174,34 +1516,12 @@ window.updateOrderStatus = async function(orderId, statusId, selectElement) {
         const updatePromises = orderDetails.items.map(async (item) => {
             console.log(`🔄 Actualizando item ${item.id} a estado ${statusId}`);
             
-            const itemUpdateResponse = await fetch(`https://localhost:7069/api/v1/Order/${orderId}/item/${item.id}`, {
+            return await backendRequest(`/Order/${orderId}/item/${item.id}`, {
                 method: 'PATCH',
-                mode: 'cors',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
                 body: JSON.stringify({
                     status: parseInt(statusId)
                 })
             });
-            
-            if (!itemUpdateResponse.ok) {
-                const errorData = await itemUpdateResponse.json();
-                let errorMessage = `Error actualizando item ${item.id}`;
-                
-                // Manejar errores específicos del backend
-                if (itemUpdateResponse.status === 400) {
-                    errorMessage = `Estado inválido o transición no permitida para el item ${item.id}`;
-                } else if (itemUpdateResponse.status === 404) {
-                    errorMessage = `Item ${item.id} no encontrado`;
-                } else if (errorData.message) {
-                    errorMessage = errorData.message;
-                }
-                
-                throw new Error(errorMessage);
-            }
-            
-            return itemUpdateResponse.json();
         });
         
         const results = await Promise.all(updatePromises);
@@ -1209,12 +1529,25 @@ window.updateOrderStatus = async function(orderId, statusId, selectElement) {
         
         showNotification(`Orden ${orderId} actualizada a "${newStatusName}"`, 'success');
         
+        // Verificar si se marcó como entregado (estado 4)
+        if (parseInt(statusId) === 4) {
+            // Mostrar notificación especial de movimiento al historial
+            showSpecialNotification(`🎉 ¡Orden ${orderId} movida al historial de órdenes entregadas!`);
+            
+            // Esperar un momento para que se vea la notificación
+            setTimeout(async () => {
+                // Recargar el panel de administración
+                console.log('🔄 Recargando panel de administración...');
+                await loadAdminPanel();
+            }, 2000);
+        } else {
+            // Recargar el panel de administración inmediatamente
+            console.log('🔄 Recargando panel de administración...');
+            await loadAdminPanel();
+        }
+        
         // Actualizar el select con el nuevo valor
         selectElement.dataset.previousValue = statusId;
-        
-        // Recargar el panel de administración
-        console.log('🔄 Recargando panel de administración...');
-        await loadAdminPanel();
         
         // También recargar "Mis órdenes" si estamos en esa vista
         if (document.getElementById('myOrdersList')) {
@@ -1241,6 +1574,113 @@ let currentCategory = 'all';
 
 // Variable para el rol actual
 let currentRole = 'cliente'; // 'cliente' o 'admin'
+
+// Variable para la URL base del backend
+let backendBaseURL = 'http://localhost:5000/api/v1';
+
+// Función para detectar la URL correcta del backend
+async function detectBackendURL() {
+    console.log('🔍 Detectando URL correcta del backend...');
+    
+    const possibleURLs = [
+        'http://localhost:5000/api/v1',
+        'https://localhost:7069/api/v1',
+        'http://localhost:5069/api/v1'
+    ];
+    
+    for (const url of possibleURLs) {
+        try {
+            console.log(`📡 Probando: ${url}/Dish`);
+            const response = await fetch(`${url}/Dish`, {
+                method: 'GET',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            
+            if (response.ok) {
+                console.log(`✅ Backend encontrado en: ${url}`);
+                backendBaseURL = url;
+                return url;
+            }
+        } catch (error) {
+            console.log(`❌ ${url} - Error:`, error.message);
+        }
+    }
+    
+    console.log('❌ No se pudo conectar con el backend en ninguna URL');
+    return null;
+}
+
+// Función helper para hacer llamadas al backend
+async function backendRequest(endpoint, options = {}) {
+    const url = `${backendBaseURL}${endpoint}`;
+    console.log(`📡 Llamando a: ${url}`);
+    
+    const config = {
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        },
+        ...options
+    };
+    
+    try {
+        const response = await fetch(url, config);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        return await response.json();
+    } catch (error) {
+        console.error(`❌ Error en ${url}:`, error);
+        throw error;
+    }
+}
+
+// Función helper para convertir fechas a UTC
+function toUTCString(date) {
+    if (!date) return null;
+    
+    // Si es una fecha local, convertir a UTC
+    const utcDate = new Date(date);
+    return utcDate.toISOString();
+}
+
+// Función helper para formatear fechas para el backend
+function formatDateForBackend(date) {
+    if (!date) return null;
+    
+    // Convertir a UTC y formatear como espera el backend
+    const utcDate = new Date(date);
+    return utcDate.toISOString().replace('Z', 'Z'); // Asegurar formato UTC
+}
+
+// Función helper para mostrar fechas en formato local
+function formatDateForDisplay(utcDateString) {
+    if (!utcDateString) return 'N/A';
+    
+    try {
+        // Parsear la fecha UTC del backend
+        const date = new Date(utcDateString);
+        
+        // Formatear para mostrar en zona horaria local
+        return date.toLocaleString('es-ES', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        });
+    } catch (error) {
+        console.error('❌ Error formateando fecha:', error);
+        return utcDateString; // Devolver original si hay error
+    }
+}
 
 // Función para inicializar filtros
 function initializeFilters() {
@@ -1502,30 +1942,17 @@ async function loadCategories() {
     }
 
     try {
-        const response = await fetch('https://localhost:7069/api/v1/Category', {
-            method: 'GET',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
-        if (response.ok) {
-            const categories = await response.json();
-            console.log('✅ Categorías cargadas:', categories);
-            
-            // Agregar "Todas" al inicio
-            allCategories = [
-                { id: 'all', name: 'Todas' },
-                ...categories
-            ];
-            
-            console.log('📋 Categorías finales:', allCategories);
-            renderCategories();
-        } else {
-            console.error('❌ Error HTTP:', response.status);
-            // Crear categorías por defecto si falla
-            createDefaultCategories();
-        }
+        const categories = await backendRequest('/Category');
+        console.log('✅ Categorías cargadas:', categories);
+        
+        // Agregar "Todas" al inicio
+        allCategories = [
+            { id: 'all', name: 'Todas' },
+            ...categories
+        ];
+        
+        console.log('📋 Categorías finales:', allCategories);
+        renderCategories();
     } catch (error) {
         console.error('❌ Error de conexión:', error);
         // Crear categorías por defecto si falla
@@ -1624,7 +2051,7 @@ function filterByCategory(categoryId) {
 }
 
 // Función para cargar menú (actualizada)
-async function loadMenu() {
+window.loadMenu = async function() {
     console.log('🍽️ Cargando menú...');
     const dishesGrid = document.getElementById('dishesGrid');
     if (!dishesGrid) {
@@ -1633,24 +2060,596 @@ async function loadMenu() {
     }
 
     try {
-        const response = await fetch('https://localhost:7069/api/v1/Dish', {
-            method: 'GET',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
-        if (response.ok) {
-            allDishes = await response.json();
-            console.log('✅ Platos cargados:', allDishes.length);
-            console.log('📋 Datos de platos:', allDishes);
-            renderDishes(allDishes);
-        } else {
-            console.error('❌ Error HTTP:', response.status);
-            dishesGrid.innerHTML = '<div class="error">Error cargando el menú</div>';
-        }
+        allDishes = await backendRequest('/Dish');
+        console.log('✅ Platos cargados:', allDishes.length);
+        console.log('📋 Datos de platos:', allDishes);
+        renderDishes(allDishes);
     } catch (error) {
-        console.error('❌ Error de conexión:', error);
+        console.error('❌ Error cargando menú:', error);
         dishesGrid.innerHTML = '<div class="error">No se pudo conectar con el servidor</div>';
     }
 }
+
+// ===== FUNCIONES DEL PANEL DE ADMINISTRACIÓN =====
+
+// Función para mostrar secciones del panel de administración
+window.showAdminSection = function(section) {
+    console.log('🔧 Mostrando sección de administración:', section);
+    
+    try {
+        // Asegurar que la sección padre del panel esté visible
+        const panelSection = document.getElementById('panel-ordenes');
+        if (panelSection) {
+            panelSection.classList.remove('hidden');
+            console.log('✅ Panel de administración mostrado');
+        }
+        
+        // Ocultar todas las subsecciones
+        document.querySelectorAll('.admin-section').forEach(sec => {
+            sec.classList.add('hidden');
+            console.log('🔍 Ocultando sección:', sec.id);
+        });
+        
+        // Remover clase active de todos los enlaces
+        document.querySelectorAll('.admin-nav__link').forEach(link => {
+            link.classList.remove('active');
+        });
+        
+        // Mostrar la sección seleccionada
+        const targetSection = document.getElementById(`admin-${section}-section`);
+        if (targetSection) {
+            targetSection.classList.remove('hidden');
+            console.log('✅ Sección mostrada:', targetSection.id);
+            console.log('🔍 Clases después:', targetSection.className);
+            console.log('🔍 Display después:', window.getComputedStyle(targetSection).display);
+        } else {
+            console.error('❌ No se encontró la sección:', `admin-${section}-section`);
+            return;
+        }
+        
+        // Activar el enlace correspondiente
+        const targetLink = document.querySelector(`[onclick="showAdminSection('${section}')"]`);
+        if (targetLink) {
+            targetLink.classList.add('active');
+            console.log('✅ Enlace activado:', targetLink.textContent);
+        }
+        
+        // Cargar datos según la sección
+        switch(section) {
+            case 'orders':
+                console.log('📋 Cargando panel de órdenes...');
+                loadAdminPanel();
+                break;
+            case 'menu':
+                console.log('🍽️ Cargando gestión de menú...');
+                loadMenuManagement();
+                break;
+            case 'history':
+                console.log('📜 Cargando historial...');
+                loadOrderHistory();
+                break;
+        }
+    } catch (error) {
+        console.error('❌ Error en showAdminSection:', error);
+    }
+};
+
+// ===== GESTIÓN DE MENÚ =====
+
+// Función para cargar la gestión del menú
+async function loadMenuManagement() {
+    console.log('🍽️ Cargando gestión del menú...');
+    const menuPanel = document.getElementById('menuManagementPanel');
+    if (!menuPanel) {
+        console.error('❌ No se encontró menuManagementPanel');
+        return;
+    }
+    
+    // Mostrar indicador de carga
+    menuPanel.innerHTML = '<div class="loading">Cargando gestión del menú...</div>';
+    
+    try {
+        // Cargar todos los platos (incluyendo inactivos)
+        const dishes = await backendRequest('/Dish?onlyActive=false');
+        console.log('✅ Platos cargados para gestión:', dishes.length);
+        renderMenuManagement(dishes);
+    } catch (error) {
+        console.error('❌ Error cargando gestión del menú:', error);
+        menuPanel.innerHTML = '<div class="error">No se pudo conectar con el servidor</div>';
+    }
+}
+
+// Función para renderizar la gestión del menú
+function renderMenuManagement(dishes) {
+    const menuPanel = document.getElementById('menuManagementPanel');
+    if (!menuPanel) return;
+    
+    menuPanel.innerHTML = '';
+    
+    if (dishes.length === 0) {
+        menuPanel.innerHTML = `
+            <div class="empty-dishes">
+                <div class="empty-dishes__content">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M8 12h8"></path>
+                    </svg>
+                    <h3>No hay platos en el menú</h3>
+                    <p>Agrega tu primer plato usando el botón "Añadir Nuevo Plato".</p>
+                </div>
+            </div>
+        `;
+        return;
+    }
+    
+    dishes.forEach(dish => {
+        const card = document.createElement('div');
+        card.className = 'menu-item-card';
+        
+        const isActive = dish.isActive !== false;
+        const statusClass = isActive ? 'active' : 'inactive';
+        const statusText = isActive ? 'Activo' : 'Inactivo';
+        const actionButton = isActive ? 
+            `<button class="btn btn--deactivate" onclick="toggleDishStatus('${dish.id}', false)">Desactivar</button>` :
+            `<button class="btn btn--activate" onclick="toggleDishStatus('${dish.id}', true)">Activar</button>`;
+        
+        card.innerHTML = `
+            <div class="menu-item-header">
+                <h3 class="menu-item-name">${dish.name}</h3>
+                <span class="menu-item-status ${statusClass}">${statusText}</span>
+            </div>
+            <div class="menu-item-price">$${dish.price}</div>
+            <div class="menu-item-description">${dish.description || 'Sin descripción'}</div>
+            <div class="menu-item-actions">
+                <button class="btn btn--edit" onclick="editDish('${dish.id}')">Editar</button>
+                ${actionButton}
+            </div>
+        `;
+        
+        menuPanel.appendChild(card);
+    });
+}
+
+// Función para alternar el estado de un plato
+window.toggleDishStatus = async function(dishId, newStatus) {
+    console.log(`🔄 Cambiando estado del plato ${dishId} a ${newStatus ? 'activo' : 'inactivo'}`);
+    
+    try {
+        // Primero obtener los datos actuales del plato
+        const dish = await backendRequest(`/Dish/${dishId}`);
+        
+        // Preparar datos para actualización
+        const updateData = {
+            name: dish.name,
+            description: dish.description || '',
+            price: dish.price,
+            category: dish.category?.id || 1,
+            image: dish.image || null,
+            isActive: newStatus
+        };
+        
+        console.log('📤 Enviando datos de actualización:', updateData);
+        
+        // Actualizar el plato
+        const updatedDish = await backendRequest(`/Dish/${dishId}`, {
+            method: 'PUT',
+            body: JSON.stringify(updateData)
+        });
+        
+        console.log('✅ Plato actualizado:', updatedDish);
+        showNotification(
+            `Plato ${newStatus ? 'activado' : 'desactivado'} exitosamente`, 
+            'success'
+        );
+        
+        // Recargar la gestión del menú
+        loadMenuManagement();
+    } catch (error) {
+        console.error('❌ Error de conexión:', error);
+        showNotification('Error de conexión. Intenta nuevamente.', 'error');
+    }
+};
+
+// Función para editar un plato
+window.editDish = async function(dishId) {
+    console.log('✏️ Editando plato:', dishId);
+    
+    try {
+        // Obtener datos del plato
+        const dish = await backendRequest(`/Dish/${dishId}`);
+        
+        // Cargar categorías para el select
+        let categories = [];
+        try {
+            categories = await backendRequest('/Category');
+        } catch (error) {
+            console.error('❌ Error cargando categorías:', error);
+        }
+        
+        showDishFormModal(dish, categories);
+    } catch (error) {
+        console.error('❌ Error cargando plato:', error);
+        showNotification('Error al cargar los datos del plato', 'error');
+    }
+};
+
+// ===== CREAR/EDITAR PLATO =====
+
+// Función para mostrar el modal de crear/editar plato
+async function showDishFormModal(dish = null, categories = []) {
+    const isEdit = dish !== null;
+    const title = isEdit ? 'Editar Plato' : 'Crear Nuevo Plato';
+    
+    // Si no se pasaron categorías, cargarlas
+    if (categories.length === 0) {
+        try {
+            categories = await backendRequest('/Category');
+        } catch (error) {
+            console.error('❌ Error cargando categorías:', error);
+        }
+    }
+    
+    // Crear modal
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.id = 'dishFormModal';
+    modal.style.display = 'flex';
+    
+    const categoryOptions = categories.map(cat => 
+        `<option value="${cat.id}" ${dish && dish.category?.id === cat.id ? 'selected' : ''}>${cat.name}</option>`
+    ).join('');
+    
+    modal.innerHTML = `
+        <div class="modal__overlay" onclick="closeDishFormModal()"></div>
+        <div class="modal__content dish-form-modal">
+            <div class="modal__header">
+                <h2>${title}</h2>
+                <button class="modal__close" onclick="closeDishFormModal()">&times;</button>
+            </div>
+            <div class="modal__body">
+                <form class="dish-form" id="dishForm">
+                    <div class="form-group">
+                        <label for="dishName">Nombre del plato *</label>
+                        <input type="text" id="dishName" name="name" value="${dish?.name || ''}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dishDescription">Descripción</label>
+                        <textarea id="dishDescription" name="description" placeholder="Describe el plato...">${dish?.description || ''}</textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dishPrice">Precio *</label>
+                        <input type="number" id="dishPrice" name="price" value="${dish?.price || ''}" step="0.01" min="0" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dishCategory">Categoría *</label>
+                        <select id="dishCategory" name="category" required>
+                            <option value="">Selecciona una categoría</option>
+                            ${categoryOptions}
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dishImage">URL de la imagen</label>
+                        <input type="url" id="dishImage" name="image" value="${dish?.image || ''}" placeholder="https://ejemplo.com/imagen.jpg">
+                    </div>
+                    
+                    ${isEdit ? `
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="dishActive" name="isActive" ${dish?.isActive !== false ? 'checked' : ''}>
+                            Plato activo (disponible en el menú)
+                        </label>
+                    </div>
+                    ` : ''}
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn--ghost" onclick="closeDishFormModal()">Cancelar</button>
+                        <button type="submit" class="btn btn--primary">
+                            ${isEdit ? 'Actualizar Plato' : 'Crear Plato'}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
+    
+    // Configurar el formulario
+    const form = document.getElementById('dishForm');
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (isEdit) {
+            updateDish(dish.id);
+        } else {
+            createDish();
+        }
+    });
+}
+
+// Función para cerrar el modal de formulario
+window.closeDishFormModal = function() {
+    const modal = document.getElementById('dishFormModal');
+    if (modal) {
+        modal.remove();
+        document.body.style.overflow = 'auto';
+    }
+};
+
+// Función para crear un nuevo plato
+async function createDish() {
+    console.log('🍽️ Creando nuevo plato...');
+    
+    const formData = {
+        name: document.getElementById('dishName').value,
+        description: document.getElementById('dishDescription').value,
+        price: parseFloat(document.getElementById('dishPrice').value),
+        category: parseInt(document.getElementById('dishCategory').value),
+        image: document.getElementById('dishImage').value || null,
+        isActive: true
+    };
+    
+    console.log('📤 Datos del plato:', formData);
+    // Validaciones en UI
+    if (!formData.name || !formData.name.trim()) {
+        showNotification('El nombre es obligatorio', 'error');
+        document.getElementById('dishName').focus();
+        return;
+    }
+    if (!Number.isFinite(formData.price) || formData.price <= 0) {
+        showNotification('El precio debe ser mayor a 0', 'error');
+        const priceInput = document.getElementById('dishPrice');
+        if (priceInput) priceInput.focus();
+        return;
+    }
+    if (!Number.isInteger(formData.category) || formData.category <= 0) {
+        showNotification('Seleccioná una categoría', 'error');
+        document.getElementById('dishCategory').focus();
+        return;
+    }
+    
+    try {
+        const createdDish = await backendRequest('/Dish', {
+            method: 'POST',
+            body: JSON.stringify(formData)
+        });
+        
+        console.log('✅ Plato creado:', createdDish);
+        showNotification('Plato creado exitosamente', 'success');
+        closeDishFormModal();
+        loadMenuManagement();
+    } catch (error) {
+        console.error('❌ Error de conexión:', error);
+        const msg = /400/.test(String(error && error.message)) ? 'Datos inválidos. Verificá nombre, precio y categoría' : 'Error de conexión. Intenta nuevamente.';
+        showNotification(msg, 'error');
+    }
+}
+
+// Función para actualizar un plato existente
+async function updateDish(dishId) {
+    console.log('✏️ Actualizando plato:', dishId);
+    
+    const formData = {
+        name: document.getElementById('dishName').value,
+        description: document.getElementById('dishDescription').value,
+        price: parseFloat(document.getElementById('dishPrice').value),
+        category: parseInt(document.getElementById('dishCategory').value),
+        image: document.getElementById('dishImage').value || null,
+        isActive: document.getElementById('dishActive')?.checked !== false
+    };
+    
+    console.log('📤 Datos de actualización:', formData);
+    // Validaciones en UI
+    if (!formData.name || !formData.name.trim()) {
+        showNotification('El nombre es obligatorio', 'error');
+        document.getElementById('dishName').focus();
+        return;
+    }
+    if (!Number.isFinite(formData.price) || formData.price <= 0) {
+        showNotification('El precio debe ser mayor a 0', 'error');
+        const priceInput = document.getElementById('dishPrice');
+        if (priceInput) priceInput.focus();
+        return;
+    }
+    if (!Number.isInteger(formData.category) || formData.category <= 0) {
+        showNotification('Seleccioná una categoría', 'error');
+        document.getElementById('dishCategory').focus();
+        return;
+    }
+    
+    try {
+        const updatedDish = await backendRequest(`/Dish/${dishId}`, {
+            method: 'PUT',
+            body: JSON.stringify(formData)
+        });
+        
+        console.log('✅ Plato actualizado:', updatedDish);
+        showNotification('Plato actualizado exitosamente', 'success');
+        closeDishFormModal();
+        loadMenuManagement();
+    } catch (error) {
+        console.error('❌ Error de conexión:', error);
+        const msg = /400/.test(String(error && error.message)) ? 'Datos inválidos. Verificá nombre, precio y categoría' : (/409/.test(String(error && error.message)) ? 'Ya existe un plato con ese nombre' : 'Error de conexión. Intenta nuevamente.');
+        showNotification(msg, 'error');
+    }
+}
+
+// ===== HISTORIAL DE ÓRDENES =====
+
+// Función para cargar el historial de órdenes entregadas
+async function loadOrderHistory() {
+    console.log('📋 Cargando historial de órdenes...');
+    const historyPanel = document.getElementById('historyPanel');
+    if (!historyPanel) {
+        console.error('❌ No se encontró historyPanel');
+        return;
+    }
+    
+    // Mostrar indicador de carga
+    historyPanel.innerHTML = '<div class="loading">Cargando historial de órdenes...</div>';
+    
+    try {
+        // Obtener parámetros de fecha si existen
+        const dateFrom = document.getElementById('historyDateFrom')?.value;
+        const dateTo = document.getElementById('historyDateTo')?.value;
+
+        let endpoint = '/Order?status=4'; // Solo órdenes entregadas (estado 4)
+
+        // Validaciones de fechas en UI
+        const hasFrom = !!dateFrom;
+        const hasTo = !!dateTo;
+        if ((hasFrom && !hasTo) || (!hasFrom && hasTo)) {
+            showNotification('Debés seleccionar fecha desde y fecha hasta', 'error');
+            historyPanel.innerHTML = '<div class="error">Seleccioná fecha desde y hasta</div>';
+            return;
+        }
+
+        if (hasFrom && hasTo) {
+            const fromDate = new Date(dateFrom);
+            const toDate = new Date(dateTo);
+            if (isNaN(fromDate.getTime()) || isNaN(toDate.getTime())) {
+                showNotification('Formato de fecha inválido', 'error');
+                historyPanel.innerHTML = '<div class="error">Formato de fecha inválido</div>';
+                return;
+            }
+            if (fromDate > toDate) {
+                showNotification('Rango de fechas inválido: "desde" es mayor que "hasta"', 'error');
+                historyPanel.innerHTML = '<div class="error">Rango de fechas inválido</div>';
+                return;
+            }
+
+            // Agregar filtros convertidos a UTC ISO
+            const fromIso = formatDateForBackend(new Date(fromDate.setHours(0,0,0,0)));
+            const toIso = formatDateForBackend(new Date(toDate.setHours(23,59,59,999)));
+            endpoint += `&from=${encodeURIComponent(fromIso)}&to=${encodeURIComponent(toIso)}`;
+        }
+
+        console.log('📡 Endpoint del historial:', endpoint);
+        
+        const orders = await backendRequest(endpoint);
+        console.log('✅ Órdenes del historial cargadas:', orders.length);
+        renderOrderHistory(orders);
+    } catch (error) {
+        console.error('❌ Error de conexión:', error);
+        // Mensajes amistosos según posibles 400 del backend
+        const msg = /400/.test(String(error && error.message))
+            ? 'Parámetros inválidos en el filtro de fechas'
+            : 'No se pudo conectar con el servidor';
+        historyPanel.innerHTML = `<div class="error">${msg}</div>`;
+    }
+}
+
+// Función para renderizar el historial de órdenes
+function renderOrderHistory(orders) {
+    const historyPanel = document.getElementById('historyPanel');
+    const resultsCount = document.getElementById('historyResultsCount');
+    
+    if (!historyPanel) return;
+    
+    // Actualizar contador
+    if (resultsCount) {
+        resultsCount.textContent = `${orders.length} órdenes entregadas`;
+    }
+    
+    historyPanel.innerHTML = '';
+    
+    if (orders.length === 0) {
+        historyPanel.innerHTML = `
+            <div class="empty-dishes">
+                <div class="empty-dishes__content">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M8 12h8"></path>
+                    </svg>
+                    <h3>No hay órdenes entregadas</h3>
+                    <p>No se encontraron órdenes entregadas en el período seleccionado.</p>
+                </div>
+            </div>
+        `;
+        return;
+    }
+    
+    orders.forEach(order => {
+        const card = document.createElement('div');
+        card.className = 'history-card';
+        
+        const orderId = order.orderNumber || order.id;
+        const totalAmount = order.totalAmount || 0;
+        const deliveryType = order.deliveryType?.name || 'Desconocido';
+        const createdAt = formatDateForDisplay(order.createdAt || order.createDate);
+        
+        card.innerHTML = `
+            <div class="history-header">
+                <h3 class="history-order-number">Orden #${orderId}</h3>
+                <span class="history-delivery-type">${deliveryType}</span>
+            </div>
+            
+            <div class="history-details">
+                <div class="history-detail">
+                    <span class="history-detail-label">Total</span>
+                    <span class="history-detail-value price">$${totalAmount}</span>
+                </div>
+                <div class="history-detail">
+                    <span class="history-detail-label">Fecha de entrega</span>
+                    <span class="history-detail-value">${createdAt}</span>
+                </div>
+                <div class="history-detail">
+                    <span class="history-detail-label">Estado</span>
+                    <span class="history-detail-value">Entregado</span>
+                </div>
+            </div>
+            
+            <div class="history-actions">
+                <button class="btn btn--view-detail" onclick="viewOrderDetails('${orderId}')">
+                    Ver Detalle
+                </button>
+            </div>
+        `;
+        
+        historyPanel.appendChild(card);
+    });
+}
+
+// Configurar event listeners para el historial
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('🔧 Configurando event listeners del panel de administración...');
+    
+    // Botón de agregar plato
+    const addDishBtn = document.getElementById('addDishBtn');
+    if (addDishBtn) {
+        console.log('✅ Configurando botón de agregar plato');
+        addDishBtn.addEventListener('click', () => {
+            console.log('🍽️ Botón agregar plato clickeado');
+            showDishFormModal();
+        });
+    } else {
+        console.log('❌ No se encontró el botón addDishBtn');
+    }
+    
+    // Filtros del historial
+    const filterHistoryBtn = document.getElementById('filterHistoryBtn');
+    if (filterHistoryBtn) {
+        console.log('✅ Configurando botón de filtrar historial');
+        filterHistoryBtn.addEventListener('click', loadOrderHistory);
+    }
+    
+    const refreshHistoryBtn = document.getElementById('refreshHistory');
+    if (refreshHistoryBtn) {
+        console.log('✅ Configurando botón de actualizar historial');
+        refreshHistoryBtn.addEventListener('click', loadOrderHistory);
+    }
+    
+    // Establecer fecha por defecto (hoy)
+    const today = new Date().toISOString().split('T')[0];
+    const historyDateTo = document.getElementById('historyDateTo');
+    if (historyDateTo && !historyDateTo.value) {
+        historyDateTo.value = today;
+    }
+    
+    console.log('✅ Event listeners del panel de administración configurados');
+    
+});

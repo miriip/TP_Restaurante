@@ -14,15 +14,16 @@ export class Menu {
         this.priceMin = document.getElementById('priceMin');
         this.priceMax = document.getElementById('priceMax');
         
-        this.state = { 
-            categories: [], 
-            dishes: [], 
-            activeCategoryId: null, 
-            query: '', 
+        this.state = {
+            categories: [],
+            dishes: [],
+            activeCategoryId: null,
+            query: '',
             priceMin: null,
             priceMax: null,
-            sort: 'none',
-            sortDirection: 'asc'
+            sort: 'none', // name | price | none
+            sortDirection: 'asc',
+            onlyActive: true
         };
         
         this.init();
@@ -30,6 +31,7 @@ export class Menu {
 
     async init() {
         await this.loadCategories();
+        this.hydrateFiltersFromLocation();
         await this.loadDishes();
         this.setupEventListeners();
         this.renderDishes();
@@ -48,10 +50,14 @@ export class Menu {
     async loadDishes() {
         try {
             const params = new URLSearchParams();
-            if (this.state.query) params.append('search', this.state.query);
-            if (this.state.activeCategoryId) params.append('categoryId', this.state.activeCategoryId);
-            if (this.state.sort !== 'none') params.append('sort', this.state.sort);
-            
+            if (this.state.query) params.append('name', this.state.query);
+            if (this.state.activeCategoryId) params.append('category', this.state.activeCategoryId);
+            if (this.state.sort === 'price') params.append('sortByPrice', this.state.sortDirection === 'asc' ? 'asc' : 'desc');
+            if (this.state.onlyActive === false) params.append('onlyActive', 'false');
+
+            // Persistir filtros en la URL (hash query)
+            this.persistFiltersToLocation(params);
+
             let list = await api.getAllDishes(params.toString());
             
             // Aplicar filtros adicionales en el frontend
@@ -219,6 +225,32 @@ export class Menu {
                 this.loadDishes();
             });
         });
+    }
+
+    hydrateFiltersFromLocation() {
+        try {
+            const q = new URLSearchParams((location.hash.split('?')[1] || ''));
+            const name = q.get('name');
+            const cat = q.get('category');
+            const sortByPrice = q.get('sortByPrice');
+            const onlyActive = q.get('onlyActive');
+            if (name) this.state.query = name;
+            if (cat) this.state.activeCategoryId = parseInt(cat, 10);
+            if (sortByPrice) {
+                this.state.sort = 'price';
+                this.state.sortDirection = sortByPrice === 'desc' ? 'desc' : 'asc';
+            }
+            if (onlyActive === 'false') this.state.onlyActive = false;
+            if (this.searchInput) this.searchInput.value = this.state.query;
+        } catch {}
+    }
+
+    persistFiltersToLocation(params) {
+        try {
+            const baseHash = (location.hash.split('?')[0] || '#menu');
+            const qs = params.toString();
+            location.hash = qs ? `${baseHash}?${qs}` : baseHash;
+        } catch {}
     }
 
     addToCart(item) {

@@ -93,17 +93,18 @@ namespace TPindv_Proyecto_Guerra.Controller
         }
 
         /// <summary>
-        /// Actualizar orden existente
+        /// Actualizar orden existente (merge)
         /// </summary>
         /// <remarks>
-        /// Actualiza los items de una orden existente.
+        /// Actualiza parcialmente los items de una orden existente. Si un dish ya existe en la orden,
+        /// su cantidad se sobrescribe; si no existe, se agrega. Los items no enviados permanecen sin cambios.
         /// </remarks>
         /// <param name="id">Número de orden a actualizar</param>
         /// <param name="orderUpdateRequest">Items actualizados de la orden</param>
         /// <response code="200">Orden actualizada exitosamente</response>
         /// <response code="400">Datos de actualización inválidos</response>
         /// <response code="404">Orden no encontrada</response>
-        [HttpPut("{id}")]
+        [HttpPatch("{id}")]
         [ProducesResponseType(typeof(OrderUpdateResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiError), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiError), StatusCodes.Status404NotFound)]

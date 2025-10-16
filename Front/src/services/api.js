@@ -2,7 +2,7 @@
  * API Service
  * Centraliza todas las llamadas al backend
  */
-const baseURL = 'http://localhost:5069/api/v1';
+const baseURL = 'http://localhost:5000/api/v1';
 
 class ApiService {
     constructor() {
@@ -22,12 +22,30 @@ class ApiService {
 
         try {
             const response = await fetch(url, config);
-            
+            const isNoContent = response.status === 204;
+            const contentType = response.headers.get('content-type') || '';
+
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                let message = `HTTP ${response.status}`;
+                try {
+                    if (!isNoContent && contentType.includes('application/json')) {
+                        const err = await response.json();
+                        if (err && err.message) message = err.message;
+                    } else {
+                        const text = await response.text();
+                        if (text) message = text;
+                    }
+                } catch {}
+                const error = new Error(message);
+                error.status = response.status;
+                throw error;
             }
 
-            return await response.json();
+            if (isNoContent) return true;
+            if (contentType.includes('application/json')) {
+                return await response.json();
+            }
+            return await response.text();
         } catch (error) {
             console.error(`API request failed: ${endpoint}`, error);
             throw error;
@@ -75,22 +93,17 @@ class ApiService {
 
     async updateOrder(id, orderData) {
         return this.request(`/Order/${id}`, {
-            method: 'PUT',
+            method: 'PATCH',
             body: JSON.stringify(orderData)
         });
     }
 
-    async updateOrderStatus(orderId, statusId) {
-        return this.request(`/Order/${orderId}/status`, {
-            method: 'PUT',
-            body: JSON.stringify({ statusId })
-        });
-    }
+    // Deprecated: el backend no expone update de estado general; usar updateOrderItemStatus
 
-    async updateOrderItemStatus(orderId, itemId, data) {
-        return this.request(`/Order/${orderId}/items/${itemId}`, {
-            method: 'PUT',
-            body: JSON.stringify(data)
+    async updateOrderItemStatus(orderId, itemId, status) {
+        return this.request(`/Order/${orderId}/item/${itemId}`, {
+            method: 'PATCH',
+            body: JSON.stringify({ status })
         });
     }
 
@@ -102,6 +115,49 @@ class ApiService {
     // Delivery Type endpoints
     async getAllDeliveryTypes() {
         return this.request('/DeliveryType');
+    }
+
+    // Dish management endpoints
+    async createDish(dishData) {
+        return this.request('/Dish', {
+            method: 'POST',
+            body: JSON.stringify(dishData)
+        });
+    }
+
+    async updateDish(id, dishData) {
+        return this.request(`/Dish/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(dishData)
+        });
+    }
+
+    async deleteDish(id) {
+        return this.request(`/Dish/${id}`, { method: 'DELETE' });
+    }
+
+    async getDishesWithFilters(params = {}) {
+        const queryString = new URLSearchParams(params).toString();
+        return this.request(`/Dish${queryString ? '?' + queryString : ''}`);
+    }
+
+    // Order history endpoints
+    async getOrderHistory(filters = {}) {
+        const queryString = new URLSearchParams(filters).toString();
+        return this.request(`/Order${queryString ? '?' + queryString : ''}`);
+    }
+
+    async getDeliveredOrders(dateFrom = null, dateTo = null) {
+        let params = { status: 4 }; // Estado 4 = Entregado
+        
+        if (dateFrom) {
+            params.from = `${dateFrom}T00:00:00`;
+        }
+        if (dateTo) {
+            params.to = `${dateTo}T23:59:59`;
+        }
+        
+        return this.getOrderHistory(params);
     }
 }
 

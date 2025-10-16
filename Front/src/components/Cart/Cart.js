@@ -26,6 +26,7 @@ export class Cart {
     async init() {
         await this.loadDeliveryTypes();
         this.setupEventListeners();
+        this.updateDeliveryFields();
         this.renderCart();
     }
 
@@ -79,15 +80,33 @@ export class Cart {
         const selectedId = this.deliverySel ? String(this.deliverySel.value) : '';
         const rawName = this.deliveryTypeNames[selectedId] || '';
         const isDelivery = /delivery/i.test(rawName);
+        const isTakeAway = /take/i.test(rawName);
+        const isDineIn = /dine/i.test(rawName) || /comer|mesa|local/i.test(rawName);
         
         // Ocultar campo "Para" para todos los tipos
         if (this.deliveryToWrap) {
             this.deliveryToWrap.classList.add('hidden');
         }
         
-        // Dirección solo para delivery
+        // Campo de entrada visible para Delivery, Para llevar y En mesa
         if (this.deliveryAddressWrap) {
-            this.deliveryAddressWrap.classList.toggle('hidden', !isDelivery);
+            const shouldShow = isDelivery || isTakeAway || isDineIn;
+            this.deliveryAddressWrap.classList.toggle('hidden', !shouldShow);
+        }
+
+        // Ajustar etiqueta y placeholder según tipo
+        if (this.deliveryToLabel) {
+            if (isDelivery) this.deliveryToLabel.textContent = 'Dirección';
+            else if (isTakeAway) this.deliveryToLabel.textContent = 'Nombre de quien retira';
+            else if (isDineIn) this.deliveryToLabel.textContent = 'Mesa';
+            else this.deliveryToLabel.textContent = 'Para';
+        }
+
+        if (this.deliveryAddressInput) {
+            if (isDelivery) this.deliveryAddressInput.placeholder = 'Ej: Av. Corrientes 1234, Piso 5B';
+            else if (isTakeAway) this.deliveryAddressInput.placeholder = 'Ej: Juan Pérez';
+            else if (isDineIn) this.deliveryAddressInput.placeholder = 'Ej: Mesa 12';
+            else this.deliveryAddressInput.placeholder = '';
         }
     }
 
@@ -167,9 +186,25 @@ export class Cart {
             return;
         }
         
+        const toValue = this.buildDeliveryTo();
+        // Validaciones de Delivery según tipo
+        const typeName = (this.deliveryTypeNames[String(deliveryTypeId)] || '').toLowerCase();
+        const isDelivery = /delivery/.test(typeName);
+        const isTakeAway = /take/.test(typeName);
+        const isDineIn = /dine/.test(typeName) || /comer|mesa|local/.test(typeName);
+
+        if ((isDelivery || isTakeAway || isDineIn) && !toValue) {
+            const msg = isDelivery ? 'Ingresá una dirección de entrega' :
+                        isTakeAway ? 'Ingresá el nombre de quien retira' :
+                        'Ingresá el número de mesa';
+            toast(msg);
+            if (this.confirmBtn) this.confirmBtn.disabled = false;
+            return;
+        }
+
         const payload = {
             items: cart.items.map(i => ({ id: i.dishId, quantity: i.quantity, notes: i.note || '' })),
-            delivery: { id: deliveryTypeId, to: this.buildDeliveryTo() },
+            delivery: { id: deliveryTypeId, to: toValue },
             notes: (this.orderNotesInput && this.orderNotesInput.value) ? this.orderNotesInput.value : ''
         };
         
@@ -181,10 +216,12 @@ export class Cart {
             toast('Pedido enviado');
             location.hash = '#mis-ordenes';
         } catch (e) {
+            const message = (e && e.message) ? e.message : '';
             let friendly = 'No se pudo enviar el pedido';
             const status = (e && e.status) ? e.status : undefined;
-            if (status === 400) friendly = 'Datos inválidos. Revisá tipo de entrega y cantidades';
-            else if (status === 404) friendly = 'Recurso no encontrado. Probá crear una nueva orden';
+            if (status === 400) friendly = message || 'Datos inválidos. Revisá tipo de entrega y cantidades';
+            else if (status === 404) friendly = message || 'Recurso no encontrado. Probá crear una nueva orden';
+            else if (status === 409) friendly = message || 'Conflicto con los datos enviados';
             else if (status === 500) friendly = 'No pudimos procesar tu pedido. Intentá de nuevo';
             toast(friendly);
             console.error('Error al confirmar pedido:', e);
@@ -197,9 +234,12 @@ export class Cart {
         const selectedId = this.deliverySel ? String(this.deliverySel.value) : '';
         const rawName = this.deliveryTypeNames[selectedId] || '';
         const isDelivery = /delivery/i.test(rawName);
+        const isTakeAway = /take/i.test(rawName);
+        const isDineIn = /dine/i.test(rawName) || /comer|mesa|local/i.test(rawName);
         const addr = (this.deliveryAddressInput && this.deliveryAddressInput.value) ? this.deliveryAddressInput.value.trim() : '';
-        
-        return isDelivery ? (addr || '') : '';
+        if (isDelivery) return addr;
+        if (isTakeAway || isDineIn) return addr; // reutilizamos un único input visual; semántica cambia por label
+        return '';
     }
 
     toSpanishDeliveryLabel(name) {

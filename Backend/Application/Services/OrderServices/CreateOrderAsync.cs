@@ -4,6 +4,7 @@ using Application.Models.Request.Order;
 using Application.Models.Response.Order;
 using Domain.Entities;
 using Application.Interfaces.IDish;
+using Application.Interfaces.IDeliveryType;
 using Application.Exceptions;
 
 namespace Application.Services.OrderServices
@@ -13,12 +14,14 @@ namespace Application.Services.OrderServices
         private readonly IOrderCommand _orderCommand;
         private readonly IDishQuery _dishQuery;
         private readonly IOrderItemCommand _orderItemCommand;
+        private readonly IDeliveryTypeQuery _deliveryTypeQuery;
 
-        public OrderCreationService(IOrderCommand orderCommand, IDishQuery dishQuery, IOrderItemCommand orderItemCommand)
+        public OrderCreationService(IOrderCommand orderCommand, IDishQuery dishQuery, IOrderItemCommand orderItemCommand, IDeliveryTypeQuery deliveryTypeQuery)
         {
             _orderCommand = orderCommand;
             _dishQuery = dishQuery;
             _orderItemCommand = orderItemCommand;
+            _deliveryTypeQuery = deliveryTypeQuery;
         }
 
         public async Task<OrderCreateResponse> Execute(OrderRequest orderRequest)
@@ -29,10 +32,39 @@ namespace Application.Services.OrderServices
                 throw new EmptyOrderItemsException();
             }
 
-            // Validar tipo de entrega
+            // Validar tipo de entrega y reglas específicas por tipo
             if (orderRequest.Delivery == null || orderRequest.Delivery.Id <= 0)
             {
                 throw new InvalidDeliveryTypeException(orderRequest.Delivery?.Id ?? 0);
+            }
+
+            var deliveryType = await _deliveryTypeQuery.GetDeliveryTypeByIdAsync(orderRequest.Delivery.Id);
+            if (deliveryType == null)
+            {
+                throw new InvalidDeliveryTypeException(orderRequest.Delivery.Id);
+            }
+
+            var deliveryTo = orderRequest.Delivery.To?.Trim();
+            switch (deliveryType.Name)
+            {
+                case "Delivery":
+                    if (string.IsNullOrWhiteSpace(deliveryTo))
+                    {
+                        throw new InvalidDeliveryDestinationException("La dirección de entrega es requerida para Delivery");
+                    }
+                    break;
+                case "Take away":
+                    if (string.IsNullOrWhiteSpace(deliveryTo))
+                    {
+                        throw new InvalidDeliveryDestinationException("El nombre del retirante es requerido para Take away");
+                    }
+                    break;
+                case "Dine in":
+                    if (string.IsNullOrWhiteSpace(deliveryTo))
+                    {
+                        throw new InvalidDeliveryDestinationException("El número de mesa es requerido para Dine in");
+                    }
+                    break;
             }
 
             // Validar que todos los platos existan y estén activos
@@ -63,8 +95,8 @@ namespace Application.Services.OrderServices
                 OverallStatus = 1,
                 Notes = orderRequest.Notes,
                 Price = totalAmount,
-                CreateDate = DateTime.Now,
-                UpdateDate = DateTime.Now
+                CreateDate = DateTime.UtcNow,
+                UpdateDate = DateTime.UtcNow
             };
 
             await _orderCommand.CreateOrderAsync(order);
@@ -78,7 +110,7 @@ namespace Application.Services.OrderServices
                     Notes = item.Notes,
                     Dish = item.Id,
                     Status = 1,
-                    CreateDate = DateTime.Now
+                    CreateDate = DateTime.UtcNow
                 };
                 await _orderItemCommand.CreateOrderItemAsync(orderItem);
             }

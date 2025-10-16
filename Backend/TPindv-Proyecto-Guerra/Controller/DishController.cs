@@ -187,17 +187,17 @@ namespace TPindv_Proyecto_Guerra.Controller
         /// Elimina un plato del menú del restaurante.
         /// </remarks>
         /// <param name="id">ID único del plato a eliminar</param>
-        /// <response code="200">Plato eliminado exitosamente</response>
+        /// <response code="204">Plato eliminado exitosamente</response>
         /// <response code="404">Plato no encontrado</response>
         /// <response code="409">No se puede eliminar - plato en uso</response>
         [HttpDelete("{id}")]
-        [ProducesResponseType(typeof(Application.Models.Response.Dish.DishResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ApiError), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ApiError), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> DeleteDish(Guid id)
         {
-            var deletedDish = await _deleteDishService.DeleteDishAsync(id);
-            return Ok(deletedDish);
+            await _deleteDishService.DeleteDishAsync(id);
+            return NoContent();
         }
     }
 }

@@ -143,6 +143,10 @@ namespace TPindv_Proyecto_Guerra.Middleware
                     statusCode = HttpStatusCode.BadRequest;
                     errorResponse = new ApiError(exception.Message);
                     break;
+                case InvalidDeliveryDestinationException:
+                    statusCode = HttpStatusCode.BadRequest;
+                    errorResponse = new ApiError(exception.Message);
+                    break;
                 case EmptyOrderItemsException:
                     statusCode = HttpStatusCode.BadRequest;
                     errorResponse = new ApiError(exception.Message);

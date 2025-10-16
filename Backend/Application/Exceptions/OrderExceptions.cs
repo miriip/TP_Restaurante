@@ -63,6 +63,11 @@ namespace Application.Exceptions
         public InvalidDeliveryTypeException(string message) : base(message) { }
     }
 
+    public class InvalidDeliveryDestinationException : Exception
+    {
+        public InvalidDeliveryDestinationException(string message) : base(message) { }
+    }
+
     public class EmptyOrderItemsException : Exception
     {
         public EmptyOrderItemsException() : base("La orden debe contener al menos un item") { }

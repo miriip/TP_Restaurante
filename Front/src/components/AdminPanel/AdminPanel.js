@@ -3,7 +3,7 @@
  * Maneja el panel de administración para el personal del restaurante
  */
 import { api } from '../../services/api.js';
-import { createEl } from '../../utils/utils.js';
+import { createEl, toast } from '../../utils/utils.js';
 
 export class AdminPanel {
     constructor() {
@@ -139,24 +139,22 @@ export class AdminPanel {
                 cancelBtn.disabled = true;
                 
                 try {
-                    try {
-                        await api.updateOrderStatus(orderId, val);
-                    } catch {
-                        // Fallback: actualizar items uno por uno
-                        const items = (o.items || o.Items || []);
-                        for (const it of items) {
-                            const itemId = it.id ?? it.Id;
-                            if (itemId != null) {
-                                await api.updateOrderItemStatus(orderId, itemId, { statusId: val });
-                            }
+                    // Actualizar estado item por item (el back expone PATCH /Order/{id}/item/{itemId})
+                    const items = (o.items || o.Items || []);
+                    for (const it of items) {
+                        const itemId = it.id ?? it.Id;
+                        if (itemId != null) {
+                            await api.updateOrderItemStatus(orderId, itemId, val);
                         }
                     }
                     const newName = (this.statuses.find(s => s.id === val) || {}).name;
                     updateChipName(newName);
                     controls.style.display = 'none';
                     changeBtn.style.display = '';
+                    toast('Estado actualizado');
                 } catch (e) {
                     console.error('No se pudo cambiar el estado', e);
+                    toast(e && e.message ? e.message : 'No se pudo cambiar el estado');
                 } finally {
                     changeBtn.disabled = false;
                     confirmBtn.disabled = false;

@@ -124,8 +124,9 @@ namespace Application.Services.OrderItemServices
                 return;
             }
 
-            var hasItemsInPreparation = orderItems.Any(item => item.Status == 2);
-            if (hasItemsInPreparation)
+            // La orden solo pasa a "En preparación" cuando TODOS los ítems están en preparación
+            var allItemsInPreparation = orderItems.All(item => item.Status == 2);
+            if (allItemsInPreparation)
             {
                 order.OverallStatus = 2; // En preparación
                 return;

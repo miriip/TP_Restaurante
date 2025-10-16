@@ -87,9 +87,12 @@ export class Orders {
             const orderId = o.orderNumber ?? o.id ?? o.orderId ?? '—';
             const statusText = (o.status && (o.status.name || o.status.Name)) || o.statusName || o.status || o.statusId || 'Estado N/D';
             const deliveryType = (o.deliveryType && (o.deliveryType.name || o.deliveryType.Name)) || o.deliveryTypeName || o.deliveryType || 'Desconocido';
-            const isDelivery = /delivery/i.test(deliveryType);
-            const deliveryTo = (o.deliveryTo || o.DeliveryTo || (o.delivery && (o.delivery.to || o.delivery.To)) || '').trim();
-            const who = isDelivery ? (deliveryTo || 'Sin dirección') : '';
+            const deliveryToRaw = (o.deliveryTo || o.DeliveryTo || (o.delivery && (o.delivery.to || o.delivery.To)) || '').trim();
+            let label = '';
+            if (/delivery/i.test(deliveryType)) label = 'Dirección';
+            else if (/take|retir/i.test(deliveryType)) label = 'Retira';
+            else if (/dine|comer|mesa|local/i.test(deliveryType)) label = 'Mesa';
+            const who = label ? `${label}: ${deliveryToRaw || 'No especificado'}` : '';
             const when = o.createdAt ? new Date(o.createdAt).toLocaleString() : (o.CreatedAt ? new Date(o.CreatedAt).toLocaleString() : (o.date || ''));
             const title = createEl('div', '', `Orden #${orderId} · ${who}${when ? ' · ' + when : ''}`);
             
@@ -101,7 +104,9 @@ export class Orders {
             const items = createEl('div', '', itemsText || 'Sin items');
             const notesValue = o.notes || o.Notes || '';
             const notesLine = (notesValue ? createEl('div', '', `Notas: ${notesValue}`) : null);
-            const addressLine = (isDelivery && deliveryTo ? createEl('div', '', `Dirección: ${deliveryTo}`) : null);
+            // Línea informativa según el tipo (siempre visible)
+            let infoLine = null;
+            if (label) infoLine = createEl('div', '', `${label}: ${deliveryToRaw || 'No especificado'}`);
             
             const actions = createEl('div', 'row__actions');
             const statusChip = createEl('span', 'chip', String(statusText));
@@ -120,7 +125,7 @@ export class Orders {
             
             actions.append(statusChip, viewDetails, addMore);
             row.append(title, items);
-            if (addressLine) row.append(addressLine);
+            if (infoLine) row.append(infoLine);
             if (notesLine) row.append(notesLine);
             row.append(actions);
             this.myOrdersList.appendChild(row);
@@ -238,14 +243,17 @@ export class Orders {
         const totalAmount = order.TotalAmount || order.totalAmount || order.Price || order.price || order.total || 0;
         const formattedTotal = typeof totalAmount === 'number' ? totalAmount.toFixed(2) : '0.00';
         
-        const isDelivery = /delivery/i.test(deliveryType);
-        const deliveryTo = order.DeliveryTo || order.deliveryTo || '';
+        const deliveryTo = (order.DeliveryTo || order.deliveryTo || '').trim();
+        let deliveryInfoHtml = '';
+        if (/delivery/i.test(deliveryType)) deliveryInfoHtml = `<div><strong>Dirección:</strong> ${deliveryTo || 'No especificada'}</div>`;
+        else if (/take|retir/i.test(deliveryType)) deliveryInfoHtml = `<div><strong>Retira:</strong> ${deliveryTo || 'No especificado'}</div>`;
+        else if (/dine|comer|mesa|local/i.test(deliveryType)) deliveryInfoHtml = `<div><strong>Mesa:</strong> ${deliveryTo || 'No especificada'}</div>`;
         
         orderInfo.innerHTML = `
             <div style="display: grid; gap: 12px;">
                 <div><strong>Estado:</strong> <span class="chip">${status}</span></div>
                 <div><strong>Tipo de entrega:</strong> ${deliveryType}</div>
-                ${isDelivery ? `<div><strong>Dirección:</strong> ${deliveryTo || 'No especificada'}</div>` : ''}
+                ${deliveryInfoHtml}
                 <div><strong>Notas:</strong> ${order.Notes || order.notes || 'Sin notas'}</div>
                 <div><strong>Total:</strong> <span style="color: var(--color-primary); font-weight: bold;">$${formattedTotal}</span></div>
                 <div><strong>Creada:</strong> ${createdAt}</div>

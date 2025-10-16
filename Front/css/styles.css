@@ -41,9 +41,138 @@ body {
 .nav__link:hover { background: rgba(212, 163, 115, 0.12); border-color: rgba(212, 163, 115, 0.4); }
 .nav__link--active { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
 
-.main { padding: var(--space-4) 0; }
+.main { 
+    padding: var(--space-4) 0; 
+    min-height: calc(100vh - 80px);
+}
 .view__title { margin: 0 0 var(--space-3); }
-.hidden { display: none !important; }
+/* Transiciones elegantes entre páginas */
+.view {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.view.hidden {
+    opacity: 0;
+    pointer-events: none;
+    display: none !important;
+}
+
+/* Animación de entrada para nuevas vistas */
+.view.entering {
+    opacity: 0;
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Animaciones eliminadas para evitar el punto negro */
+
+/* Transiciones suaves para elementos interactivos */
+.nav__link {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav__link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(139, 0, 0, 0.15);
+}
+
+/* Transición elegante para el header */
+.header {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Transiciones para botones */
+.btn, .btn--primary, .btn--ghost {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(139, 0, 0, 0.2);
+}
+
+/* Transición para cards */
+.card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+}
+
+/* Transición para el contenido principal */
+.main {
+    transition: all 0.3s ease;
+}
+
+/* Efecto de fade para el contenido */
+.content-fade {
+    animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Transiciones específicas para elementos de bienvenida */
+.welcome-btn {
+    transition: all 0.3s ease;
+}
+
+.welcome-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(139, 0, 0, 0.2);
+}
+
+.welcome-btn:active {
+    transform: translateY(-1px);
+}
+
+/* Transiciones para elementos de información */
+.info-item {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.info-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(139, 0, 0, 0.1);
+}
+
+/* Transición para el logo de bienvenida */
+.welcome-logo__img {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.welcome-logo__img:hover {
+    transform: scale(1.05) rotate(2deg);
+}
+
+/* Transiciones suaves para el menú */
+.dishes-grid {
+    transition: opacity 0.3s ease;
+}
+
+/* Transiciones suaves para filtros */
+.toolbar {
+    transition: opacity 0.3s ease;
+}
 
 /* Welcome Page */
 .welcome-page {
@@ -243,7 +372,22 @@ body {
 .cart__footer { margin-top: var(--space-3); display: flex; gap: var(--space-3); align-items: center; flex-wrap: wrap; justify-content: flex-end; }
 .total { font-size: 1.1rem; }
 
-.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #111; color: #fff; padding: 12px 16px; border-radius: 10px; box-shadow: var(--shadow); }
+.toast { 
+    position: fixed; 
+    bottom: 20px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    background: #111; 
+    color: #fff; 
+    padding: 12px 16px; 
+    border-radius: 10px; 
+    box-shadow: var(--shadow);
+    display: none;
+}
+
+.toast:not(.hidden) {
+    display: block;
+}
 
 @media (max-width: 640px) {
     .header__content { gap: var(--space-2); }
