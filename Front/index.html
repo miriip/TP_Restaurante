@@ -1665,6 +1665,310 @@
                     flex-direction: column;
                 }
             }
+
+            /* Estilos para el modal de edición de órdenes */
+            .edit-order-modal {
+                max-width: 800px;
+                width: 95%;
+            }
+
+            .edit-order-content {
+                display: flex;
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .order-info-section,
+            .order-items-section,
+            .add-items-section {
+                background: linear-gradient(145deg, #f8f9fa, #ffffff);
+                border-radius: 12px;
+                padding: 20px;
+                border: 1px solid #e9ecef;
+            }
+
+            .order-info-section h3,
+            .order-items-section h3,
+            .add-items-section h3 {
+                color: #8B0000;
+                margin-bottom: 16px;
+                font-size: 18px;
+                font-weight: 600;
+            }
+
+            .info-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 16px;
+            }
+
+            .info-item {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .info-item label {
+                font-weight: 600;
+                color: #8B0000;
+                font-size: 14px;
+            }
+
+            .edit-items-list {
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .edit-item-card {
+                display: flex;
+                gap: 16px;
+                padding: 16px;
+                background: white;
+                border-radius: 12px;
+                border: 1px solid #e9ecef;
+                transition: all 0.3s ease;
+            }
+
+            .edit-item-card:hover {
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                border-color: #8B0000;
+            }
+
+            .item-image {
+                width: 80px;
+                height: 80px;
+                border-radius: 8px;
+                overflow: hidden;
+                flex-shrink: 0;
+            }
+
+            .item-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .item-details {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .item-details h4 {
+                margin: 0 0 8px 0;
+                color: #2c3e50;
+                font-size: 16px;
+                font-weight: 600;
+            }
+
+            .item-price {
+                color: #8B0000;
+                font-weight: 600;
+                font-size: 16px;
+                margin: 0 0 12px 0;
+                display: block;
+            }
+
+            .quantity-controls {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin: 8px 0;
+            }
+
+            .btn-remove {
+                background: linear-gradient(135deg, #e74c3c, #c0392b);
+                color: white;
+                border: none;
+                border-radius: 8px;
+                padding: 8px 12px;
+                font-size: 12px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                align-self: flex-start;
+            }
+
+            .btn-remove:hover {
+                background: linear-gradient(135deg, #c0392b, #e74c3c);
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+            }
+
+            /* Botón de editar orden */
+            .btn-edit {
+                background: linear-gradient(135deg, #3498db, #2980b9);
+                color: white;
+                border: none;
+                border-radius: 8px;
+                padding: 8px 16px;
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                margin-left: 8px;
+            }
+
+            .btn-edit:hover {
+                background: linear-gradient(135deg, #2980b9, #3498db);
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+            }
+
+            /* Mensaje de no editable */
+            .edit-disabled {
+                color: #666;
+                font-size: 12px;
+                font-style: italic;
+                padding: 8px 12px;
+                background: #f5f5f5;
+                border-radius: 4px;
+                border: 1px solid #ddd;
+                margin-left: 8px;
+            }
+
+            /* Animación para items eliminados */
+            .edit-item-card.removing {
+                animation: slideOut 0.3s ease-out forwards;
+            }
+
+            @keyframes slideOut {
+                to {
+                    opacity: 0;
+                    transform: translateX(-100%);
+                    height: 0;
+                    margin: 0;
+                    padding: 0;
+                }
+            }
+
+            /* Estilos para el modal de agregar platos */
+            .add-dishes-modal {
+                max-width: 900px;
+                width: 95%;
+            }
+
+            .add-dishes-content {
+                max-height: 70vh;
+                overflow-y: auto;
+            }
+
+            .dishes-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 16px;
+                padding: 16px 0;
+            }
+
+            .dish-card {
+                background: white;
+                border: 1px solid #e9ecef;
+                border-radius: 12px;
+                padding: 16px;
+                transition: all 0.3s ease;
+                position: relative;
+            }
+
+            .dish-card:hover {
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                border-color: #8B0000;
+                transform: translateY(-2px);
+            }
+
+            .dish-image {
+                width: 100%;
+                height: 120px;
+                border-radius: 8px;
+                overflow: hidden;
+                margin-bottom: 12px;
+            }
+
+            .dish-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .dish-info h4 {
+                margin: 0 0 8px 0;
+                color: #2c3e50;
+                font-size: 16px;
+                font-weight: 600;
+            }
+
+            .dish-price {
+                color: #8B0000;
+                font-weight: 600;
+                font-size: 16px;
+                margin: 0 0 12px 0;
+            }
+
+            .dish-actions {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .btn--small {
+                padding: 8px 16px;
+                font-size: 14px;
+                font-weight: 600;
+            }
+
+            /* Badge para items nuevos */
+            .new-item-badge {
+                background: linear-gradient(135deg, #2ED573, #1DD65A);
+                color: white;
+                padding: 4px 8px;
+                border-radius: 12px;
+                font-size: 10px;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                position: absolute;
+                top: 8px;
+                right: 8px;
+                box-shadow: 0 2px 8px rgba(46, 213, 115, 0.3);
+            }
+
+            /* Responsive para el modal de edición */
+            @media (max-width: 768px) {
+                .edit-order-modal {
+                    width: 98%;
+                    max-width: none;
+                }
+
+                .edit-item-card {
+                    flex-direction: column;
+                    gap: 12px;
+                }
+
+                .item-image {
+                    width: 100%;
+                    height: 120px;
+                }
+
+                .info-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .add-dishes-modal {
+                    width: 98%;
+                    max-width: none;
+                }
+
+                .dishes-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .dish-actions {
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+            }
         </style>
 </head>
 <body>
@@ -1858,6 +2162,24 @@
                                     <option value="4">Entregado</option>
                                     <option value="5">Cancelado</option>
                                 </select>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label class="filter-label">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                </svg>
+                                Filtrar por Fecha
+                            </label>
+                            <div class="date-filter-container">
+                                <input type="date" id="panelDateFrom" class="date-input" title="Fecha desde">
+                                <span class="date-separator">hasta</span>
+                                <input type="date" id="panelDateTo" class="date-input" title="Fecha hasta">
+                                <button id="filterPanelBtn" class="btn btn--primary">Filtrar</button>
                             </div>
                         </div>
                         

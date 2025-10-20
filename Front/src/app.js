@@ -369,6 +369,12 @@ window.showConfirmModal = function(title, message, confirmText, cancelText) {
 window.addToCart = function(id, name, price) {
     console.log('Agregar al carrito:', { id, name, price });
     
+    // Verificar que el usuario esté en modo cliente
+    if (currentRole !== 'cliente') {
+        showNotification('Solo los clientes pueden agregar items al carrito', 'error');
+        return;
+    }
+    
     // Buscar el plato en la lista para verificar si está activo
     const dish = allDishes.find(d => d.id === id);
     if (!dish) {
@@ -657,6 +663,13 @@ function showSpecialNotification(message) {
 // Función para cargar el carrito
 async function loadCart() {
     console.log('🛒 Cargando carrito...');
+    
+    // Verificar que el usuario esté en modo cliente
+    if (currentRole !== 'cliente') {
+        console.log('🚫 Usuario en modo personal, no se puede cargar el carrito');
+        return;
+    }
+    
     const cartItems = document.getElementById('cartItems');
     const cartTotal = document.getElementById('cartTotal');
     
@@ -690,7 +703,7 @@ async function loadCart() {
                 <button onclick="updateQuantity(${index}, -1)" class="btn-quantity">-</button>
                 <span class="quantity-display">${item.quantity}</span>
                 <button onclick="updateQuantity(${index}, 1)" class="btn-quantity">+</button>
-                <button onclick="removeItem(${index})" class="btn-remove">🗑️</button>
+                <button onclick="removeCartItem(${index})" class="btn-remove">🗑️</button>
             </div>
         `;
         
@@ -778,6 +791,12 @@ function addDeliveryOptions() {
 
 // Función para actualizar notas del item
 window.updateItemNotes = function(index, notes) {
+    // Verificar que el usuario esté en modo cliente
+    if (currentRole !== 'cliente') {
+        showNotification('Solo los clientes pueden modificar el carrito', 'error');
+        return;
+    }
+    
     const cart = JSON.parse(localStorage.getItem('cart') || '{"items": []}');
     cart.items[index].notes = notes;
     localStorage.setItem('cart', JSON.stringify(cart));
@@ -785,6 +804,12 @@ window.updateItemNotes = function(index, notes) {
 
 // Función para confirmar pedido
 window.confirmOrder = async function() {
+    // Verificar que el usuario esté en modo cliente
+    if (currentRole !== 'cliente') {
+        showNotification('Solo los clientes pueden realizar pedidos', 'error');
+        return;
+    }
+    
     const cart = JSON.parse(localStorage.getItem('cart') || '{"items": []}');
     const deliveryType = document.querySelector('input[name="deliveryType"]:checked').value;
     const deliveryTo = document.getElementById('deliveryToInput')?.value?.trim();
@@ -850,6 +875,12 @@ window.confirmOrder = async function() {
 
 // Funciones del carrito
 window.updateQuantity = function(index, delta) {
+    // Verificar que el usuario esté en modo cliente
+    if (currentRole !== 'cliente') {
+        showNotification('Solo los clientes pueden modificar el carrito', 'error');
+        return;
+    }
+    
     const cart = JSON.parse(localStorage.getItem('cart') || '{"items": []}');
     cart.items[index].quantity += delta;
     
@@ -862,7 +893,13 @@ window.updateQuantity = function(index, delta) {
     updateCartCounter();
 };
 
-window.removeItem = function(index) {
+window.removeCartItem = function(index) {
+    // Verificar que el usuario esté en modo cliente
+    if (currentRole !== 'cliente') {
+        showNotification('Solo los clientes pueden modificar el carrito', 'error');
+        return;
+    }
+    
     const cart = JSON.parse(localStorage.getItem('cart') || '{"items": []}');
     cart.items.splice(index, 1);
     localStorage.setItem('cart', JSON.stringify(cart));
@@ -871,15 +908,44 @@ window.removeItem = function(index) {
 };
 
 // Función para cargar órdenes
-async function loadOrders() {
-    console.log('📋 Cargando órdenes...');
+async function loadOrders(forceRefresh = false) {
+    console.log('📋 Cargando órdenes...', forceRefresh ? '(forzando actualización)' : '');
     const ordersList = document.getElementById('myOrdersList');
     if (!ordersList) return;
     
     try {
         const orders = await backendRequest('/Order');
-            console.log('✅ Órdenes cargadas:', orders);
-            renderOrders(orders);
+        console.log('✅ Órdenes cargadas:', orders);
+        
+        // Solo aplicar cambios guardados si no es un refresh forzado
+        if (!forceRefresh) {
+            // Aplicar cambios guardados desde localStorage
+            orders.forEach((order, index) => {
+                const savedChanges = localStorage.getItem(`order_changes_${order.orderNumber}`);
+                if (savedChanges) {
+                    try {
+                        const changes = JSON.parse(savedChanges);
+                        orders[index] = { ...order, ...changes };
+                        console.log(`🔄 Orden ${order.orderNumber} actualizada con cambios guardados:`, changes);
+                    } catch (error) {
+                        console.error('❌ Error cargando cambios guardados:', error);
+                    }
+                }
+            });
+            
+            // Si hay una orden editada localmente, actualizar sus datos
+            if (editingOrder) {
+                const orderIndex = orders.findIndex(order => order.orderNumber === editingOrder.orderNumber);
+                if (orderIndex !== -1) {
+                    orders[orderIndex] = { ...orders[orderIndex], ...editingOrder };
+                    console.log('🔄 Orden actualizada con cambios locales:', orders[orderIndex]);
+                }
+            }
+        } else {
+            console.log('🔄 Cargando datos frescos del backend (sin cache local)');
+        }
+        
+        renderOrders(orders);
     } catch (error) {
         console.error('❌ Error cargando órdenes:', error);
         ordersList.innerHTML = '<div class="error">No se pudieron cargar las órdenes</div>';
@@ -919,6 +985,7 @@ function renderOrders(orders) {
             <div class="order-total">Total: $${totalAmount}</div>
             <div class="order-actions">
                 <button onclick="viewOrderDetails('${orderId}')">Ver detalles</button>
+                ${statusId === 1 ? `<button onclick="editOrder('${orderId}')" class="btn-edit">Editar orden</button>` : `<span class="edit-disabled">No editable (${statusName})</span>`}
             </div>
         `;
         
@@ -928,6 +995,11 @@ function renderOrders(orders) {
 
 // Variable global para almacenar todas las órdenes
 let allOrders = [];
+
+// Variables globales para el estado de edición de órdenes
+let editingOrder = null;
+let originalItems = [];
+let modifiedItems = [];
 
 // Función para cargar panel de administración
 async function loadAdminPanel() {
@@ -968,19 +1040,27 @@ async function loadAdminPanel() {
     }
 }
 
-// Función para configurar el filtro de estado
+// Función para configurar los filtros del panel de cocina
 function setupStatusFilter() {
     const statusFilter = document.getElementById('panelStatusFilter');
+    const dateFromInput = document.getElementById('panelDateFrom');
+    const dateToInput = document.getElementById('panelDateTo');
+    const filterBtn = document.getElementById('filterPanelBtn');
+    
     if (!statusFilter) {
         console.error('❌ No se encontró el filtro de estado');
         return;
     }
     
-    console.log('🔧 Configurando filtro de estado...');
+    console.log('🔧 Configurando filtros del panel de cocina...');
     
-    statusFilter.addEventListener('change', function() {
-        const selectedStatus = this.value;
-        console.log('🔍 Filtrando por estado:', selectedStatus);
+    // Función para aplicar filtros
+    function applyFilters() {
+        const selectedStatus = statusFilter.value;
+        const dateFrom = dateFromInput?.value;
+        const dateTo = dateToInput?.value;
+        
+        console.log('🔍 Aplicando filtros:', { selectedStatus, dateFrom, dateTo });
         
         // Si se selecciona "Entregados" (estado 4), mostrar mensaje informativo
         if (selectedStatus === '4') {
@@ -1018,11 +1098,36 @@ function setupStatusFilter() {
                         </button>
                     </div>
                 `;
+                
+                // Actualizar contador
+                const resultsCount = document.getElementById('resultsCount');
+                if (resultsCount) {
+                    resultsCount.textContent = '0 órdenes (ver sección Entregados)';
+                }
             }
             return;
         }
         
-        // Para otros estados, filtrar órdenes activas (no entregadas)
+        // Validar fechas si se proporcionan
+        if (dateFrom && dateTo) {
+            const fromDate = new Date(dateFrom);
+            const toDate = new Date(dateTo);
+            
+            if (isNaN(fromDate.getTime()) || isNaN(toDate.getTime())) {
+                showNotification('Formato de fecha inválido', 'error');
+                return;
+            }
+            
+            if (fromDate > toDate) {
+                showNotification('Rango de fechas inválido: "desde" es mayor que "hasta"', 'error');
+                return;
+            }
+        } else if (dateFrom || dateTo) {
+            showNotification('Debés seleccionar fecha desde y fecha hasta', 'error');
+            return;
+        }
+        
+        // Filtrar órdenes activas (no entregadas)
         let activeOrders = allOrders.filter(order => {
             const orderStatusId = order.status?.id || 1;
             return orderStatusId !== 4; // Excluir órdenes entregadas
@@ -1030,17 +1135,47 @@ function setupStatusFilter() {
         
         let filteredOrders = activeOrders;
         
+        // Aplicar filtro de estado
         if (selectedStatus !== 'all') {
             const statusId = parseInt(selectedStatus);
-            filteredOrders = activeOrders.filter(order => {
+            filteredOrders = filteredOrders.filter(order => {
                 const orderStatusId = order.status?.id || 1;
                 return orderStatusId === statusId;
             });
         }
         
+        // Aplicar filtro de fecha
+        if (dateFrom && dateTo) {
+            const fromDate = new Date(dateFrom);
+            const toDate = new Date(dateTo);
+            
+            // Ajustar toDate para incluir todo el día
+            toDate.setHours(23, 59, 59, 999);
+            
+            filteredOrders = filteredOrders.filter(order => {
+                const orderDate = new Date(order.createdAt);
+                return orderDate >= fromDate && orderDate <= toDate;
+            });
+        }
+        
         console.log(`📊 Mostrando ${filteredOrders.length} de ${activeOrders.length} órdenes activas`);
         renderAdminOrders(filteredOrders);
-    });
+    }
+    
+    // Event listeners
+    statusFilter.addEventListener('change', applyFilters);
+    
+    if (filterBtn) {
+        filterBtn.addEventListener('click', applyFilters);
+    }
+    
+    // También aplicar filtros cuando cambien las fechas
+    if (dateFromInput) {
+        dateFromInput.addEventListener('change', applyFilters);
+    }
+    if (dateToInput) {
+        dateToInput.addEventListener('change', applyFilters);
+    }
 }
 
 // Función para configurar el botón de actualizar
@@ -1171,6 +1306,86 @@ window.viewOrderDetails = async function(orderId) {
     }
 };
 
+// Función para editar orden
+window.editOrder = async function(orderId) {
+    console.log('✏️ Editando orden:', orderId);
+    try {
+        // Cargar detalles de la orden
+        const orderDetails = await backendRequest(`/Order/${orderId}`);
+        console.log('✅ Detalles de la orden para editar:', orderDetails);
+        
+        // Verificar que la orden esté en estado "Pendiente" (ID = 1)
+        const statusId = orderDetails.status?.id || orderDetails.statusId;
+        const statusName = orderDetails.status?.name || 'Desconocido';
+        
+        console.log(`🔍 Estado de la orden: ID=${statusId}, Nombre=${statusName}`);
+        
+        if (statusId !== 1) {
+            showNotification(`No se puede editar la orden. Estado actual: ${statusName}. Solo se pueden editar órdenes en estado "Pendiente".`, 'error');
+            return;
+        }
+        
+        console.log('🔍 Estructura de items del backend:', orderDetails.items?.map(item => ({
+            id: item.id,
+            quantity: item.quantity,
+            dish: item.dish,
+            price: item.price,
+            dishPrice: item.dish?.price
+        })));
+        
+        // Verificar si hay cambios guardados para esta orden
+        const savedChanges = localStorage.getItem(`order_changes_${orderDetails.orderNumber}`);
+        let itemsToUse = orderDetails.items || [];
+        
+        if (savedChanges) {
+            try {
+                const changes = JSON.parse(savedChanges);
+                console.log('💾 Cargando cambios guardados:', changes);
+                itemsToUse = changes.items || orderDetails.items || [];
+                orderDetails.totalAmount = changes.totalAmount || orderDetails.totalAmount;
+            } catch (error) {
+                console.error('❌ Error cargando cambios guardados:', error);
+            }
+        }
+        
+        // Guardar datos originales
+        editingOrder = orderDetails;
+        originalItems = [...(orderDetails.items || [])];
+        
+        // Inicializar modifiedItems con los items (originales o guardados), asegurando que tengan precio correcto
+        modifiedItems = (itemsToUse || []).map(item => {
+            let price = parseFloat(item.dish?.price || item.price || 0);
+            
+            // Si el precio es 0, intentar calcularlo desde el total original
+            if (price === 0 && orderDetails.totalAmount) {
+                const totalItems = orderDetails.items?.length || 1;
+                const totalAmount = parseFloat(orderDetails.totalAmount);
+                price = totalAmount / totalItems;
+                console.log(`⚠️ Precio 0 detectado, calculando desde total: ${totalAmount} / ${totalItems} = ${price}`);
+            }
+            
+            console.log(`💰 Item: ${item.dish?.name || item.name}, Precio original: ${item.dish?.price || item.price}, Precio procesado: ${price}`);
+            
+            return {
+                ...item,
+                dish: {
+                    ...item.dish,
+                    price: price
+                }
+            };
+        });
+        
+        console.log('📋 Items originales:', originalItems);
+        console.log('📋 Items modificados inicializados:', modifiedItems);
+        
+        // Mostrar modal de edición
+        showEditOrderModal(orderDetails);
+    } catch (error) {
+        console.error('❌ Error cargando orden para editar:', error);
+        showNotification('Error cargando la orden', 'error');
+    }
+};
+
 // Función para mostrar modal de detalles de la orden
 function showOrderDetailsModal(orderDetails) {
     // Crear modal si no existe
@@ -1294,10 +1509,13 @@ window.printOrderReceipt = function () {
         }
 
         // Extraer items (nombre y cantidad) del modal
-        const items = Array.from(modal?.querySelectorAll('.items-list .item-row')||[]).map(row => ({
-            name: row.querySelector('h4')?.textContent || 'Plato',
-            qty: row.querySelector('p')?.textContent?.replace(/\D+/g,'') || '1'
-        }));
+        const items = Array.from(modal?.querySelectorAll('.items-list .item-row')||[]).map(row => {
+            const name = row.querySelector('h4')?.textContent || 'Plato';
+            const qtyText = row.querySelector('p')?.textContent || '';
+            // Extraer solo el número de la cantidad (ej: "Cantidad: 2" -> "2")
+            const qty = qtyText.replace(/[^\d]/g, '') || '1';
+            return { name, qty };
+        });
 
         const w = window.open('', '_blank');
         if (!w) return;
@@ -1444,6 +1662,588 @@ window.closeOrderDetailsModal = function() {
         document.body.style.overflow = 'auto';
     }
 };
+
+// Función para mostrar modal de edición de orden
+function showEditOrderModal(orderDetails) {
+    // Crear modal si no existe
+    let modal = document.getElementById('editOrderModal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'editOrderModal';
+        modal.className = 'modal';
+        document.body.appendChild(modal);
+    }
+    
+    modal.innerHTML = `
+        <div class="modal__overlay" onclick="closeEditOrderModal()"></div>
+        <div class="modal__content edit-order-modal">
+            <div class="modal__header">
+                <h2>Editar Orden #${orderDetails.orderNumber}</h2>
+                <button class="modal__close" onclick="closeEditOrderModal()">×</button>
+            </div>
+            <div class="modal__body">
+                <div class="edit-order-content">
+                    <div class="order-info-section">
+                        <h3>Información de la orden</h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>Estado:</label>
+                                <span class="status status--${orderDetails.status?.name?.toLowerCase().replace(' ', '-')}">${orderDetails.status?.name}</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Tipo de entrega:</label>
+                                <span>${orderDetails.deliveryType?.name}</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Total actual:</label>
+                                <span class="price" data-total>$${orderDetails.totalAmount}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="order-items-section">
+                        <h3>Items de la orden</h3>
+                        <div id="editOrderItems" class="edit-items-list">
+                            <!-- Los items se cargarán dinámicamente -->
+                        </div>
+                    </div>
+                    
+                    <div class="add-items-section">
+                        <h3>Agregar más platos</h3>
+                        <button onclick="showAddDishesModal('${orderDetails.orderNumber}')" class="btn btn--primary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            Agregar platos
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal__footer">
+                <button onclick="closeEditOrderModal()" class="btn btn--ghost">Cancelar</button>
+                <button onclick="saveOrderChanges('${orderDetails.orderNumber}')" class="btn btn--primary">
+                    Guardar cambios
+                </button>
+            </div>
+        </div>
+    `;
+    
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    
+    // Cargar los items dinámicamente después de crear el modal
+    setTimeout(() => {
+        updateEditOrderItems();
+    }, 100);
+}
+
+// Función para cerrar el modal de edición
+window.closeEditOrderModal = function() {
+    const modal = document.getElementById('editOrderModal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+};
+
+// Funciones de control de cantidad
+window.increaseQuantity = function(itemId) {
+    console.log('➕ Aumentando cantidad para item:', itemId);
+    const quantityDisplay = document.getElementById(`qty-${itemId}`);
+    if (!quantityDisplay) {
+        console.error('❌ No se encontró el elemento de cantidad:', `qty-${itemId}`);
+        return;
+    }
+    
+    const currentQty = parseInt(quantityDisplay.textContent);
+    const newQty = currentQty + 1;
+    console.log(`➕ Cantidad: ${currentQty} → ${newQty}`);
+    
+    quantityDisplay.textContent = newQty;
+    updateItemQuantity(itemId, newQty);
+    updateOrderTotal(); // Actualizar total
+};
+
+window.decreaseQuantity = function(itemId) {
+    console.log('➖ Disminuyendo cantidad para item:', itemId);
+    const quantityDisplay = document.getElementById(`qty-${itemId}`);
+    if (!quantityDisplay) {
+        console.error('❌ No se encontró el elemento de cantidad:', `qty-${itemId}`);
+        return;
+    }
+    
+    const currentQty = parseInt(quantityDisplay.textContent);
+    if (currentQty > 1) {
+        const newQty = currentQty - 1;
+        console.log(`➖ Cantidad: ${currentQty} → ${newQty}`);
+        quantityDisplay.textContent = newQty;
+        updateItemQuantity(itemId, newQty);
+        updateOrderTotal(); // Actualizar total
+    } else {
+        console.log('➖ No se puede disminuir más (cantidad mínima: 1)');
+    }
+};
+
+window.removeItem = function(itemId) {
+    const itemCard = document.querySelector(`[data-item-id="${itemId}"]`);
+    if (itemCard) {
+        itemCard.style.opacity = '0.5';
+        itemCard.style.pointerEvents = 'none';
+        itemCard.classList.add('removing');
+        
+        // Marcar para eliminación
+        const index = modifiedItems.findIndex(item => item.id === itemId);
+        if (index !== -1) {
+            modifiedItems[index].toDelete = true;
+            console.log('🗑️ Item marcado para eliminación:', modifiedItems[index]);
+        }
+        
+        // Actualizar total inmediatamente
+        updateOrderTotal();
+        
+        // Animar eliminación
+        setTimeout(() => {
+            if (itemCard.parentNode) {
+                itemCard.parentNode.removeChild(itemCard);
+            }
+        }, 300);
+    }
+};
+
+function updateItemQuantity(itemId, newQuantity) {
+    console.log(`🔄 Actualizando cantidad del item ${itemId} a ${newQuantity}`);
+    
+    // Buscar por ID exacto primero
+    let index = modifiedItems.findIndex(item => item.id === itemId);
+    console.log(`🔍 Búsqueda por ID exacto: ${index}`);
+    
+    // Si no se encuentra, buscar por ID como string
+    if (index === -1) {
+        index = modifiedItems.findIndex(item => String(item.id) === String(itemId));
+        console.log(`🔍 Búsqueda por ID como string: ${index}`);
+    }
+    
+    // Si aún no se encuentra, buscar por ID del plato
+    if (index === -1) {
+        index = modifiedItems.findIndex(item => item.dish?.id === itemId);
+        console.log(`🔍 Búsqueda por dish.id: ${index}`);
+    }
+    
+    if (index !== -1) {
+        const oldQuantity = modifiedItems[index].quantity;
+        modifiedItems[index].quantity = newQuantity;
+        console.log(`✅ Cantidad actualizada: ${oldQuantity} → ${newQuantity} para ${modifiedItems[index].dish?.name || modifiedItems[index].name}`);
+    } else {
+        console.error(`❌ No se encontró el item ${itemId} en modifiedItems`);
+        console.log('📋 modifiedItems actuales:', modifiedItems.map(item => ({
+            id: item.id,
+            name: item.dish?.name || item.name,
+            quantity: item.quantity
+        })));
+        
+        // Intentar crear el item si no existe
+        console.log('🔧 Intentando crear item faltante...');
+        const itemCard = document.querySelector(`[data-item-id="${itemId}"]`);
+        if (itemCard) {
+            const itemName = itemCard.querySelector('h4')?.textContent;
+            const itemPrice = parseFloat(itemCard.querySelector('.item-price')?.textContent?.replace('$', '') || 0);
+            
+            if (itemName && itemPrice > 0) {
+                const newItem = {
+                    id: itemId,
+                    dish: {
+                        name: itemName,
+                        price: itemPrice
+                    },
+                    quantity: newQuantity
+                };
+                
+                modifiedItems.push(newItem);
+                console.log('✅ Item creado:', newItem);
+            }
+        }
+    }
+}
+
+// Función para calcular el total de la orden
+function calculateOrderTotal() {
+    const activeItems = modifiedItems.filter(item => !item.toDelete);
+    console.log('🧮 Calculando total con items:', activeItems);
+    
+    const total = activeItems.reduce((sum, item) => {
+        // Intentar obtener el precio de diferentes fuentes
+        let itemPrice = 0;
+        
+        // 1. Intentar desde item.dish.price
+        if (item.dish?.price) {
+            itemPrice = parseFloat(item.dish.price);
+        }
+        // 2. Intentar desde item.price
+        else if (item.price) {
+            itemPrice = parseFloat(item.price);
+        }
+        // 3. Intentar desde el item original
+        else {
+            const originalItem = originalItems.find(orig => orig.id === item.id);
+            if (originalItem) {
+                itemPrice = parseFloat(originalItem.dish?.price || originalItem.price || 0);
+            }
+        }
+        
+        // Si aún es 0, intentar desde el total original de la orden
+        if (itemPrice === 0 && editingOrder) {
+            const originalTotal = parseFloat(editingOrder.totalAmount || 0);
+            const originalItemsCount = originalItems.reduce((sum, orig) => sum + (orig.quantity || 0), 0);
+            if (originalItemsCount > 0) {
+                itemPrice = originalTotal / originalItemsCount;
+            }
+        }
+        
+        const itemTotal = itemPrice * item.quantity;
+        console.log(`💰 Item: ${item.dish?.name || item.name}, Precio: ${itemPrice}, Cantidad: ${item.quantity}, Subtotal: ${itemTotal}`);
+        return sum + itemTotal;
+    }, 0);
+    
+    console.log('💰 Total calculado:', total);
+    return total;
+}
+
+// Función para actualizar el total en el modal de edición
+function updateOrderTotal() {
+    const total = calculateOrderTotal();
+    console.log('💰 Calculando total:', total);
+    
+    // Buscar el elemento del total de diferentes maneras
+    let totalElement = document.querySelector('.edit-order-modal .price');
+    if (!totalElement) {
+        totalElement = document.querySelector('.order-info-section .price');
+    }
+    if (!totalElement) {
+        totalElement = document.querySelector('[data-total]');
+    }
+    
+    if (totalElement) {
+        totalElement.textContent = `$${total.toFixed(2)}`;
+        console.log('✅ Total actualizado:', totalElement.textContent);
+    } else {
+        console.warn('⚠️ No se encontró el elemento del total');
+    }
+}
+
+// Función para guardar cambios de la orden
+window.saveOrderChanges = async function(orderId) {
+    try {
+        console.log('💾 Guardando cambios de la orden:', orderId);
+        
+        // Preparar cambios
+        const itemsToUpdate = modifiedItems.filter(item => !item.toDelete);
+        const itemsToDelete = modifiedItems.filter(item => item.toDelete).map(item => item.id);
+        const newItems = itemsToUpdate.filter(item => item.toAdd);
+        const updatedItems = itemsToUpdate.filter(item => !item.toAdd);
+        
+        console.log('📝 Items a actualizar:', updatedItems);
+        console.log('➕ Items nuevos:', newItems);
+        console.log('🗑️ Items a eliminar:', itemsToDelete);
+        
+        // Calcular nuevo total
+        const newTotal = calculateOrderTotal();
+        console.log('💰 Nuevo total:', newTotal);
+        
+        // Procesar cambios en el backend
+        const changes = {
+            orderId: orderId,
+            newTotal: newTotal,
+            itemsToUpdate: updatedItems.map(item => ({
+                id: item.id,
+                quantity: item.quantity
+            })),
+            itemsToAdd: newItems.map(item => ({
+                dishId: item.dish.id,
+                quantity: item.quantity
+            })),
+            itemsToDelete: itemsToDelete
+        };
+        
+        console.log('📤 Enviando cambios al backend:', changes);
+        
+        // Actualizar la orden localmente para reflejar los cambios
+        if (editingOrder) {
+            editingOrder.totalAmount = newTotal;
+            editingOrder.items = itemsToUpdate;
+            console.log('🔄 Orden actualizada localmente:', editingOrder);
+            
+            // Guardar cambios en localStorage para persistencia
+            const orderChanges = {
+                orderNumber: editingOrder.orderNumber,
+                totalAmount: newTotal,
+                items: itemsToUpdate,
+                lastModified: new Date().toISOString()
+            };
+            
+            localStorage.setItem(`order_changes_${editingOrder.orderNumber}`, JSON.stringify(orderChanges));
+            console.log('💾 Cambios guardados en localStorage:', orderChanges);
+        }
+        
+        // Simular guardado (ya que no tocas el backend)
+        showNotification(`Cambios guardados correctamente. Nuevo total: $${newTotal.toFixed(2)}`, 'success');
+        closeEditOrderModal();
+        
+        // Recargar la lista de órdenes si estamos en esa vista
+        if (document.getElementById('myOrdersList')) {
+            loadOrders();
+        }
+        
+    } catch (error) {
+        console.error('❌ Error guardando cambios:', error);
+        showNotification('Error guardando los cambios', 'error');
+    }
+};
+
+// Función para mostrar modal de agregar platos
+window.showAddDishesModal = async function(orderId) {
+    console.log('🍽️ Mostrando modal de agregar platos para orden:', orderId);
+    console.log('🔍 modifiedItems actuales:', modifiedItems);
+    
+    try {
+        // Cargar platos disponibles
+        const dishes = await backendRequest('/Dish');
+        console.log('✅ Platos cargados para agregar:', dishes.length);
+        console.log('📋 Platos disponibles:', dishes.map(d => ({ id: d.id, name: d.name, price: d.price })));
+        
+        // Mostrar modal
+        showAddDishesModalContent(orderId, dishes);
+    } catch (error) {
+        console.error('❌ Error cargando platos:', error);
+        showNotification('Error cargando el menú', 'error');
+    }
+};
+
+// Función para mostrar el contenido del modal de agregar platos
+function showAddDishesModalContent(orderId, dishes) {
+    console.log('🍽️ Generando contenido del modal de agregar platos');
+    console.log('📋 Platos a mostrar:', dishes.length);
+    
+    // Crear modal si no existe
+    let modal = document.getElementById('addDishesModal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'addDishesModal';
+        modal.className = 'modal';
+        document.body.appendChild(modal);
+    }
+    
+    modal.innerHTML = `
+        <div class="modal__overlay" onclick="closeAddDishesModal()"></div>
+        <div class="modal__content add-dishes-modal">
+            <div class="modal__header">
+                <h2>Agregar platos a la orden #${orderId}</h2>
+                <button class="modal__close" onclick="closeAddDishesModal()">×</button>
+            </div>
+            <div class="modal__body">
+                <div class="add-dishes-content">
+                    <div class="dishes-grid" id="addDishesGrid">
+                        ${dishes.map(dish => `
+                            <div class="dish-card" data-dish-id="${dish.id}">
+                                <div class="dish-info">
+                                    <h4>${dish.name}</h4>
+                                    <p class="dish-price">$${dish.price}</p>
+                                    <div class="dish-actions">
+                                        <div class="quantity-controls">
+                                            <button onclick="decreaseAddQuantity('${dish.id}')" class="btn-quantity">-</button>
+                                            <span class="quantity-display" id="add-qty-${dish.id}">1</span>
+                                            <button onclick="increaseAddQuantity('${dish.id}')" class="btn-quantity">+</button>
+                                        </div>
+                                        <button onclick="addDishToOrder('${dish.id}', '${dish.name}', ${dish.price})" class="btn btn--primary btn--small">
+                                            Agregar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+            <div class="modal__footer">
+                <button onclick="closeAddDishesModal()" class="btn btn--ghost">Cerrar</button>
+            </div>
+        </div>
+    `;
+    
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    
+    // Verificar que los botones se crearon correctamente
+    setTimeout(() => {
+        const addButtons = modal.querySelectorAll('[onclick*="addDishToOrder"]');
+        console.log('🔍 Botones de agregar encontrados:', addButtons.length);
+        addButtons.forEach((btn, index) => {
+            console.log(`🔍 Botón ${index + 1}:`, btn.onclick?.toString());
+        });
+    }, 100);
+}
+
+// Función para cerrar el modal de agregar platos
+window.closeAddDishesModal = function() {
+    const modal = document.getElementById('addDishesModal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+};
+
+// Variables para controlar cantidades en el modal de agregar
+let addDishQuantities = {};
+
+// Funciones de control de cantidad para agregar platos
+window.increaseAddQuantity = function(dishId) {
+    const quantityDisplay = document.getElementById(`add-qty-${dishId}`);
+    const currentQty = parseInt(quantityDisplay.textContent);
+    quantityDisplay.textContent = currentQty + 1;
+    addDishQuantities[dishId] = currentQty + 1;
+};
+
+window.decreaseAddQuantity = function(dishId) {
+    const quantityDisplay = document.getElementById(`add-qty-${dishId}`);
+    const currentQty = parseInt(quantityDisplay.textContent);
+    if (currentQty > 1) {
+        quantityDisplay.textContent = currentQty - 1;
+        addDishQuantities[dishId] = currentQty - 1;
+    }
+};
+
+// Función para agregar plato a la orden
+window.addDishToOrder = function(dishId, dishName, dishPrice) {
+    const quantity = addDishQuantities[dishId] || 1;
+    
+    console.log('🍽️ Agregando plato a la orden:', { dishId, dishName, dishPrice, quantity });
+    console.log('📋 modifiedItems antes:', modifiedItems);
+    console.log('📋 Buscando plato existente con nombre:', dishName);
+    
+    // Verificar si ya existe un item con el mismo plato (por nombre)
+    const existingItemIndex = modifiedItems.findIndex(item => {
+        const itemName = item.dish?.name || item.name;
+        const sameName = itemName === dishName;
+        const notDeleted = !item.toDelete;
+        console.log(`🔍 Verificando item: "${itemName}" vs "${dishName}", Same Name: ${sameName}, Not Deleted: ${notDeleted}`);
+        return sameName && notDeleted;
+    });
+    
+    console.log('🔍 Índice del item existente:', existingItemIndex);
+    
+    if (existingItemIndex !== -1) {
+        // Si ya existe, aumentar la cantidad y actualizar precio si es necesario
+        const existingItem = modifiedItems[existingItemIndex];
+        const oldQuantity = existingItem.quantity;
+        const newQuantity = oldQuantity + quantity;
+        
+        modifiedItems[existingItemIndex].quantity = newQuantity;
+        
+        console.log(`➕ Item existente actualizado: ${existingItem.dish?.name} de ${oldQuantity} a ${newQuantity}`);
+        
+        // Actualizar el precio si el nuevo precio es diferente
+        if (existingItem.dish?.price !== parseFloat(dishPrice)) {
+            existingItem.dish.price = parseFloat(dishPrice);
+            console.log(`💰 Precio actualizado de ${existingItem.dish?.name}: $${dishPrice}`);
+        }
+        
+        console.log('➕ Item existente actualizado:', modifiedItems[existingItemIndex]);
+    } else {
+        // Si no existe, crear nuevo item
+        console.log('➕ No se encontró item existente, creando nuevo');
+        const newItem = {
+            id: `temp-${Date.now()}`, // ID temporal
+            dish: {
+                id: dishId,
+                name: dishName,
+                price: parseFloat(dishPrice) // Asegurar que sea número
+            },
+            quantity: quantity,
+            toAdd: true // Marcar como nuevo item
+        };
+        
+        // Agregar a la lista de items modificados
+        modifiedItems.push(newItem);
+        console.log('➕ Nuevo item agregado:', newItem);
+    }
+    
+    console.log('📋 modifiedItems después:', modifiedItems);
+    
+    // Actualizar la vista del modal de edición
+    updateEditOrderItems();
+    
+    // Mostrar notificación
+    showNotification(`${dishName} agregado a la orden`, 'success');
+    
+    // Resetear cantidad
+    addDishQuantities[dishId] = 1;
+    const qtyElement = document.getElementById(`add-qty-${dishId}`);
+    if (qtyElement) {
+        qtyElement.textContent = '1';
+    }
+};
+
+// Función para actualizar la vista de items en el modal de edición
+function updateEditOrderItems() {
+    const editOrderItems = document.getElementById('editOrderItems');
+    if (!editOrderItems) return;
+    
+    // Filtrar items que no están marcados para eliminar
+    const activeItems = modifiedItems.filter(item => !item.toDelete);
+    console.log('🔄 Actualizando items en el modal:', activeItems);
+    
+    editOrderItems.innerHTML = activeItems.map(item => {
+        // Asegurar que el precio se muestre correctamente
+        const price = item.dish?.price || item.price || 0;
+        const name = item.dish?.name || item.name || 'Plato desconocido';
+        
+        console.log(`🎨 Renderizando item: ${name}, Precio: ${price}, Cantidad: ${item.quantity}`);
+        console.log(`🔍 Estructura del item:`, item);
+        console.log(`🔍 HTML que se va a insertar:`, `
+            <div class="edit-item-card" data-item-id="${item.id}">
+                <div class="item-details">
+                    <h4>${name}</h4>
+                    <p class="item-price">$${price.toFixed(2)}</p>
+                    <div class="quantity-controls">
+                        <button onclick="decreaseQuantity('${item.id}')" class="btn-quantity">-</button>
+                        <span class="quantity-display" id="qty-${item.id}">${item.quantity}</span>
+                        <button onclick="increaseQuantity('${item.id}')" class="btn-quantity">+</button>
+                    </div>
+                    <button onclick="removeItem('${item.id}')" class="btn-remove">Eliminar</button>
+                    ${item.toAdd ? '<span class="new-item-badge">Nuevo</span>' : ''}
+                </div>
+            </div>
+        `);
+        
+        return `
+            <div class="edit-item-card" data-item-id="${item.id}">
+                <div class="item-details">
+                    <h4>${name}</h4>
+                    <p class="item-price">$${price.toFixed(2)}</p>
+                    <div class="quantity-controls">
+                        <button onclick="decreaseQuantity('${item.id}')" class="btn-quantity">-</button>
+                        <span class="quantity-display" id="qty-${item.id}">${item.quantity}</span>
+                        <button onclick="increaseQuantity('${item.id}')" class="btn-quantity">+</button>
+                    </div>
+                    <button onclick="removeItem('${item.id}')" class="btn-remove">Eliminar</button>
+                    ${item.toAdd ? '<span class="new-item-badge">Nuevo</span>' : ''}
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    // Verificar que el HTML se insertó correctamente
+    console.log('🔍 HTML insertado en editOrderItems:', editOrderItems.innerHTML);
+    
+    // Verificar que el precio se muestra correctamente
+    const priceElements = editOrderItems.querySelectorAll('.item-price');
+    priceElements.forEach((el, index) => {
+        console.log(`💰 Precio ${index + 1} en el DOM:`, el.textContent);
+    });
+    
+    // Actualizar el total después de actualizar los items
+    updateOrderTotal();
+}
 
 window.updateOrderStatus = async function(orderId, statusId, selectElement) {
     console.log(`🔄 Actualizando orden ${orderId} a estado ${statusId}`);
@@ -1726,6 +2526,9 @@ function initializeRoleToggle() {
             showNotification('Cambiado a modo personal', 'info');
             console.log('👨‍💼 Cambiado a modo personal');
             
+            // Limpiar cache de órdenes al cambiar a personal
+            clearOrdersCache();
+            
             // Ocultar elementos del cliente
             hideClientElements();
         } else {
@@ -1736,6 +2539,10 @@ function initializeRoleToggle() {
             showNotification('Cambiado a modo cliente', 'info');
             console.log('👤 Cambiado a modo cliente');
             
+            // Limpiar cache y recargar datos al volver a cliente
+            clearOrdersCache();
+            refreshClientData();
+            
             // Mostrar elementos del cliente
             showClientElements();
         }
@@ -1744,8 +2551,47 @@ function initializeRoleToggle() {
     // Inicializar estado
     roleLabel.textContent = 'Rol: Cliente';
     panelLink.style.display = 'none';
+}
+
+// Función para limpiar cache de órdenes
+function clearOrdersCache() {
+    console.log('🧹 Limpiando cache de órdenes...');
     
-    console.log('✅ Toggle de rol inicializado');
+    // Limpiar variables globales
+    editingOrder = null;
+    originalItems = [];
+    modifiedItems = [];
+    
+    // Limpiar localStorage de cambios de órdenes
+    const keys = Object.keys(localStorage);
+    keys.forEach(key => {
+        if (key.startsWith('order_changes_')) {
+            localStorage.removeItem(key);
+            console.log(`🗑️ Eliminado cache: ${key}`);
+        }
+    });
+    
+    console.log('✅ Cache de órdenes limpiado');
+}
+
+// Función para refrescar datos del cliente
+function refreshClientData() {
+    console.log('🔄 Refrescando datos del cliente...');
+    
+    // Recargar órdenes si estamos en la vista de órdenes
+    if (document.getElementById('myOrdersList')) {
+        console.log('📋 Recargando órdenes...');
+        loadOrders(true); // Forzar actualización
+    }
+    
+    // Recargar carrito si está visible
+    if (document.getElementById('cartItems')) {
+        console.log('🛒 Recargando carrito...');
+        loadCart();
+        updateCartCounter();
+    }
+    
+    console.log('✅ Datos del cliente refrescados');
 }
 
 // Función para ocultar elementos del cliente (vista personal)
